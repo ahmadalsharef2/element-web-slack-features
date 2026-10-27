@@ -52,10 +52,10 @@ These change how messages are written or shown, so a marker on them would end up
 
 Other changes to behaviour:
 
-- **Read receipts are hidden by default.** `showReadReceipts` in `Settings.tsx` defaults to off (and `RoomView.tsx`
-  starts with it off). Turn it on under Settings → Preferences → "Show read receipts sent by other users". People who
-  already chose a value keep it. Sending your own receipts (`sendReadReceipts`) is also off by default, so others don't see that you
-  have read their messages (a private receipt is sent instead). An account that already has the setting on keeps it.
+- **Your read receipts are private by default.** `sendReadReceipts` in `Settings.tsx` defaults to off, so others don't
+  see that you have read their messages (a private receipt is sent instead). You still see other people's receipts
+  (`showReadReceipts` keeps the upstream default of on). An account that already has `sendReadReceipts` on keeps it:
+  turn it off under Settings → Preferences → "Send read receipts".
 - **Scheduled messages are sent by the homeserver when it can.** With delayed events (MSC4140) on the server and an
   unencrypted room, `utils/scheduledMessages.ts` hands the message to the server, which sends it even if Element is
   closed or offline. Encrypted rooms and servers without MSC4140 keep the browser-only queue, which sends only while

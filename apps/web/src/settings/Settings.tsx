@@ -859,8 +859,7 @@ export const SETTINGS: Settings = {
     "showReadReceipts": {
         supportedLevels: LEVELS_ROOM_SETTINGS,
         displayName: _td("settings|show_read_receipts"),
-        // Hidden until the person turns them on in Settings > Preferences
-        default: false,
+        default: true,
         invertedSettingName: "hideReadReceipts",
     },
     "showTwelveHourTimestamps": {
