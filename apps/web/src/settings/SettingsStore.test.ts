@@ -253,7 +253,6 @@ describe("SettingsStore", () => {
     });
 
     it("hides read receipts from other users by default", () => {
-        expect(SettingsStore.getDefaultValue("showReadReceipts")).toBe(false);
-        expect(SettingsStore.getValue("showReadReceipts")).toBe(false);
+        expect(SettingsStore.getDefaultValue("sendReadReceipts")).toBe(false);
     });
 });

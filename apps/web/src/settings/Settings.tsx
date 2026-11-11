@@ -577,6 +577,9 @@ export const SETTINGS: Settings = {
             "v1.4",
             _td("settings|send_read_receipts_unsupported"),
             true,
+            // Fork: keep the person's choice until the server is known not to support private receipts.
+            // Otherwise a failed or slow server check would send public receipts.
+            true,
         ),
     },
     // legacy sliding sync flag: no longer works, will error for anyone who's still using it
@@ -946,7 +949,9 @@ export const SETTINGS: Settings = {
         default: true,
     },
     "sharePresence": {
-        supportedLevels: LEVELS_ACCOUNT_SETTINGS,
+        // Kept on the device so it is known before the first sync. Account settings only load after that
+        // sync has been sent, which would show the person as online each time the app starts.
+        supportedLevels: LEVELS_DEVICE_ONLY_SETTINGS,
         displayName: _td("settings|share_presence"),
         default: true,
     },

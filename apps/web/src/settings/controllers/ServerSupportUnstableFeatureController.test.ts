@@ -83,6 +83,20 @@ describe("ServerSupportUnstableFeatureController", () => {
             expect(controller.settingDisabled).toEqual(true);
         });
 
+        it("considered enabled if there is no matrix client and it is enabled by default", () => {
+            const controller = new ServerSupportUnstableFeatureController(
+                setting,
+                watchers,
+                [["org.matrix.msc3030"]],
+                undefined,
+                undefined,
+                "forced_value",
+                true,
+            );
+            expect(controller.settingDisabled).toEqual(false);
+            expect(controller.getValueOverride(SettingLevel.DEVICE, null, false, SettingLevel.ACCOUNT)).toBeNull();
+        });
+
         it("considered disabled if not all required features in the only feature group are supported", async () => {
             const cli = stubClient();
             cli.doesServerSupportUnstableFeature = vi.fn(async (featureName) => {

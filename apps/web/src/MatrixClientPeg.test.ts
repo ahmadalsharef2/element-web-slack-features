@@ -10,12 +10,14 @@ Please see LICENSE files in the repository root for full details.
 
 import { vi, describe, it, expect, beforeEach, afterEach } from "vitest";
 import { logger } from "matrix-js-sdk/src/logger";
-import { type MatrixClient } from "matrix-js-sdk/src/matrix";
+import { type MatrixClient, SetPresence } from "matrix-js-sdk/src/matrix";
 import fetchMock from "@fetch-mock/vitest";
 import { advanceDateAndTime, stubClient, createTestClient } from "test-utils";
 
 import { type IMatrixClientPeg, MatrixClientPeg as peg } from "./MatrixClientPeg";
 import SdkConfig from "./SdkConfig";
+import SettingsStore from "./settings/SettingsStore";
+import { SettingLevel } from "./settings/SettingLevel";
 import { createClientWithCreds } from "./utils/createMatrixClient";
 
 vi.useFakeTimers();
@@ -117,6 +119,27 @@ describe("MatrixClientPeg", () => {
 
             await testPeg.start();
             expect(mockInitRustCrypto).toHaveBeenCalledTimes(1);
+        });
+
+        it("should appear offline before the first sync when the online status is hidden", async () => {
+            vi.spyOn(testPeg.safeGet(), "initRustCrypto").mockResolvedValue(undefined);
+            const setSyncPresence = vi.fn().mockResolvedValue(undefined);
+            testPeg.safeGet().setSyncPresence = setSyncPresence;
+            await SettingsStore.setValue("sharePresence", null, SettingLevel.DEVICE, false);
+
+            await testPeg.start();
+
+            expect(setSyncPresence).toHaveBeenCalledWith(SetPresence.Offline);
+        });
+
+        it("should leave the presence alone when the online status is shared", async () => {
+            vi.spyOn(testPeg.safeGet(), "initRustCrypto").mockResolvedValue(undefined);
+            const setSyncPresence = vi.fn().mockResolvedValue(undefined);
+            testPeg.safeGet().setSyncPresence = setSyncPresence;
+
+            await testPeg.start();
+
+            expect(setSyncPresence).not.toHaveBeenCalled();
         });
 
         it("should poll the client well-known by default", async () => {

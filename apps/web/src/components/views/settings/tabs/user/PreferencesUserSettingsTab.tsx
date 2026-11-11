@@ -132,9 +132,11 @@ export default class PreferencesUserSettingsTab extends React.Component<EmptyObj
     private static PRESENCE_SETTINGS: BooleanSettingKey[] = [
         "sendReadReceipts",
         "sendTypingNotifications",
-        "sharePresence",
         "showPresence",
     ];
+
+    /** Presence settings kept on this device, so they apply before the account settings have loaded */
+    private static PRESENCE_DEVICE_SETTINGS: BooleanSettingKey[] = ["sharePresence"];
 
     private static COMPOSER_SETTINGS: BooleanSettingKey[] = [
         "MessageComposerInput.autoReplaceEmoji",
@@ -355,6 +357,7 @@ export default class PreferencesUserSettingsTab extends React.Component<EmptyObj
                         formWrap
                     >
                         {this.renderGroup(PreferencesUserSettingsTab.PRESENCE_SETTINGS)}
+                        {this.renderGroup(PreferencesUserSettingsTab.PRESENCE_DEVICE_SETTINGS, SettingLevel.DEVICE)}
                     </SettingsSubsection>
 
                     <SettingsSubsection heading={_t("settings|preferences|composer_heading")} formWrap>

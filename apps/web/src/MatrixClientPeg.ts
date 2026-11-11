@@ -9,7 +9,13 @@ SPDX-License-Identifier: AGPL-3.0-only OR GPL-3.0-only OR LicenseRef-Element-Com
 Please see LICENSE files in the repository root for full details.
 */
 
-import { type IStartClientOpts, type MatrixClient, MemoryStore, PendingEventOrdering } from "matrix-js-sdk/src/matrix";
+import {
+    type IStartClientOpts,
+    type MatrixClient,
+    MemoryStore,
+    PendingEventOrdering,
+    SetPresence,
+} from "matrix-js-sdk/src/matrix";
 import * as utils from "matrix-js-sdk/src/utils";
 import { logger } from "matrix-js-sdk/src/logger";
 import type { X509ClientInitOpts } from "@element-hq/element-web-module-api";
@@ -348,6 +354,11 @@ class MatrixClientPegClass implements IMatrixClientPeg {
 
         logger.log(`MatrixClientPeg: really starting MatrixClient`);
         await this.matrixClient!.startClient(opts);
+        // Appear offline from the very first sync. `Presence` only reports on user activity, and a sync
+        // sent without a presence counts as online. The first sync has not been sent yet at this point.
+        if (!SettingsStore.getValue("sharePresence")) {
+            await this.matrixClient!.setSyncPresence(SetPresence.Offline);
+        }
         logger.log(`MatrixClientPeg: MatrixClient started`);
     }
 }

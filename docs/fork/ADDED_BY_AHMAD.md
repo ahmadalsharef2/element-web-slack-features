@@ -55,7 +55,11 @@ Other changes to behaviour:
 - **Your read receipts are private by default.** `sendReadReceipts` in `Settings.tsx` defaults to off, so others don't
   see that you have read their messages (a private receipt is sent instead). You still see other people's receipts
   (`showReadReceipts` keeps the upstream default of on). An account that already has `sendReadReceipts` on keeps it:
-  turn it off under Settings → Preferences → "Send read receipts".
+  turn it off under Settings → Preferences → "Send read receipts". The choice also holds while the check for server
+  support is still running or has failed; upstream sends public receipts until that check succeeds.
+- **"Share my online status" is kept per device and applies from the first sync.** `sharePresence` is a device
+  setting, so it is known at start-up before the account settings load, and `MatrixClientPeg.start()` sets the
+  presence to offline before the first sync is sent. Turn it off once on each device.
 - **Scheduled messages are sent by the homeserver when it can.** With delayed events (MSC4140) on the server and an
   unencrypted room, `utils/scheduledMessages.ts` hands the message to the server, which sends it even if Element is
   closed or offline. Encrypted rooms and servers without MSC4140 keep the browser-only queue, which sends only while
