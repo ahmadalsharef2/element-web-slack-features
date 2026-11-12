@@ -1142,7 +1142,8 @@ export default class InviteDialog extends React.PureComponent<Props, IInviteDial
     /**
      * Handle the user pressing the Go/Invite button in the "Start Chat" or "Invite users" view.
      *
-     * We check if any of the users lack a known cryptographic identity, and show a warning if so.
+     * We check if any of the users from other homeservers lack a known cryptographic identity, and show a warning
+     * if so.
      */
     private async onGoButtonPressed(): Promise<void> {
         this.setBusy(true);
@@ -1154,6 +1155,8 @@ export default class InviteDialog extends React.PureComponent<Props, IInviteDial
         if (crypto) {
             for (const t of targets) {
                 const addressType = getAddressType(t.userId);
+                // Element Fork: colleagues on our own homeserver are not strangers, so they need no second dialog
+                if (addressType === AddressType.MatrixUserId && t.userId.endsWith(`:${cli.getDomain()}`)) continue;
                 if (
                     addressType !== AddressType.MatrixUserId ||
                     !(await crypto.getUserVerificationStatus(t.userId)).known

@@ -557,6 +557,8 @@ describe("InviteDialog", () => {
             vi.mocked(mockClient.getCrypto()!.getUserVerificationStatus).mockImplementation(async (u) => {
                 return new UserVerificationStatus(false, false, false, false);
             });
+            // Only people from other homeservers are checked
+            vi.mocked(mockClient.getDomain).mockReturnValue("our.server");
         });
 
         describe.each([InviteKind.Invite, InviteKind.Dm])("with invitekind '%s'", (kind) => {
@@ -579,6 +581,15 @@ describe("InviteDialog", () => {
 
                 expect(vi.mocked(mockClient.getCrypto()!.getUserVerificationStatus)).toHaveBeenCalledTimes(1);
                 expect(vi.mocked(mockClient.getCrypto()!.getUserVerificationStatus)).toHaveBeenCalledWith(aliceId);
+            });
+
+            it("should not show a warning for a user on our own homeserver", async () => {
+                vi.mocked(mockClient.getDomain).mockReturnValue(serverDomain);
+                await enterIntoSearchField(aliceId);
+                await userEvent.click(screen.getByRole("button", { name: goButtonName }));
+
+                expect(screen.queryByText("Confirm inviting them", { exact: false })).toBeNull();
+                expect(vi.mocked(mockClient.getCrypto()!.getUserVerificationStatus)).not.toHaveBeenCalled();
             });
 
             it("should show a warning when inviting by email address", async () => {
