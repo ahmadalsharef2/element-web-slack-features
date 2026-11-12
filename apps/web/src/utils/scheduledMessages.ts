@@ -298,7 +298,7 @@ export class ScheduledMessages extends TypedEventEmitter<"update", { update: () 
         this.handingOver.add(message.id);
         try {
             // The person may change the time or text while the server is being asked, so go again if they did
-            for (let again = true; again; ) {
+            for (let again = true; again;) {
                 again = false;
                 const { sendAt, content } = message;
                 if (sendAt - Date.now() < MIN_SERVER_DELAY_MS) return;
