@@ -10,7 +10,8 @@ Please see LICENSE files in the repository root for full details.
 
 import React, { type ReactElement } from "react";
 import { vi, describe, it, expect, beforeEach, type MockedObject } from "vitest";
-import { render, screen, waitFor } from "test-utils-rtl";
+import { fireEvent, render, screen, waitFor } from "test-utils-rtl";
+import userEvent from "@testing-library/user-event";
 import { ClientEvent, MatrixEvent, type MatrixClient } from "matrix-js-sdk/src/matrix";
 import {
     getMockClientWithEventEmitter,
@@ -120,9 +121,25 @@ describe("<UserSettingsDialog />", () => {
         expect(container.querySelectorAll(".mx_TabbedView_tabLabel")).toMatchSnapshot();
     });
 
+    it("keeps the advanced tabs hidden until asked for", async () => {
+        const { getByTestId, queryByTestId, container } = render(getComponent());
+        expect(queryByTestId(`settings-tab-${UserTab.Keyboard}`)).toBeNull();
+        expect(getByTestId(`settings-tab-${UserTab.Help}`)).toBeTruthy();
+
+        await userEvent.click(screen.getByRole("tab", { name: "Show advanced" }));
+        await userEvent.click(getByTestId(`settings-tab-${UserTab.Keyboard}`));
+        expect(getActiveTabLabel(container)).toEqual("Keyboard");
+
+        // Hiding them again leaves the advanced tab the user was on
+        await userEvent.click(screen.getByRole("tab", { name: "Hide advanced" }));
+        expect(queryByTestId(`settings-tab-${UserTab.Keyboard}`)).toBeNull();
+        expect(getActiveTabLabel(container)).toEqual("Account");
+    });
+
     it("renders ignored users tab when feature_mjolnir is enabled", () => {
         mockSettingsStore.getValue.mockImplementation((settingName) => settingName === "feature_mjolnir");
         const { getByTestId } = render(getComponent());
+        fireEvent.click(screen.getByRole("tab", { name: "Show advanced" }));
         expect(getByTestId(`settings-tab-${UserTab.Mjolnir}`)).toBeTruthy();
     });
 
@@ -218,6 +235,7 @@ describe("<UserSettingsDialog />", () => {
             show_labs_settings: true,
         });
         const { getByTestId } = render(getComponent());
+        fireEvent.click(screen.getByRole("tab", { name: "Show advanced" }));
         expect(getByTestId(`settings-tab-${UserTab.Labs}`)).toBeTruthy();
     });
 
@@ -230,6 +248,7 @@ describe("<UserSettingsDialog />", () => {
             settingName === "feature_beta_setting" ? ({} as any) : undefined,
         );
         const { getByTestId } = render(getComponent());
+        fireEvent.click(screen.getByRole("tab", { name: "Show advanced" }));
         expect(getByTestId(`settings-tab-${UserTab.Labs}`)).toBeTruthy();
     });
 
@@ -243,6 +262,7 @@ describe("<UserSettingsDialog />", () => {
         mockSettingsStore.getValue.mockReturnValue(false);
 
         const { queryByTestId, findByTestId, unmount } = render(getComponent());
+        fireEvent.click(screen.getByRole("tab", { name: "Show advanced" }));
         expect(queryByTestId(`settings-tab-${UserTab.Mjolnir}`)).toBeFalsy();
 
         expect(mockSettingsStore.watchSetting).toHaveBeenCalledWith("feature_mjolnir", null, expect.anything());

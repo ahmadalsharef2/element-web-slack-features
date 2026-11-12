@@ -23,6 +23,8 @@ import LockIcon from "@vector-im/compound-design-tokens/assets/web/icons/lock";
 import LabsIcon from "@vector-im/compound-design-tokens/assets/web/icons/labs";
 import BlockIcon from "@vector-im/compound-design-tokens/assets/web/icons/block";
 import HelpIcon from "@vector-im/compound-design-tokens/assets/web/icons/help";
+import ChevronDownIcon from "@vector-im/compound-design-tokens/assets/web/icons/chevron-down";
+import ChevronUpIcon from "@vector-im/compound-design-tokens/assets/web/icons/chevron-up";
 import { ToastContext, useActiveToast } from "@element-hq/web-shared-components";
 
 import TabbedView, { Tab, useActiveTabWithDefault } from "../../structures/TabbedView";
@@ -67,6 +69,19 @@ interface IProps {
     onFinished(this: void): void;
 }
 
+/**
+ * Element Fork: tabs few people need. They sit below the everyday tabs and stay hidden until the user chooses
+ * "Show advanced" or something opens one of them directly.
+ */
+const ADVANCED_TABS: ReadonlySet<UserTab> = new Set([
+    UserTab.Keyboard,
+    UserTab.Sidebar,
+    UserTab.Security,
+    UserTab.Encryption,
+    UserTab.Labs,
+    UserTab.Mjolnir,
+]);
+
 function titleForTabID(tabId: UserTab): React.ReactNode {
     const subs = {
         strong: (sub: string) => <span className="mx_UserSettingsDialog_title_strong">{sub}</span>,
@@ -98,6 +113,9 @@ function titleForTabID(tabId: UserTab): React.ReactNode {
             return _t("settings|labs_mjolnir|dialog_title", undefined, subs);
         case UserTab.Help:
             return _t("setting|help_about|dialog_title", undefined, subs);
+        case UserTab.AdvancedToggle:
+            // Never the active tab
+            return null;
     }
 }
 
@@ -108,6 +126,7 @@ export default function UserSettingsDialog(props: IProps): JSX.Element {
     const [showMsc4108QrCode, setShowMsc4108QrCode] = useState(props.showMsc4108QrCode);
     const [initialEncryptionState, setInitialEncryptionState] = useState(props.initialEncryptionState);
     const [startCustomStatus, setStartCustomStatus] = useState(props.startCustomStatus);
+    const [showAdvanced, setShowAdvanced] = useState(!!props.initialTabId && ADVANCED_TABS.has(props.initialTabId));
 
     // If the user doesn't have Recovery set up (no default Secret Storage key),
     // we show an indicator on the Encryption tab.
@@ -129,7 +148,8 @@ export default function UserSettingsDialog(props: IProps): JSX.Element {
         false,
     );
 
-    const getTabs = (): NonEmptyArray<Tab<UserTab>> => {
+    /** Every tab this user can open, in upstream's order. */
+    const getAllTabs = (): NonEmptyArray<Tab<UserTab>> => {
         const tabs: Tab<UserTab>[] = [];
 
         tabs.push(
@@ -258,8 +278,38 @@ export default function UserSettingsDialog(props: IProps): JSX.Element {
         return tabs as NonEmptyArray<Tab<UserTab>>;
     };
 
-    const [activeTabId, _setActiveTabId] = useActiveTabWithDefault(getTabs(), UserTab.Account, props.initialTabId);
+    /**
+     * The tabs to list: the everyday ones, then the entry that shows or hides the advanced ones, then those if
+     * shown. The Encryption tab counts as everyday while it has something to tell the user (recovery is not set up).
+     */
+    const getTabs = (): NonEmptyArray<Tab<UserTab>> => {
+        const tabs = getAllTabs();
+        const isAdvanced = (tab: Tab<UserTab>): boolean =>
+            ADVANCED_TABS.has(tab.id) && !(tab.id === UserTab.Encryption && showSetupRecoveryIndicator);
+        const toggle = new Tab(
+            UserTab.AdvancedToggle,
+            showAdvanced ? _td("action|hide_advanced") : _td("action|show_advanced"),
+            showAdvanced ? <ChevronUpIcon /> : <ChevronDownIcon />,
+            <></>,
+            undefined,
+            "mx_UserSettingsDialog_advancedToggle",
+        );
+
+        return [
+            ...tabs.filter((tab) => !isAdvanced(tab)),
+            toggle,
+            ...(showAdvanced ? tabs.filter(isAdvanced) : []),
+        ] as NonEmptyArray<Tab<UserTab>>;
+    };
+
+    const [activeTabId, _setActiveTabId] = useActiveTabWithDefault(getAllTabs(), UserTab.Account, props.initialTabId);
     const setActiveTabId = (tabId: UserTab): void => {
+        if (tabId === UserTab.AdvancedToggle) {
+            // Hiding the tab the user is on would leave the dialog empty
+            if (showAdvanced && ADVANCED_TABS.has(activeTabId)) _setActiveTabId(UserTab.Account);
+            setShowAdvanced(!showAdvanced);
+            return;
+        }
         _setActiveTabId(tabId);
         // Clear these so switching away from the tab and back to it will not show the QR code again
         setShowMsc4108QrCode(false);

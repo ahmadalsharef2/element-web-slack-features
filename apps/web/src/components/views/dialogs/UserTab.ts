@@ -20,4 +20,6 @@ export enum UserTab {
     Mjolnir = "USER_MJOLNIR_TAB",
     Help = "USER_HELP_TAB",
     SessionManager = "USER_SESSION_MANAGER_TAB",
+    /** Element Fork: not a tab with a body, but the entry that shows or hides the advanced tabs */
+    AdvancedToggle = "USER_ADVANCED_TOGGLE",
 }
