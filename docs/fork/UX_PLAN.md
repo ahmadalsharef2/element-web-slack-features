@@ -16,7 +16,7 @@ on a phone. Their tasks, most frequent first:
 | 3   | Switch to another room                  | Many times/hour |
 | 4   | React to a message, reply in a thread   | Hourly          |
 | 5   | Share a file with a caption             | Daily           |
-| 6   | Message a person directly               | Daily           |
+| 6   | Message a person directly, note to self | Daily           |
 | 7   | Find an old message                     | Daily           |
 | 8   | Quiet notifications (snooze, mute room) | Daily           |
 | 9   | Send a message later                    | Weekly          |
@@ -64,11 +64,12 @@ test homeserver, like the other e2e tests.
 | React to a message          | 3                    | 7.8 s                    | unchanged                                                                                     |
 | Reply in a thread           | 4                    | 12.1 s                   | unchanged                                                                                     |
 | Share a file with a caption | 5                    | 14.7 s                   | unchanged                                                                                     |
-| Message a person directly   | 8                    | 21.3 s                   | unchanged, see open item 1                                                                    |
+| Message a person directly   | 8 → 7 (5 by Ctrl+K)  | 21.3 s → 18.7 s (12.2 s) | No confirmation dialog for people on your own server; Ctrl+K, name, Enter is the short way    |
+| Write a note to myself      | no such thing → 4    | 15.4 s                   | "My notes" in the user menu opens a private room, made on first use                           |
 | Snooze notifications        | 2                    | 5.3 s                    | unchanged                                                                                     |
 | Mute a room                 | 3                    | 7.8 s                    | unchanged                                                                                     |
 | Send a message later        | 3                    | 11.5 s                   | unchanged                                                                                     |
-| Create a room and invite    | 9                    | 25.2 s                   | unchanged, see open item 1                                                                    |
+| Create a room and invite    | 9 → 8                | 25.2 s → 22.5 s          | No confirmation dialog for people on your own server                                          |
 | Switch to the dark theme    | 3                    | 8.0 s                    | unchanged                                                                                     |
 | Hide my online status       | 5                    | 13.3 s                   | unchanged                                                                                     |
 
@@ -94,17 +95,18 @@ and the dev server writes its own into the same folder, so every earlier build w
   "Welcome to Element Fork" instead of Element's slogan, and a light blue sign-in background instead of the lake
   photo.
 - Light and Dark themes use the logo blue (#0074D0) as their accent. Green still means success (verified, sent).
+- Main buttons and text links are blue instead of black; the message box has an outline that turns blue while typing.
+- Settings lists 7 everyday tabs instead of 12 (plus Encryption until recovery is set up); the rest are one click away under "Show advanced".
 
 ## Open items
 
 Ranked by how often a user meets them times how much they cost.
 
-1. **Two confirmations when starting a chat or inviting someone new** (tasks 6 and 10, daily). After choosing the
-   person, a second dialog asks to confirm, with Cancel as the focused button. It is upstream's guard against
-   mistaken or spam invites to people you have never talked to. Removing it or making Continue the default is a
-   security trade-off for Ahmad to decide.
+1. **Confirmation when starting a chat with, or inviting, someone from another server.** People on your own server
+   no longer get it. For strangers from elsewhere it stays: it is upstream's guard against mistaken or spam invites.
 2. **Two prompts on first start**: "Back up your chats" and "Notifications". Both protect the user (losing encrypted
-   history, missing messages), so they stay.
+   history, missing messages), so they stay. The sign-in page still shows the homeserver and an "Edit" link: once the
+   team's server is decided, set it in `config.json` with `"disable_custom_urls": true` and that block disappears.
 3. **Start-up downloads 15.9 MB of script.** 7.6 MB is the encryption engine and is needed. About 4.6 MB (two chunks
    holding parts of the diagram renderer, maths renderer and calls) loads before it is used; splitting those out is
    the next step to a faster start.

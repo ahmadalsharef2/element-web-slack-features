@@ -159,6 +159,45 @@ test.describe("UX journeys", () => {
         j.finish();
     });
 
+    test("6b start a direct message from search", async ({ page, app, bot }) => {
+        await seed(app, bot);
+
+        const j = new Journey(page, "06b Message a person directly (Ctrl+K)");
+        const search = page.getByRole("dialog", { name: "Search Dialog" });
+        await j.press("Press Ctrl+K", "Control+k", search);
+        await j.type("Type the person's name", "Sam", search.getByRole("option", { name: /Sam/ }).first());
+        await j.shot("found");
+        const composer = page.getByRole("textbox", { name: /Send .*message/ });
+        await j.click("Click the person", search.getByRole("option", { name: /Sam/ }).first(), composer);
+        await j.type("Type the message", "Hi Sam");
+        await j.press("Press Enter", "Enter", page.locator(".mx_EventTile", { hasText: "Hi Sam" }));
+        await j.shot("done");
+        j.finish();
+    });
+
+    test("6c write a note to myself", async ({ page, app, bot }) => {
+        await seed(app, bot);
+
+        const j = new Journey(page, "06c Write a note to myself");
+        await j.click("Click your picture", page.getByRole("button", { name: "User menu" }), page.getByRole("menu"));
+        await j.shot("menu");
+        const composer = page.getByRole("textbox", { name: /Send .*message/ });
+        await j.click("Click My notes", page.getByRole("menuitem", { name: "My notes" }), composer);
+        await expect(page.locator(".mx_RoomHeader").getByText("My notes")).toBeVisible();
+        await j.type("Type the note", "Ask Sam about the report");
+        await j.press("Press Enter", "Enter", page.locator(".mx_EventTile", { hasText: "Ask Sam about the report" }));
+        await j.shot("done");
+
+        // The second time, the same room opens instead of another one being made
+        // (with a direct chat in the list, its entries are buttons under "People" and "Rooms")
+        await page.getByRole("button", { name: /Open room general/ }).click();
+        await page.getByRole("button", { name: "User menu" }).click();
+        await page.getByRole("menuitem", { name: "My notes" }).click();
+        await expect(page.locator(".mx_EventTile", { hasText: "Ask Sam about the report" })).toBeVisible();
+        await expect(page.getByRole("button", { name: /Open room My notes/ })).toHaveCount(1);
+        j.finish();
+    });
+
     test("7 search messages", async ({ page, app, bot }) => {
         await seed(app, bot);
         await app.viewRoomByName("general");
