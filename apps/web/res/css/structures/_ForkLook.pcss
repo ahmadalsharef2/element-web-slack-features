@@ -1,0 +1,37 @@
+/*
+Copyright 2026 Ahmad
+
+SPDX-License-Identifier: AGPL-3.0-only OR GPL-3.0-only OR LicenseRef-Element-Commercial
+Please see LICENSE files in the repository root for full details.
+*/
+
+/* Element Fork look, on top of the brand colours in res/themes/brand/_brand.pcss. Kept in one file so upstream's
+   stylesheets stay untouched. The rules start at :root so they win over upstream's, whichever file loads last. */
+
+/* Text links are blue, so they read as links and not as bold text */
+:root .mx_AccessibleButton.mx_AccessibleButton_kind_link,
+:root .mx_AccessibleButton.mx_AccessibleButton_kind_link_inline {
+    color: var(--cpd-color-text-action-accent);
+}
+
+/* The message box is a box: outlined, rounded, and highlighted while you type in it */
+:root .mx_MessageComposer_wrapper {
+    margin: 0 var(--cpd-space-4x) var(--cpd-space-3x);
+    border: 1px solid var(--cpd-color-border-interactive-secondary);
+    border-radius: 12px;
+    background-color: var(--cpd-color-bg-canvas-default);
+    transition: border-color 0.1s;
+
+    &:focus-within {
+        border-color: var(--cpd-color-border-accent-primary);
+    }
+}
+
+/* In threads and other narrow panels the box keeps a little room inside */
+:root .mx_MessageComposer.mx_MessageComposer--compact .mx_MessageComposer_wrapper {
+    margin-inline: 0;
+}
+
+:root .mx_MessageComposer.mx_MessageComposer--compact:not(.mx_MessageComposer_e2eStatus) .mx_MessageComposer_wrapper {
+    padding-inline: var(--cpd-space-3x);
+}
