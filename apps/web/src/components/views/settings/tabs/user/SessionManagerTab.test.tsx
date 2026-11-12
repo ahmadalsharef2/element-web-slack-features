@@ -808,7 +808,7 @@ describe("<SessionManagerTab />", () => {
             });
 
             fireEvent.click(getByTestId("current-session-menu"));
-            fireEvent.click(getByLabelText("Remove this device"));
+            fireEvent.click(getByLabelText("Sign out"));
 
             // logout dialog opened
             expect(modalSpy).toHaveBeenCalledWith(LogoutDialog, {}, undefined, false, true);
@@ -825,7 +825,7 @@ describe("<SessionManagerTab />", () => {
             });
 
             fireEvent.click(getByTestId("current-session-menu"));
-            expect(queryByLabelText("Remove all other sessions")).toBeFalsy();
+            expect(queryByLabelText("Sign out of all other sessions")).toBeFalsy();
         });
 
         it("signs out of all other devices from current session context menu", async () => {
@@ -839,7 +839,7 @@ describe("<SessionManagerTab />", () => {
             });
 
             fireEvent.click(getByTestId("current-session-menu"));
-            fireEvent.click(getByLabelText("Remove all other sessions (2)"));
+            fireEvent.click(getByLabelText("Sign out of all other sessions (2)"));
             await confirmSignout(getByTestId);
 
             // other devices deleted, excluding current device
@@ -880,7 +880,7 @@ describe("<SessionManagerTab />", () => {
             expect(mockClient.deleteAccountData).not.toHaveBeenCalled();
 
             fireEvent.click(getByTestId("current-session-menu"));
-            fireEvent.click(getByLabelText("Remove all other sessions (2)"));
+            fireEvent.click(getByLabelText("Sign out of all other sessions (2)"));
             await confirmSignout(getByTestId);
 
             // only called once for signed out device with account data event
@@ -1215,7 +1215,7 @@ describe("<SessionManagerTab />", () => {
                 });
 
                 fireEvent.click(getByTestId("current-session-menu"));
-                expect(screen.queryByLabelText("Remove all other sessions (2)")).not.toBeInTheDocument();
+                expect(screen.queryByLabelText("Sign out of all other sessions (2)")).not.toBeInTheDocument();
             });
 
             describe("other devices", () => {

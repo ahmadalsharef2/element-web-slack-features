@@ -33,6 +33,7 @@ import RoomAvatar from "../components/views/avatars/RoomAvatar";
 import { ModuleNotificationDecoration } from "../modules/components/ModuleNotificationDecoration";
 import Login from "../Login.ts";
 import { startOAuthLogin } from "../utils/oauth/authorize.ts";
+import { ReleaseAnnouncementStore } from "../stores/ReleaseAnnouncementStore";
 
 // oxlint-disable-next-line node/no-process-env
 logger.log(`Application is running in ${process.env.NODE_ENV} mode`);
@@ -97,6 +98,9 @@ export async function loadApp(urlParams: URLParams, matrixChatRef: React.Ref<Mat
     });
 
     initRouting();
+    // Element Fork: no "Introducing …" tours of upstream's new features. Someone new to the app has nothing to
+    // compare them with, and the tour covers the room list on first start.
+    ReleaseAnnouncementStore.instance.disable();
     const platform = PlatformPeg.get();
 
     const urlWithoutQuery = window.location.protocol + "//" + window.location.host + window.location.pathname;

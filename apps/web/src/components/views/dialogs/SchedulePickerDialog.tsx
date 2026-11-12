@@ -55,7 +55,7 @@ export default function SchedulePickerDialog({
             onFinished={() => onFinished(false)}
             fixedWidth={false}
         >
-            <div className="mx_Dialog_content mx_AddedByAhmad">
+            <div className="mx_Dialog_content">
                 {editing && (
                     <Field
                         element="textarea"

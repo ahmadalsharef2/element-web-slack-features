@@ -8,6 +8,8 @@ Please see LICENSE files in the repository root for full details.
 import SdkConfig from "./SdkConfig.ts";
 
 const ELEMENT_BRAND = "Element";
+/** This fork's own name; it is not one of Element's products, so it gets the generic welcome text. */
+const FORK_BRAND = "Element Fork";
 
 /**
  * Returns whether the app is currently branded.
@@ -16,5 +18,6 @@ const ELEMENT_BRAND = "Element";
  */
 export const isElementBranded = (): boolean => {
     const brand = SdkConfig.get("brand");
+    if (brand === FORK_BRAND) return false;
     return brand === ELEMENT_BRAND || brand.startsWith(ELEMENT_BRAND + " ");
 };

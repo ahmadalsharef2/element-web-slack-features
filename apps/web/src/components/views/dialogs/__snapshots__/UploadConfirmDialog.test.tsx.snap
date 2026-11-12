@@ -91,7 +91,7 @@ exports[`<UploadConfirmDialog /> > should display image preview 1`] = `
         </div>
       </div>
       <div
-        class="mx_Field mx_Field_input mx_UploadConfirmDialog_caption mx_AddedByAhmad"
+        class="mx_Field mx_Field_input mx_UploadConfirmDialog_caption"
       >
         <input
           autocomplete="off"
@@ -115,8 +115,7 @@ exports[`<UploadConfirmDialog /> > should display image preview 1`] = `
         class="mx_Dialog_buttons_row"
       >
         <button
-          class="mx_LegacyDialogButton mx_AddedByAhmad_inline"
-          title="New, added by Ahmad"
+          class="mx_LegacyDialogButton"
           type="button"
         >
           Schedule

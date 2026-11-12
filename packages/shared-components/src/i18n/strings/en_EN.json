@@ -392,8 +392,9 @@
         "open_home": "Home",
         "open_security": "Security & Privacy",
         "open_settings": "All settings",
-        "resume_notifications": "Resume notifications (new, added by Ahmad)",
-        "snooze_notifications": "Snooze notifications for 1 hour (new, added by Ahmad)"
+        "resume_notifications": "Resume notifications",
+        "sign_out": "Sign out",
+        "snooze_notifications": "Snooze notifications for 1 hour"
     },
     "voip": {
         "element_call_mock": {

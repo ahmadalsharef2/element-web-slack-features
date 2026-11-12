@@ -72,7 +72,7 @@ export default function ScheduledMessagesDialog({ onFinished }: IProps): JSX.Ele
             title={_t("schedule_send|list_title")}
             onFinished={onFinished}
         >
-            <div className="mx_Dialog_content mx_AddedByAhmad">
+            <div className="mx_Dialog_content">
                 {groups.length === 0 && <p>{_t("schedule_send|list_empty")}</p>}
                 <ul className="mx_ScheduledMessagesDialog_list">
                     {groups.map((group) => {

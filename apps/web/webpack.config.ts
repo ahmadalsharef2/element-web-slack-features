@@ -50,7 +50,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 dotenv.config();
 let ogImageUrl = process.env.RIOT_OG_IMAGE_URL;
-if (!ogImageUrl) ogImageUrl = "https://app.element.io/themes/element/img/logos/opengraph.png";
+if (!ogImageUrl) ogImageUrl = "themes/element/img/logos/opengraph.png";
 
 const cssThemes = {
     // CSS themes
@@ -96,7 +96,7 @@ export default (env: string, argv: Record<string, any>): webpack.Configuration =
         // Embedded source maps for dev builds, can't use eval-source-map due to CSP
         development["devtool"] = "inline-source-map";
     } else {
-        // Added by Ahmad: no source maps in production builds. They were 79 MB of the 170 MB web app and are only
+        // Element Fork: no source maps in production builds. They were 79 MB of the 170 MB web app and are only
         // useful for debugging or uploading to Sentry, which this fork does not do.
         development["devtool"] = false;
     }
@@ -601,7 +601,7 @@ export default (env: string, argv: Record<string, any>): webpack.Configuration =
             new I18nWebpackPlugin({
                 stringsPath: "src/i18n/strings/",
                 additionalStringsPaths: ["../../packages/shared-components/src/i18n/strings/"],
-                // Added by Ahmad: the fork ships English and German only, which keeps the other languages out of the build
+                // Element Fork: the fork ships English and German only, which keeps the other languages out of the build
                 languages: ["en_EN", "de_DE"],
             }),
 

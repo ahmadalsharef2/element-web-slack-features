@@ -8,9 +8,12 @@ adds the things that are easy to get wrong here.
 
 This is Element Fork, Ahmad's fork of Element Web and Desktop. Fork notes live in `docs/fork/`:
 
-- **Adding or changing a user-facing feature:** give it an "added by Ahmad" marker in the UI and a row in
-  [docs/fork/ADDED_BY_AHMAD.md](./docs/fork/ADDED_BY_AHMAD.md), which lists the markers and everything the fork adds
-  on top of upstream. New files carry a `Copyright <year> Ahmad` header.
+- **Adding or changing a user-facing feature:** add a row to [docs/fork/FORK_CHANGES.md](./docs/fork/FORK_CHANGES.md),
+  which lists everything the fork adds on top of upstream. New files carry a `Copyright <year> Ahmad` header. The UI
+  has no "added by Ahmad" markers any more; don't add them.
+- **UX work:** [docs/fork/UX_PLAN.md](./docs/fork/UX_PLAN.md) has the user tasks, the measurements and what is still
+  open. The harness in `apps/web/playwright/e2e/ux/` performs the tasks and writes the numbers; run it against a
+  production build (`BASE_URL`), as described there.
 - **Planning a feature from the roadmap:** [docs/fork/ENHANCEMENT_PLAN.md](./docs/fork/ENHANCEMENT_PLAN.md) has the
   file maps, steps and gotchas for each one.
 - **Naming and branding:** the product name is "Element Fork". The Liberbyte name, wordmark and domains wait for the

@@ -32,6 +32,7 @@ const UserMenuWrapperImpl = (snapshot: UserMenuViewSnapshot): JSX.Element => {
         openSettings: fn(),
         toggleSnooze: fn(),
         clearStatus: fn(),
+        signOut: fn(),
     });
 
     return <UserMenuView vm={vm} />;
@@ -54,6 +55,7 @@ const meta = {
             openSecurity: true,
             openFeedback: true,
             openSettings: true,
+            signOut: true,
         },
     },
     parameters: {

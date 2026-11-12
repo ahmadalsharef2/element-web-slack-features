@@ -241,7 +241,7 @@ describe("ProfileSettings", () => {
 
         renderProfileSettings(toastRack, client);
 
-        const signOutButton = await screen.findByText("Remove this device");
+        const signOutButton = await screen.findByText("Sign out");
         await userEvent.click(signOutButton);
 
         expect(Modal.createDialog).toHaveBeenCalled();
@@ -259,7 +259,7 @@ describe("ProfileSettings", () => {
 
         renderProfileSettings(toastRack, client);
 
-        const signOutButton = await screen.findByText("Remove this device");
+        const signOutButton = await screen.findByText("Sign out");
         await userEvent.click(signOutButton);
 
         expect(Modal.createDialog).toHaveBeenCalled();

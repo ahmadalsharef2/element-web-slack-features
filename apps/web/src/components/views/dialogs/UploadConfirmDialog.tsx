@@ -155,7 +155,7 @@ export default function UploadConfirmDialog({ files, onFinished }: IProps): JSX.
                     </div>
                 </div>
                 <Field
-                    className="mx_UploadConfirmDialog_caption mx_AddedByAhmad"
+                    className="mx_UploadConfirmDialog_caption"
                     label={_t("upload_file|caption_label")}
                     value={caption}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCaption(e.target.value)}
@@ -170,12 +170,7 @@ export default function UploadConfirmDialog({ files, onFinished }: IProps): JSX.
                 onPrimaryButtonClick={onUploadClick}
                 focus={true}
             >
-                <button
-                    onClick={() => void onScheduleClick()}
-                    className="mx_LegacyDialogButton mx_AddedByAhmad_inline"
-                    title={_t("common|added_by_ahmad")}
-                    type="button"
-                >
+                <button onClick={() => void onScheduleClick()} className="mx_LegacyDialogButton" type="button">
                     {_t("schedule_send|picker_confirm")}
                 </button>
             </DialogButtons>

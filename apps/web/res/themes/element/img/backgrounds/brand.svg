@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+  <!-- Copyright 2026 Ahmad. Element Fork sign-in background in the logo blue; replaces Element's lake photo. -->
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#E9F2FF"/>
+      <stop offset="0.55" stop-color="#F7FAFF"/>
+      <stop offset="1" stop-color="#D8E7FE"/>
+    </linearGradient>
+    <radialGradient id="glowA" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#0074D0" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#0074D0" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#7A98C2" stop-opacity="0.30"/>
+      <stop offset="1" stop-color="#7A98C2" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#sky)"/>
+  <circle cx="260" cy="900" r="620" fill="url(#glowA)"/>
+  <circle cx="1700" cy="180" r="560" fill="url(#glowB)"/>
+  <circle cx="1500" cy="1000" r="380" fill="url(#glowA)"/>
+</svg>

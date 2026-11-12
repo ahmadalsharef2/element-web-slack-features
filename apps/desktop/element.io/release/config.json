@@ -26,7 +26,8 @@
         "https://matrix-client.matrix.org": false
     },
     "setting_defaults": {
-        "breadcrumbs": true
+        "breadcrumbs": true,
+        "ctrlFForSearch": true
     },
     "features": {
         "feature_spotlight": true

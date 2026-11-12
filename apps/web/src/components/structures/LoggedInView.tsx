@@ -668,6 +668,8 @@ class LoggedInView extends React.Component<IProps, IState> {
         const bodyClasses = classNames({
             "mx_MatrixChat": true,
             "mx_MatrixChat--with-avatar": this.state.backgroundImage,
+            // Element Fork: on a phone a room, or any page other than Home, fills the screen
+            "mx_MatrixChat--pageOpen": !!this.props.page_type && this.props.page_type !== PageTypes.HomePage,
         });
 
         const leftPanelWrapperClasses = classNames("mx_LeftPanel_wrapper");

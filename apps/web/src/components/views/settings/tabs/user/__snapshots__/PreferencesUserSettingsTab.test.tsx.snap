@@ -571,76 +571,68 @@ exports[`PreferencesUserSettingsTab > should render 1`] = `
                   </div>
                 </div>
                 <div
-                  class="mx_AddedByAhmad"
+                  class="_inline-field"
                 >
                   <div
-                    class="_inline-field"
+                    class="_inline-field-control"
                   >
                     <div
-                      class="_inline-field-control"
+                      class="_container"
                     >
+                      <input
+                        checked=""
+                        class="_input"
+                        disabled=""
+                        id="mx_SettingsFlag_75JNTNkNU64r"
+                        role="switch"
+                        type="checkbox"
+                      />
                       <div
-                        class="_container"
-                      >
-                        <input
-                          checked=""
-                          class="_input"
-                          disabled=""
-                          id="mx_SettingsFlag_75JNTNkNU64r"
-                          role="switch"
-                          type="checkbox"
-                        />
-                        <div
-                          class="_ui"
-                        />
-                      </div>
+                        class="_ui"
+                      />
                     </div>
-                    <div
-                      class="_inline-field-body"
+                  </div>
+                  <div
+                    class="_inline-field-body"
+                  >
+                    <label
+                      class="_label"
+                      for="mx_SettingsFlag_75JNTNkNU64r"
                     >
-                      <label
-                        class="_label"
-                        for="mx_SettingsFlag_75JNTNkNU64r"
-                      >
-                        Show other people's online status
-                      </label>
-                    </div>
+                      Show other people's online status
+                    </label>
                   </div>
                 </div>
                 <div
-                  class="mx_AddedByAhmad"
+                  class="_inline-field"
                 >
                   <div
-                    class="_inline-field"
+                    class="_inline-field-control"
                   >
                     <div
-                      class="_inline-field-control"
+                      class="_container"
                     >
+                      <input
+                        checked=""
+                        class="_input"
+                        id="mx_SettingsFlag_aTLcRsQRlYy7"
+                        role="switch"
+                        type="checkbox"
+                      />
                       <div
-                        class="_container"
-                      >
-                        <input
-                          checked=""
-                          class="_input"
-                          id="mx_SettingsFlag_aTLcRsQRlYy7"
-                          role="switch"
-                          type="checkbox"
-                        />
-                        <div
-                          class="_ui"
-                        />
-                      </div>
+                        class="_ui"
+                      />
                     </div>
-                    <div
-                      class="_inline-field-body"
+                  </div>
+                  <div
+                    class="_inline-field-body"
+                  >
+                    <label
+                      class="_label"
+                      for="mx_SettingsFlag_aTLcRsQRlYy7"
                     >
-                      <label
-                        class="_label"
-                        for="mx_SettingsFlag_aTLcRsQRlYy7"
-                      >
-                        Share my online status
-                      </label>
-                    </div>
+                      Share my online status
+                    </label>
                   </div>
                 </div>
               </div>
@@ -742,39 +734,35 @@ exports[`PreferencesUserSettingsTab > should render 1`] = `
                   </div>
                 </div>
                 <div
-                  class="mx_AddedByAhmad"
+                  class="_inline-field"
                 >
                   <div
-                    class="_inline-field"
+                    class="_inline-field-control"
                   >
                     <div
-                      class="_inline-field-control"
+                      class="_container"
                     >
+                      <input
+                        class="_input"
+                        disabled=""
+                        id="mx_SettingsFlag_u3pEwuLn9Enn"
+                        role="switch"
+                        type="checkbox"
+                      />
                       <div
-                        class="_container"
-                      >
-                        <input
-                          class="_input"
-                          disabled=""
-                          id="mx_SettingsFlag_u3pEwuLn9Enn"
-                          role="switch"
-                          type="checkbox"
-                        />
-                        <div
-                          class="_ui"
-                        />
-                      </div>
+                        class="_ui"
+                      />
                     </div>
-                    <div
-                      class="_inline-field-body"
+                  </div>
+                  <div
+                    class="_inline-field-body"
+                  >
+                    <label
+                      class="_label"
+                      for="mx_SettingsFlag_u3pEwuLn9Enn"
                     >
-                      <label
-                        class="_label"
-                        for="mx_SettingsFlag_u3pEwuLn9Enn"
-                      >
-                        Always show the formatting toolbar above the composer
-                      </label>
-                    </div>
+                      Always show the formatting toolbar above the composer
+                    </label>
                   </div>
                 </div>
                 <div

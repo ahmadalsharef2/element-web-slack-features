@@ -4,7 +4,7 @@ exports[`<AuthPage /> > should match snapshot 1`] = `
 <DocumentFragment>
   <div
     class="mx_AuthPage"
-    style="background: url("themes/element/img/backgrounds/lake.jpg") center center / cover fixed;"
+    style="background: url("themes/element/img/backgrounds/brand.svg") center center / cover fixed;"
   >
     <div
       class="mx_AuthPage_modal mx_AuthPage_modal_withBlur"
@@ -12,7 +12,7 @@ exports[`<AuthPage /> > should match snapshot 1`] = `
     >
       <div
         class="mx_AuthPage_modalBlur"
-        style="position: absolute; top: 0px; right: 0px; bottom: 0px; left: 0px; filter: blur(40px); background: url("themes/element/img/backgrounds/lake.jpg") center center / cover fixed;"
+        style="position: absolute; top: 0px; right: 0px; bottom: 0px; left: 0px; filter: blur(40px); background: url("themes/element/img/backgrounds/brand.svg") center center / cover fixed;"
       />
       <main
         aria-live="polite"
@@ -26,25 +26,11 @@ exports[`<AuthPage /> > should match snapshot 1`] = `
       role="contentinfo"
     >
       <a
-        href="https://element.io/blog"
+        href="https://github.com/ahmadalsharef994/element-web-slack-features"
         rel="noreferrer noopener"
         target="_blank"
       >
-        Blog
-      </a>
-      <a
-        href="https://mastodon.matrix.org/@Element"
-        rel="noreferrer noopener"
-        target="_blank"
-      >
-        Mastodon
-      </a>
-      <a
-        href="https://github.com/element-hq/element-web"
-        rel="noreferrer noopener"
-        target="_blank"
-      >
-        GitHub
+        Source code
       </a>
       <a
         href="https://matrix.org"

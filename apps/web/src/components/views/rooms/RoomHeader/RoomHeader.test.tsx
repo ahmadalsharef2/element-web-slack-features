@@ -50,6 +50,7 @@ import { RightPanelPhases } from "../../../../stores/right-panel/RightPanelStore
 import SettingsStore from "../../../../settings/SettingsStore";
 import SdkConfig from "../../../../SdkConfig";
 import dispatcher from "../../../../dispatcher/dispatcher";
+import { Action } from "../../../../dispatcher/actions";
 import { CallStore } from "../../../../stores/CallStore";
 import { type Call } from "../../../../models/Call";
 import * as ShieldUtils from "../../../../utils/ShieldUtils";
@@ -141,6 +142,24 @@ describe("RoomHeader", () => {
     it("renders the room header", () => {
         const { container } = render(<RoomHeader room={room} />, getWrapper());
         expect(container).toHaveTextContent(ROOM_ID);
+    });
+
+    it("goes back to the room list from the back button", async () => {
+        const user = userEvent.setup();
+        const dispatchSpy = vi.spyOn(dispatcher, "dispatch");
+        render(<RoomHeader room={room} />, getWrapper());
+
+        await user.click(screen.getByRole("button", { name: "Back" }));
+        expect(dispatchSpy).toHaveBeenCalledWith({ action: Action.ViewHomePage });
+    });
+
+    it("opens message search from the header", async () => {
+        const user = userEvent.setup();
+        const fireSpy = vi.spyOn(dispatcher, "fire");
+        render(<RoomHeader room={room} />, getWrapper());
+
+        await user.click(screen.getByRole("button", { name: "Search messages…" }));
+        expect(fireSpy).toHaveBeenCalledWith(Action.FocusMessageSearch);
     });
 
     it("opens the room summary", async () => {

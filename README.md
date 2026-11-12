@@ -5,32 +5,33 @@
 <h1 align="center">Element Fork</h1>
 
 <p align="center">
-  A Matrix client for web and Linux desktop, with the everyday conveniences of a team chat app:
+  A Matrix client for the web, phones, Windows, macOS and Linux, with the everyday conveniences of a team chat app:
   schedule send, snooze, hidden presence, richer formatting and tables.
 </p>
 
 Element Fork is Ahmad's fork of [Element Web and Desktop](https://github.com/element-hq/element-web). It stays close to
-upstream and adds a small set of features on top, each marked in the UI so you can tell it apart from stock Element.
+upstream and adds a small set of features on top.
 
 ## Features
 
-| Feature                                 | What it does                                                                             |
-| --------------------------------------- | ---------------------------------------------------------------------------------------- |
-| Schedule send                           | Send a message or files later. List, edit, send now or cancel queued messages.           |
-| Upload captions                         | Add a caption to uploads and send several files from one dialog.                         |
-| Snooze notifications                    | Pause notifications on this device from the user menu or with `/snooze`.                 |
-| Hide online status                      | Hide your own presence, and other people's, from Settings → Preferences.                 |
-| Richer formatting                       | Heading and list buttons in the format bar, an optional always-visible toolbar.          |
-| Markdown tables and `~~strikethrough~~` | Send, align and edit pipe tables; strike text through.                                   |
-| Better search                           | Ctrl+K finds people and public rooms without a filter; `name@server` resolves to a user. |
-| Sand theme                              | A warm light theme, under Settings → Appearance.                                         |
-| Built-in PDF viewer toggle              | Turn the PDF viewer off even when the lab is on.                                         |
+| Feature                                 | What it does                                                                                |
+| --------------------------------------- | ------------------------------------------------------------------------------------------- |
+| Works on phones                         | One pane at a time in a phone browser, with a back button; can be added to the home screen. |
+| Clear sign out                          | "Sign out" in the user menu, and "Sign out" instead of "Remove this device" everywhere.     |
+| Search button in every room             | Search messages from the room header, or with Ctrl+F.                                       |
+| Element Fork look                       | The fork's logo throughout, and its blue as the accent of the Light and Dark themes.        |
+| Schedule send                           | Send a message or files later. List, edit, send now or cancel queued messages.              |
+| Upload captions                         | Add a caption to uploads and send several files from one dialog.                            |
+| Snooze notifications                    | Pause notifications on this device from the user menu or with `/snooze`.                    |
+| Hide online status                      | Hide your own presence, and other people's, from Settings → Preferences.                    |
+| Richer formatting                       | Heading and list buttons in the format bar, an optional always-visible toolbar.             |
+| Markdown tables and `~~strikethrough~~` | Send, align and edit pipe tables; strike text through.                                      |
+| Better search                           | Ctrl+K finds people and public rooms without a filter; `name@server` resolves to a user.    |
+| Sand theme                              | A warm light theme, under Settings → Appearance.                                            |
+| Built-in PDF viewer toggle              | Turn the PDF viewer off even when the lab is on.                                            |
 
-The full list, with the files each feature touches, is in [docs/fork/ADDED_BY_AHMAD.md](docs/fork/ADDED_BY_AHMAD.md).
-
-> [!NOTE]
-> Features added by this fork carry an "added by Ahmad" marker in the UI (an accent border, an outline or a note in the
-> label).
+The full list, with the files each feature touches, is in [docs/fork/FORK_CHANGES.md](docs/fork/FORK_CHANGES.md).
+How the user experience is measured, and what is still open, is in [docs/fork/UX_PLAN.md](docs/fork/UX_PLAN.md).
 
 ## Getting started
 

@@ -43,15 +43,6 @@ describe("MessageComposerFormatBar", () => {
         expect(toolbar.style.top).toBe("");
     });
 
-    it("marks only the buttons added by Ahmad", () => {
-        renderBar(true);
-
-        for (const name of ["Heading", "Bulleted list", "Numbered list"]) {
-            expect(screen.getByRole("button", { name })).toHaveClass("mx_AddedByAhmad_inline");
-        }
-        expect(screen.getByRole("button", { name: "Bold" })).not.toHaveClass("mx_AddedByAhmad_inline");
-    });
-
     it.each([
         ["Bulleted list", Formatting.BulletList],
         ["Numbered list", Formatting.NumberedList],

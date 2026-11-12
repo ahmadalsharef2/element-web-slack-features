@@ -380,9 +380,9 @@ describe("<ForgotPassword>", () => {
                         });
                     });
 
-                    describe("and clicking »Remove other devices« and »Reset password«", () => {
+                    describe("and clicking »Sign out of other devices« and »Reset password«", () => {
                         beforeEach(async () => {
-                            await click(screen.getByText("Remove other devices"));
+                            await click(screen.getByText("Sign out of other devices"));
                             await click(screen.getByText("Reset password"));
                         });
 

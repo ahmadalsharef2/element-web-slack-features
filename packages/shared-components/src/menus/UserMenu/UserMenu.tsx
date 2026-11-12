@@ -15,6 +15,7 @@ import {
     NotificationsIcon,
     NotificationsOffIcon,
     SettingsIcon,
+    SignOutIcon,
 } from "@vector-im/compound-design-tokens/assets/web/icons";
 import classNames from "classnames";
 
@@ -79,6 +80,7 @@ export interface UserMenuViewSnapshot {
         openFeedback: boolean;
         openSettings: boolean;
         snoozeNotifications: boolean;
+        signOut: boolean;
     }>;
 }
 
@@ -123,6 +125,10 @@ export declare interface UserMenuViewActions {
      * Called when the user clicks the button to clear their status.
      */
     clearStatus: () => void;
+    /**
+     * Called to sign out of this device.
+     */
+    signOut: () => void;
 }
 
 export type UserMenuViewProps = {
@@ -242,7 +248,6 @@ export function UserMenuView({ vm, className }: UserMenuViewProps): JSX.Element 
                     )}
                     {actions.snoozeNotifications && (
                         <MenuItem
-                            className={styles.addedByAhmad}
                             Icon={notificationsSnoozed ? NotificationsIcon : NotificationsOffIcon}
                             label={
                                 notificationsSnoozed
@@ -260,6 +265,19 @@ export function UserMenuView({ vm, className }: UserMenuViewProps): JSX.Element 
                         />
                     )}
                 </section>
+                {actions.signOut && (
+                    <>
+                        <Separator />
+                        <section className={styles.actions}>
+                            <MenuItem
+                                Icon={SignOutIcon}
+                                kind="critical"
+                                label={_t("user_menu|sign_out")}
+                                onSelect={vm.signOut}
+                            />
+                        </section>
+                    </>
+                )}
             </Menu>
             {expanded && (
                 <Text type="heading" size="sm" as="span" weight="semibold" className={styles.displayName}>

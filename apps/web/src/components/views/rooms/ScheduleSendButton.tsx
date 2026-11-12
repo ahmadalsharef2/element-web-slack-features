@@ -103,10 +103,9 @@ export function ScheduleSendButton({ canSchedule, onSchedule }: IProps): JSX.Ele
     return (
         <>
             <AccessibleButton
-                className="mx_MessageComposer_scheduleSend mx_AddedByAhmad_inline"
+                className="mx_MessageComposer_scheduleSend"
                 onClick={openMenu}
                 title={_t("schedule_send|button_title")}
-                caption={_t("common|added_by_ahmad")}
                 ref={button}
                 data-testid="schedulesendbtn"
                 aria-haspopup="menu"

@@ -28,6 +28,7 @@ import FeedbackDialog from "../../components/views/dialogs/FeedbackDialog";
 import { type OwnProfileStore } from "../../stores/OwnProfileStore";
 import SettingsStore from "../../settings/SettingsStore";
 import { SettingLevel } from "../../settings/SettingLevel";
+import * as LogoutDialogModule from "../../components/views/dialogs/LogoutDialog";
 
 describe("UserMenuViewModel", () => {
     let dispatcher: MatrixDispatcher;
@@ -222,6 +223,32 @@ describe("UserMenuViewModel", () => {
                 action: "start_login",
             }),
         );
+    });
+
+    it("should sign out at once when there is nothing to lose", async () => {
+        vi.spyOn(LogoutDialogModule, "shouldShowLogoutDialog").mockResolvedValue(false);
+        const dispatcherSpy = vi.fn();
+        dispatcher.register(dispatcherSpy);
+        const vm = new UserMenuViewModel({ ownProfileStore: mockOwnProfileStore }, dispatcher, client, true);
+        expect(vm.getSnapshot().actions.signOut).toBe(true);
+        vm.setOpen(true);
+        vm.signOut();
+        expect(vm.getSnapshot().open).toBe(false);
+        await waitFor(() => expect(dispatcherSpy).toHaveBeenCalledWith({ action: "logout" }));
+    });
+
+    it("should ask before signing out would lose encrypted chats", async () => {
+        vi.spyOn(LogoutDialogModule, "shouldShowLogoutDialog").mockResolvedValue(true);
+        const createDialog = vi.spyOn(Modal, "createDialog");
+        const vm = new UserMenuViewModel({ ownProfileStore: mockOwnProfileStore }, dispatcher, client, true);
+        vm.signOut();
+        await waitFor(() => expect(createDialog).toHaveBeenCalledWith(LogoutDialogModule.default));
+    });
+
+    it("should not offer to sign out a guest", () => {
+        client.isGuest.mockReturnValue(true);
+        const vm = new UserMenuViewModel({ ownProfileStore: mockOwnProfileStore }, dispatcher, client, true);
+        expect(vm.getSnapshot().actions.signOut).toBe(false);
     });
 
     it("should snooze notifications for an hour and resume them", () => {

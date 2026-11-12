@@ -1,0 +1,52 @@
+/*
+Copyright 2026 Ahmad
+
+SPDX-License-Identifier: AGPL-3.0-only OR GPL-3.0-only OR LicenseRef-Element-Commercial
+Please see LICENSE files in the repository root for full details.
+*/
+
+/* Element Fork brand: the Light and Dark themes use the blue of the logo (#0074D0) as their accent instead of
+   Element's green. Success states (verified, sent) keep the green scale, so green still means "all good".
+   Imported by the light and dark theme entry points, after their own variables. */
+
+$accent-100: var(--cpd-color-blue-100);
+$accent-200: var(--cpd-color-blue-200);
+$accent-300: var(--cpd-color-blue-300);
+$accent-400: var(--cpd-color-blue-400);
+$accent-500: var(--cpd-color-blue-500);
+$accent-600: var(--cpd-color-blue-600);
+$accent-700: var(--cpd-color-blue-700);
+$accent-800: var(--cpd-color-blue-800);
+$accent-900: var(--cpd-color-blue-900);
+$accent-1000: var(--cpd-color-blue-1000);
+$accent-1100: var(--cpd-color-blue-1100);
+$accent-1200: var(--cpd-color-blue-1200);
+$accent-1300: var(--cpd-color-blue-1300);
+$accent-1400: var(--cpd-color-blue-1400);
+$eventbubble-self-bg: var(--cpd-color-blue-300);
+
+/* The logo blue on white is 4.8:1, enough for text (WCAG AA). Hover and pressed get darker from there. */
+.cpd-theme-light {
+    --cpd-color-blue-900: #0074d0;
+    --cpd-color-blue-1000: #0063b4;
+    --cpd-color-blue-1100: #005299;
+}
+
+/* Compound's own tokens live in a lower cascade layer, so these win */
+:root,
+[class*="cpd-theme-"] {
+    --cpd-color-bg-accent-rest: var(--cpd-color-blue-900);
+    --cpd-color-bg-accent-hovered: var(--cpd-color-blue-1000);
+    --cpd-color-bg-accent-pressed: var(--cpd-color-blue-1100);
+    --cpd-color-bg-badge-accent: var(--cpd-color-blue-400);
+    --cpd-color-border-accent-primary: var(--cpd-color-blue-900);
+    --cpd-color-border-accent-subtle: var(--cpd-color-blue-700);
+    --cpd-color-icon-accent-primary: var(--cpd-color-blue-900);
+    --cpd-color-icon-accent-tertiary: var(--cpd-color-blue-800);
+    --cpd-color-text-action-accent: var(--cpd-color-blue-900);
+    --cpd-color-text-badge-accent: var(--cpd-color-blue-1100);
+    --cpd-color-gradient-action-stop1: var(--cpd-color-blue-500);
+    --cpd-color-gradient-action-stop2: var(--cpd-color-blue-700);
+    --cpd-color-gradient-action-stop3: var(--cpd-color-blue-900);
+    --cpd-color-gradient-action-stop4: var(--cpd-color-blue-1100);
+}

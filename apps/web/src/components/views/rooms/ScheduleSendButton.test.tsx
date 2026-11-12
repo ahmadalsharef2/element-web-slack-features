@@ -33,12 +33,6 @@ describe("<ScheduleSendButton />", () => {
         fireEvent.click(screen.getByTestId("schedulesendbtn"));
     };
 
-    it("is marked as added by Ahmad", () => {
-        render(<ScheduleSendButton canSchedule onSchedule={vi.fn()} />);
-
-        expect(screen.getByTestId("schedulesendbtn")).toHaveClass("mx_AddedByAhmad_inline");
-    });
-
     it("offers times to send the composer's message at", () => {
         const onSchedule = vi.fn();
         render(<ScheduleSendButton canSchedule onSchedule={onSchedule} />);

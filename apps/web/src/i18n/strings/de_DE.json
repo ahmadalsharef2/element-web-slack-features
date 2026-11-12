@@ -106,7 +106,7 @@
         "show_advanced": "Erweiterte Einstellungen",
         "show_all": "Alles zeigen",
         "sign_in": "Anmelden",
-        "sign_out": "Dieses Gerät entfernen",
+        "sign_out": "Abmelden",
         "skip": "Überspringen",
         "start": "Starte",
         "stop": "Beenden",
@@ -208,10 +208,10 @@
         "incorrect_password": "Ungültiges Passwort",
         "log_in_new_account": "Mit deinem neuen Konto <a>anmelden</a>.",
         "logout_dialog": {
-            "description": "Bist du sicher, dass du dieses Gerät entfernen möchtest?",
+            "description": "Möchtest du dich wirklich abmelden?",
             "setup_key_backup_title": "Du verlierst gleich den Zugriff auf deine verschlüsselten Chats",
-            "setup_secure_backup_description": "Dies ist dein einziges Gerät. Wenn du es entfernst, benötigst du einen Wiederherstellungsschlüssel, um deine digitale Identität zu bestätigen und die verschlüsselten Chats beim nächsten Anmelden wiederherzustellen.",
-            "skip_key_backup": "Dieses Gerät trotzdem entfernen"
+            "setup_secure_backup_description": "Dies ist dein einziges angemeldetes Gerät. Wenn du dich ohne Wiederherstellungsschlüssel abmeldest, kannst du deine verschlüsselten Chats bei der nächsten Anmeldung nicht mehr lesen.",
+            "skip_key_backup": "Trotzdem abmelden"
         },
         "misconfigured_body": "Wende dich an deinen %(brand)s-Admin um <a>deine Konfiguration</a> auf ungültige oder doppelte Einträge zu überprüfen.",
         "misconfigured_title": "Dein %(brand)s ist falsch konfiguriert",
@@ -302,7 +302,7 @@
             "rate_limit_error_with_time": "Zu viele Versuche in zu kurzer Zeit. Versuche es erneut nach %(timeout)s.",
             "reset_successful": "Dein Passwort wurde zurückgesetzt.",
             "return_to_login": "Zur Anmeldemaske zurückkehren",
-            "sign_out_other_devices": "Alle Geräte entfernen"
+            "sign_out_other_devices": "Von anderen Geräten abmelden"
         },
         "reset_password_action": "Passwort zurücksetzen",
         "reset_password_button": "Passwort vergessen?",
@@ -1120,7 +1120,7 @@
         "non_urgent_echo_failure_toast": "Dein Server antwortet auf einige <a>Anfragen</a> nicht.",
         "resource_limits": "Dieser Dienst hat eines seiner Ressourcenlimits überschritten.",
         "session_restore": {
-            "clear_storage_button": "Dieses Gerät entfernen",
+            "clear_storage_button": "Abmelden",
             "clear_storage_description": "Dieses Gerät zusammen mit seinen Verschlüsselungs-Schlüsseln entfernen?",
             "description_1": "Deine gespeicherte Anmeldung konnte nicht wiederhergestellt werden.",
             "description_2": "Wenn du zuvor eine aktuellere Version von %(brand)s verwendet hast, sind deine gespeicherten Daten möglicherweise nicht mit dieser Version kompatibel. Schließe dieses Fenster und kehre zur neueren Version zurück.",
@@ -2922,8 +2922,8 @@
             "sign_in_with_qr_button": "QR-Code anzeigen",
             "sign_in_with_qr_description": "Verwende einen QR-Code, um dich auf einem anderen Gerät anzumelden und sichere Nachrichten einzurichten.",
             "sign_in_with_qr_unsupported": "Wird von deinem Kontoanbieter nicht unterstützt",
-            "sign_out": "Dieses Gerät entfernen",
-            "sign_out_all_other_sessions": "Alle anderen Geräte entfernen (%(otherSessionsCount)s)",
+            "sign_out": "Abmelden",
+            "sign_out_all_other_sessions": "Von allen anderen Sitzungen abmelden (%(otherSessionsCount)s)",
             "sign_out_confirm_description": {
                 "one": "Möchtest du %(count)s Gerät wirklich entfernen?",
                 "other": "Möchtest du %(count)s Geräte wirklich entfernen?"

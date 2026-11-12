@@ -110,7 +110,7 @@ exports[`<DeviceDetails /> > renders a verified device 1`] = `
         <span
           class="mx_DeviceDetails_signOutButtonContent"
         >
-          Remove this session
+          Sign out of this session
         </span>
       </div>
     </section>
@@ -290,7 +290,7 @@ exports[`<DeviceDetails /> > renders device with metadata 1`] = `
         <span
           class="mx_DeviceDetails_signOutButtonContent"
         >
-          Remove this session
+          Sign out of this session
         </span>
       </div>
     </section>
@@ -406,7 +406,7 @@ exports[`<DeviceDetails /> > renders device without metadata 1`] = `
         <span
           class="mx_DeviceDetails_signOutButtonContent"
         >
-          Remove this session
+          Sign out of this session
         </span>
       </div>
     </section>

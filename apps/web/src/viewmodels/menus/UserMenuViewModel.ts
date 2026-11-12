@@ -23,6 +23,7 @@ import { clearAllUserStatus } from "../../utils/userStatus";
 import { type SetStatusViewModel, UserMenuSetStatusViewModel } from "../status/SetStatusViewModel";
 import SettingsStore from "../../settings/SettingsStore";
 import { SettingLevel } from "../../settings/SettingLevel";
+import LogoutDialog, { shouldShowLogoutDialog } from "../../components/views/dialogs/LogoutDialog";
 
 /** How long the user menu snoozes notifications for */
 const SNOOZE_MS = 60 * 60 * 1000;
@@ -79,6 +80,7 @@ export class UserMenuViewModel
                 openFeedback: shouldShowFeedback(),
                 openSettings: true,
                 snoozeNotifications: isAuthenticated,
+                signOut: isAuthenticated,
             },
         };
     }
@@ -163,6 +165,18 @@ export class UserMenuViewModel
         this.setOpen(false);
         this.dispatcher.dispatch({
             action: Action.ViewUserSettings,
+        });
+    };
+
+    public readonly signOut = (): void => {
+        this.setOpen(false);
+        // The dialog warns before signing out would make encrypted chats unreadable; otherwise sign out at once
+        void shouldShowLogoutDialog(this.client).then((showDialog) => {
+            if (showDialog) {
+                Modal.createDialog(LogoutDialog);
+            } else {
+                this.dispatcher.dispatch({ action: "logout" });
+            }
         });
     };
 

@@ -1,0 +1,83 @@
+/*
+Copyright 2026 Ahmad
+
+SPDX-License-Identifier: AGPL-3.0-only OR GPL-3.0-only OR LicenseRef-Element-Commercial
+Please see LICENSE files in the repository root for full details.
+*/
+
+/* Element Fork on a phone: one pane at a time, like a phone chat app. The room list fills the screen; opening a
+   room replaces it, and the back button in the room header returns to the list. LoggedInView sets
+   mx_MatrixChat--pageOpen while a room (or any page other than Home) is shown. */
+
+.mx_RoomHeader_back {
+    display: none !important;
+}
+
+/* Up to tablet width, room info, threads and the member list cover the timeline instead of squeezing it */
+@media (max-width: 1024px) {
+    .mx_MainSplit {
+        position: relative;
+    }
+
+    .mx_MainSplit > .mx_RightPanel_ResizeWrapper {
+        position: absolute;
+        inset-block: 0;
+        inset-inline-end: 0;
+        z-index: 2;
+        width: min(100%, 420px) !important;
+        max-width: none !important;
+        background-color: var(--cpd-color-bg-canvas-default);
+        border-inline-start: 1px solid var(--cpd-color-border-interactive-secondary);
+    }
+}
+
+@media (max-width: 640px) {
+    .mx_RoomHeader_back {
+        display: inline-flex !important;
+        flex-shrink: 0;
+        margin-inline-end: calc(-1 * var(--cpd-space-2x));
+    }
+
+    /* The panels are sized inline by the resizable layout, hence !important */
+    .mx_MatrixChat--pageOpen {
+        .mx_SpacePanel,
+        [data-panel]:has(.mx_LeftPanel),
+        .mx_Separator {
+            display: none !important;
+        }
+
+        [data-panel]:has(.mx_RoomView_wrapper) {
+            flex: 1 1 100% !important;
+        }
+    }
+
+    .mx_MatrixChat:not(.mx_MatrixChat--pageOpen) {
+        [data-panel]:has(.mx_RoomView_wrapper),
+        .mx_Separator {
+            display: none !important;
+        }
+
+        [data-panel]:has(.mx_LeftPanel) {
+            flex: 1 1 100% !important;
+        }
+
+        .mx_LeftPanel_panel {
+            max-width: none !important;
+        }
+    }
+
+    .mx_MainSplit > .mx_RightPanel_ResizeWrapper {
+        width: 100% !important;
+    }
+
+    .mx_RoomHeader {
+        padding-inline: var(--cpd-space-2x) var(--cpd-space-3x);
+        gap: var(--cpd-space-2x) !important;
+    }
+
+    /* Dialogs use the whole width of the screen */
+    .mx_Dialog_fixedWidth {
+        width: calc(100vw - 2 * var(--cpd-space-4x)) !important;
+        max-width: none !important;
+    }
+}

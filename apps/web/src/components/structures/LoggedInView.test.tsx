@@ -38,6 +38,7 @@ import {
 } from "test-utils";
 
 import LoggedInView from "./LoggedInView";
+import PageTypes from "../../PageTypes";
 import { SDKContext } from "../../contexts/SDKContext";
 import { StandardActions } from "../../notifications/StandardActions";
 import ResizeNotifier from "../../utils/ResizeNotifier";
@@ -417,6 +418,16 @@ describe("<LoggedInView />", () => {
                 expect(mockClient.setPushRuleActions).not.toHaveBeenCalled();
             });
         });
+    });
+
+    it("marks a page as open on a room but not on Home, for the phone layout", () => {
+        // Any page other than Home counts; "room" stands in for one without needing a whole room view
+        const home = getComponent({ page_type: PageTypes.HomePage });
+        expect(home.container.querySelector(".mx_MatrixChat")).not.toHaveClass("mx_MatrixChat--pageOpen");
+        home.unmount();
+
+        const room = getComponent({ page_type: "room" });
+        expect(room.container.querySelector(".mx_MatrixChat")).toHaveClass("mx_MatrixChat--pageOpen");
     });
 
     it("should fire FocusMessageSearch on Ctrl+F when enabled", async () => {

@@ -383,7 +383,10 @@
         "open_feedback": "Feedback",
         "open_home": "Startseite",
         "open_security": "Sicherheit & Datenschutz",
-        "open_settings": "Alle Einstellungen"
+        "open_settings": "Alle Einstellungen",
+        "resume_notifications": "Benachrichtigungen fortsetzen",
+        "sign_out": "Abmelden",
+        "snooze_notifications": "Benachrichtigungen für 1 Stunde pausieren"
     },
     "widget": {
         "context_menu": {

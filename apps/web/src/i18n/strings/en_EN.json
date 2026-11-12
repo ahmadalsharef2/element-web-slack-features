@@ -106,7 +106,7 @@
         "show_advanced": "Show advanced",
         "show_all": "Show all",
         "sign_in": "Sign in",
-        "sign_out": "Remove this device",
+        "sign_out": "Sign out",
         "sign_out_before_verify": "Sign out",
         "skip": "Skip",
         "start": "Start",
@@ -209,10 +209,10 @@
         "incorrect_password": "Incorrect password",
         "log_in_new_account": "<a>Log in</a> to your new account.",
         "logout_dialog": {
-            "description": "Are you sure you want to remove this device?",
+            "description": "Are you sure you want to sign out?",
             "setup_key_backup_title": "You're about to lose access to your encrypted chats",
-            "setup_secure_backup_description": "This is your only device. If you remove it you'll need a recovery key in order to confirm your digital identity and restore your encrypted chats the next time you sign in.",
-            "skip_key_backup": "Remove this device anyway"
+            "setup_secure_backup_description": "This is your only signed-in device. If you sign out without a recovery key, you won't be able to read your encrypted chats the next time you sign in.",
+            "skip_key_backup": "Sign out anyway"
         },
         "misconfigured_body": "Ask your %(brand)s admin to check <a>your config</a> for incorrect or duplicate entries.",
         "misconfigured_title": "Your %(brand)s is misconfigured",
@@ -303,7 +303,7 @@
             "rate_limit_error_with_time": "Too many attempts in a short time. Retry after %(timeout)s.",
             "reset_successful": "Your password has been reset.",
             "return_to_login": "Return to login screen",
-            "sign_out_other_devices": "Remove other devices"
+            "sign_out_other_devices": "Sign out of other devices"
         },
         "reset_password_action": "Reset password",
         "reset_password_button": "Forgot password?",
@@ -451,7 +451,6 @@
     "common": {
         "access_token": "Access Token",
         "accessibility": "Accessibility",
-        "added_by_ahmad": "New, added by Ahmad",
         "advanced": "Advanced",
         "all_chats": "All Chats",
         "analytics": "Analytics",
@@ -1129,15 +1128,15 @@
         "non_urgent_echo_failure_toast": "Your server isn't responding to some <a>requests</a>.",
         "resource_limits": "This homeserver has exceeded one of its resource limits.",
         "session_restore": {
-            "clear_storage_button": "Remove this device",
-            "clear_storage_description": "Remove this device together with its encryption keys?",
+            "clear_storage_button": "Sign out",
+            "clear_storage_description": "Sign out and delete this device's encryption keys?",
             "description_1": "We encountered an error trying to restore your session.",
             "description_2": "If you have previously used a more recent version of %(brand)s, your session may be incompatible with this version. Close this window and return to the more recent version.",
-            "description_3": "Clearing your browser's storage may fix the problem, but will remove this device and cause any encrypted chat history to become unreadable.",
+            "description_3": "Clearing your browser's storage may fix the problem, but will sign you out and make any encrypted chat history unreadable.",
             "title": "Unable to restore session"
         },
         "something_went_wrong": "Something went wrong!",
-        "storage_evicted_description_1": "Some session data, including encrypted message keys, is missing. Remove this device and sign in again to fix this, restoring keys from backup.",
+        "storage_evicted_description_1": "Some session data, including encrypted message keys, is missing. Sign out and sign in again to fix this, restoring keys from backup.",
         "storage_evicted_description_2": "Your browser likely removed this data when running low on disk space.",
         "storage_evicted_title": "Missing session data",
         "sync": "Unable to connect to Homeserver. Retrying…",
@@ -2964,8 +2963,8 @@
             "sign_in_with_qr_button": "Show QR code",
             "sign_in_with_qr_description": "Use a QR code to sign in to another device and set up secure messaging.",
             "sign_in_with_qr_unsupported": "Not supported by your account provider",
-            "sign_out": "Remove this session",
-            "sign_out_all_other_sessions": "Remove all other sessions (%(otherSessionsCount)s)",
+            "sign_out": "Sign out of this session",
+            "sign_out_all_other_sessions": "Sign out of all other sessions (%(otherSessionsCount)s)",
             "sign_out_confirm_description": {
                 "one": "Are you sure you want to remove %(count)s session?",
                 "other": "Are you sure you want to remove %(count)s sessions?"
@@ -3143,7 +3142,7 @@
         "server_error_detail": "Server unavailable, overloaded, or something else went wrong.",
         "shrug": "Prepends ¯\\_(ツ)_/¯ to a plain-text message",
         "snooze": {
-            "description": "Pause notification pop-ups and sounds on this device (default 1 hour, or give minutes, hours like 2h, or off). New, added by Ahmad",
+            "description": "Pause notification pop-ups and sounds on this device (default 1 hour, or give minutes, hours like 2h, or off)",
             "invalid_args": "Use a number of minutes, hours like 2h, or off"
         },
         "spoiler": "Sends the given message as a spoiler",
@@ -3313,7 +3312,7 @@
     },
     "theme": {
         "light_high_contrast": "Light high contrast",
-        "light_sand": "Sand (new, added by Ahmad)",
+        "light_sand": "Sand",
         "match_system": "Match system"
     },
     "thread_view_back_action_label": "Back to thread",

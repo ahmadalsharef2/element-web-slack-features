@@ -125,9 +125,3 @@
     text-overflow: ellipsis;
     overflow: hidden;
 }
-
-/* Marks a feature added by Ahmad */
-.addedByAhmad {
-    color: var(--cpd-color-text-action-accent);
-    background-color: var(--cpd-color-bg-subtle-secondary);
-}

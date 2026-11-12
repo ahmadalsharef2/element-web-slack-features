@@ -52,7 +52,7 @@ describe("LogoutDialog", () => {
     it("shows a regular dialog when crypto is disabled", async () => {
         vi.mocked(mockClient.getCrypto).mockReturnValue(undefined);
         const rendered = renderComponent();
-        await rendered.findByText("Are you sure you want to remove this device?");
+        await rendered.findByText("Are you sure you want to sign out?");
         expect(rendered.container).toMatchSnapshot();
     });
 
@@ -60,7 +60,7 @@ describe("LogoutDialog", () => {
         mockCrypto.getActiveSessionBackupVersion.mockResolvedValue("1");
         mockCrypto.isSecretStorageReady.mockResolvedValue(true);
         const rendered = renderComponent();
-        await expect(rendered.findByText("Are you sure you want to remove this device?")).resolves.toBeVisible();
+        await expect(rendered.findByText("Are you sure you want to sign out?")).resolves.toBeVisible();
     });
 
     it("shows a regular dialog if the user has another verified device", async () => {
@@ -88,7 +88,7 @@ describe("LogoutDialog", () => {
         mockCrypto.getDeviceVerificationStatus.mockResolvedValue(new DeviceVerificationStatus({ signedByOwner: true }));
 
         const rendered = renderComponent();
-        await expect(rendered.findByText("Are you sure you want to remove this device?")).resolves.toBeVisible();
+        await expect(rendered.findByText("Are you sure you want to sign out?")).resolves.toBeVisible();
     });
 
     it("prompts user to set up recovery if backups are enabled but recovery isn't", async () => {
