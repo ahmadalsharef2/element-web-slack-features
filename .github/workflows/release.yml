@@ -3,7 +3,8 @@
 # SPDX-License-Identifier: AGPL-3.0-only OR GPL-3.0-only OR LicenseRef-Element-Commercial
 # Please see LICENSE files in the repository root for full details.
 
-# Builds Element Fork for Linux, Windows and macOS and attaches the installers to a GitHub release.
+# Builds Element Fork for Linux, Windows and macOS and attaches the installers to a GitHub release. The web app goes
+# to GitHub Pages, so phones (and any browser) can open it and add it to the home screen.
 # Start it by pushing a tag (`git tag v1.0.0 && git push origin v1.0.0`) or from the Actions tab.
 name: Release
 
@@ -72,7 +73,11 @@ jobs:
                   mkdir out
                   cd apps/desktop/dist
                   case "${{ matrix.name }}" in
-                      linux) cp *.deb *.tar.gz ../../../out/ ;;
+                      linux)
+                          cp *.deb *.tar.gz ../../../out/
+                          # The web app itself, for phones (GitHub Pages) and for hosting it on your own server
+                          tar -czf ../../../out/element-fork-web.tar.gz -C ../../web webapp
+                          ;;
                       windows) cp squirrel-windows/*Setup*.exe *.msi ../../../out/ ;;
                       mac-*) for f in *.dmg; do cp "$f" "../../../out/${f%.dmg}-${{ matrix.name }}.dmg"; done ;;
                   esac
@@ -103,3 +108,29 @@ jobs:
                   GH_TOKEN: ${{ github.token }}
                   GH_REPO: ${{ github.repository }}
               run: gh release create "${{ github.ref_name }}" out/* --title "Element Fork ${{ github.ref_name }}" --generate-notes
+
+    pages:
+        name: Publish the web app (phones and browsers)
+        needs: build
+        if: startsWith(github.ref, 'refs/tags/')
+        runs-on: ubuntu-24.04
+        permissions:
+            pages: write
+            id-token: write
+        environment:
+            name: github-pages
+            url: ${{ steps.deploy.outputs.page_url }}
+        steps:
+            - uses: actions/download-artifact@v4
+              with:
+                  name: installers-linux
+                  path: out
+
+            - run: tar -xzf out/element-fork-web.tar.gz
+
+            - uses: actions/upload-pages-artifact@v3
+              with:
+                  path: webapp
+
+            - id: deploy
+              uses: actions/deploy-pages@v4

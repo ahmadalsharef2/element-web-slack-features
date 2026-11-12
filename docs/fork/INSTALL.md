@@ -3,12 +3,13 @@
 Download the installer for your computer from the
 [latest release](https://github.com/ahmadalsharef994/element-web-slack-features/releases/latest), under **Assets**.
 
-| Your computer                      | Download                                  |
-| ---------------------------------- | ----------------------------------------- |
-| Windows                            | the file ending in `Setup.exe`            |
-| Mac with Apple chip (M1 or newer)  | the `.dmg` file ending in `mac-arm64.dmg` |
-| Mac with Intel chip                | the `.dmg` file ending in `mac-x64.dmg`   |
-| Linux (Ubuntu, Debian, Mint)       | the `.deb` file                           |
+| Your computer                     | Download                                  |
+| --------------------------------- | ----------------------------------------- |
+| Windows                           | the file ending in `Setup.exe`            |
+| Mac with Apple chip (M1 or newer) | the `.dmg` file ending in `mac-arm64.dmg` |
+| Mac with Intel chip               | the `.dmg` file ending in `mac-x64.dmg`   |
+| Linux (Ubuntu, Debian, Mint)      | the `.deb` file                           |
+| Phone (iPhone, Android)           | nothing: open the web app, see below      |
 
 Not sure which Mac you have? Apple menu → **About This Mac**. "Chip: Apple M…" means Apple chip, "Processor: Intel" means Intel.
 
@@ -36,6 +37,19 @@ The app is not signed with a paid certificate, so your computer will warn you on
 
 Double-click the `.deb` file and press **Install**, or run `sudo apt install ./<downloaded file>.deb`. Start it from the
 app menu as "Element Fork".
+
+## Phone
+
+Element Fork runs in the phone's browser at
+[ahmadalsharef2.github.io/element-web-slack-features](https://ahmadalsharef2.github.io/element-web-slack-features/),
+one screen at a time like a chat app. To get an icon on the home screen:
+
+- **iPhone:** open the link in Safari, tap **Share**, then **Add to Home Screen**.
+- **Android:** open the link in Chrome, tap the **⋮** menu, then **Add to Home screen** (or **Install app**).
+
+There is no App Store or Play Store app yet.
+
+The same web app is in the release as `element-fork-web.tar.gz`, for hosting on your own server.
 
 ## Signing in
 
