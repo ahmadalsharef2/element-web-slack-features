@@ -23,6 +23,7 @@ import { clearAllUserStatus } from "../../utils/userStatus";
 import { type SetStatusViewModel, UserMenuSetStatusViewModel } from "../status/SetStatusViewModel";
 import SettingsStore from "../../settings/SettingsStore";
 import { SettingLevel } from "../../settings/SettingLevel";
+import { openNotesToSelf } from "../../utils/notesToSelf";
 import LogoutDialog, { shouldShowLogoutDialog } from "../../components/views/dialogs/LogoutDialog";
 
 /** How long the user menu snoozes notifications for */
@@ -75,6 +76,7 @@ export class UserMenuViewModel
                 createAccount: !isAuthenticated,
                 signIn: !isAuthenticated,
                 openHomePage: hasHomePage,
+                openNotes: isAuthenticated,
                 linkNewDevice: isAuthenticated,
                 openSecurity: isAuthenticated,
                 openFeedback: shouldShowFeedback(),
@@ -137,6 +139,13 @@ export class UserMenuViewModel
     public readonly openHomePage = (): void => {
         this.setOpen(false);
         this.dispatcher.dispatch({ action: Action.ViewHomePage });
+    };
+
+    public readonly openNotes = (): void => {
+        this.setOpen(false);
+        openNotesToSelf(this.client).catch((err) => {
+            logger.warn("Failed to open the notes room", err);
+        });
     };
 
     public readonly openFeedback = (): void => {

@@ -75,7 +75,11 @@ const NewRoomIntro: React.FC = () => {
     let body: JSX.Element;
     if (dmPartner) {
         const { shouldEncrypt: encryptedSingle3rdPartyInvite } = shouldEncryptRoomWithSingle3rdPartyInvite(room);
-        const introMessage = determineIntroMessage(room, encryptedSingle3rdPartyInvite);
+        // Element Fork: a chat with yourself is the notes room, so it is introduced as one
+        const introMessage =
+            dmPartner === cli.getSafeUserId()
+                ? _td("notes|intro")
+                : determineIntroMessage(room, encryptedSingle3rdPartyInvite);
         let caption: string | undefined;
 
         if (

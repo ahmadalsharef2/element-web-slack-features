@@ -10,6 +10,7 @@ import { Avatar, Button, Link, Menu, MenuItem, Separator, Text } from "@vector-i
 import {
     ChatProblemIcon,
     DevicesIcon,
+    EditIcon,
     HomeIcon,
     LockIcon,
     NotificationsIcon,
@@ -75,6 +76,7 @@ export interface UserMenuViewSnapshot {
         createAccount: boolean;
         signIn: boolean;
         openHomePage: boolean;
+        openNotes: boolean;
         linkNewDevice: boolean;
         openSecurity: boolean;
         openFeedback: boolean;
@@ -101,6 +103,10 @@ export declare interface UserMenuViewActions {
      * Called to change the view to the configured home page.
      */
     openHomePage: () => void;
+    /**
+     * Called to open the user's private notes room, creating it on first use.
+     */
+    openNotes: () => void;
     /**
      * Called to open the link new device flow.
      */
@@ -228,6 +234,9 @@ export function UserMenuView({ vm, className }: UserMenuViewProps): JSX.Element 
                 <section className={styles.actions}>
                     {actions.openHomePage && (
                         <MenuItem Icon={HomeIcon} label={_t("user_menu|open_home")} onSelect={vm.openHomePage} />
+                    )}
+                    {actions.openNotes && (
+                        <MenuItem Icon={EditIcon} label={_t("user_menu|open_notes")} onSelect={vm.openNotes} />
                     )}
                     {actions.linkNewDevice && (
                         <MenuItem

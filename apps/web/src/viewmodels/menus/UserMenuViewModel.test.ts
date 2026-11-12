@@ -28,6 +28,7 @@ import FeedbackDialog from "../../components/views/dialogs/FeedbackDialog";
 import { type OwnProfileStore } from "../../stores/OwnProfileStore";
 import SettingsStore from "../../settings/SettingsStore";
 import { SettingLevel } from "../../settings/SettingLevel";
+import * as notesToSelf from "../../utils/notesToSelf";
 import * as LogoutDialogModule from "../../components/views/dialogs/LogoutDialog";
 
 describe("UserMenuViewModel", () => {
@@ -225,6 +226,22 @@ describe("UserMenuViewModel", () => {
         );
     });
 
+    it("should open the notes room", () => {
+        const openNotesToSelf = vi.spyOn(notesToSelf, "openNotesToSelf").mockResolvedValue("!notes:example.org");
+        const vm = new UserMenuViewModel({ ownProfileStore: mockOwnProfileStore }, dispatcher, client, true);
+        expect(vm.getSnapshot().actions.openNotes).toBe(true);
+        vm.setOpen(true);
+        vm.openNotes();
+        expect(vm.getSnapshot().open).toBe(false);
+        expect(openNotesToSelf).toHaveBeenCalledWith(client);
+    });
+
+    it("should not offer notes to a guest", () => {
+        client.isGuest.mockReturnValue(true);
+        const vm = new UserMenuViewModel({ ownProfileStore: mockOwnProfileStore }, dispatcher, client, true);
+        expect(vm.getSnapshot().actions.openNotes).toBe(false);
+    });
+
     it("should sign out at once when there is nothing to lose", async () => {
         vi.spyOn(LogoutDialogModule, "shouldShowLogoutDialog").mockResolvedValue(false);
         const dispatcherSpy = vi.fn();
@@ -239,7 +256,10 @@ describe("UserMenuViewModel", () => {
 
     it("should ask before signing out would lose encrypted chats", async () => {
         vi.spyOn(LogoutDialogModule, "shouldShowLogoutDialog").mockResolvedValue(true);
-        const createDialog = vi.spyOn(Modal, "createDialog");
+        // Not rendered: the dialog needs more of the client than this test mocks
+        const createDialog = vi
+            .spyOn(Modal, "createDialog")
+            .mockReturnValue({} as ReturnType<typeof Modal.createDialog>);
         const vm = new UserMenuViewModel({ ownProfileStore: mockOwnProfileStore }, dispatcher, client, true);
         vm.signOut();
         await waitFor(() => expect(createDialog).toHaveBeenCalledWith(LogoutDialogModule.default));

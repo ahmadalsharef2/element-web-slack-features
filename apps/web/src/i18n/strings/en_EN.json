@@ -1713,6 +1713,11 @@
     },
     "name_and_id": "%(name)s (%(userId)s)",
     "no_more_results": "No more results",
+    "notes": {
+        "intro": "This is your own space: only you can see it. Jot things down, keep links and files, or draft messages.",
+        "room_name": "My notes",
+        "room_topic": "Only you can see this room. Jot things down, keep links and files, or draft messages."
+    },
     "notif_panel": {
         "empty_description": "You have no visible notifications.",
         "empty_heading": "You're all caught up"

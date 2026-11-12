@@ -76,6 +76,16 @@ describe("NewRoomIntro", () => {
         });
     });
 
+    it("should introduce a chat with yourself as your notes", () => {
+        vi.spyOn(DMRoomMap.shared(), "getUserIdForRoomId").mockReturnValue(client.getSafeUserId());
+        const room = new Room(roomId, client, client.getSafeUserId());
+        room.name = "My notes";
+        renderNewRoomIntro(client, room);
+
+        expect(screen.getByText(/This is your own space: only you can see it\./)).toBeVisible();
+        expect(screen.queryByText(/direct message history/)).toBeNull();
+    });
+
     it("should render as expected for a DM room with a single third-party invite", () => {
         const room = new Room(roomId, client, client.getSafeUserId());
         room.currentState.setStateEvents([

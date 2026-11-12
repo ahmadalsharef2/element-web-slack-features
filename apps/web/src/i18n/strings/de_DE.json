@@ -1694,6 +1694,11 @@
     },
     "name_and_id": "%(name)s (%(userId)s)",
     "no_more_results": "Keine weiteren Ergebnisse",
+    "notes": {
+        "intro": "Das ist dein eigener Bereich: Nur du kannst ihn sehen. Notiere dir etwas, bewahre Links und Dateien auf oder entwirf Nachrichten.",
+        "room_name": "Meine Notizen",
+        "room_topic": "Nur du siehst diesen Raum. Notiere dir etwas, bewahre Links und Dateien auf oder entwirf Nachrichten."
+    },
     "notif_panel": {
         "empty_description": "Du hast keine sichtbaren Benachrichtigungen.",
         "empty_heading": "Du bist auf dem neuesten Stand"

@@ -28,6 +28,7 @@ const UserMenuWrapperImpl = (snapshot: UserMenuViewSnapshot): JSX.Element => {
         linkNewDevice: fn(),
         openFeedback: fn(),
         openHomePage: fn(),
+        openNotes: fn(),
         openSecurity: fn(),
         openSettings: fn(),
         toggleSnooze: fn(),
@@ -51,6 +52,7 @@ const meta = {
         userId: "@person-name:homeserver.com",
         expanded: true,
         actions: {
+            openNotes: true,
             linkNewDevice: true,
             openSecurity: true,
             openFeedback: true,
