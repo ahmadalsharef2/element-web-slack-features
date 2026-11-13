@@ -32,9 +32,9 @@ jobs:
             run:
                 shell: bash
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v5
 
-            - uses: actions/setup-node@v4
+            - uses: actions/setup-node@v5
               with:
                   node-version: 22
 
@@ -83,7 +83,7 @@ jobs:
                   esac
                   ls -la ../../../out
 
-            - uses: actions/upload-artifact@v4
+            - uses: actions/upload-artifact@v6
               with:
                   name: installers-${{ matrix.name }}
                   path: out/*
@@ -97,7 +97,7 @@ jobs:
         permissions:
             contents: write
         steps:
-            - uses: actions/download-artifact@v4
+            - uses: actions/download-artifact@v7
               with:
                   path: out
                   pattern: installers-*
@@ -121,16 +121,33 @@ jobs:
             name: github-pages
             url: ${{ steps.deploy.outputs.page_url }}
         steps:
-            - uses: actions/download-artifact@v4
+            # Deploying fails when Pages is off for the repo, so skip it with a warning rather than fail the release.
+            # Turn it on under Settings → Pages → Source: GitHub Actions.
+            - name: Check that GitHub Pages is on
+              id: check
+              env:
+                  GH_TOKEN: ${{ github.token }}
+              run: |
+                  if gh api "repos/${{ github.repository }}/pages" --silent; then
+                      echo "enabled=true" >> "$GITHUB_OUTPUT"
+                  else
+                      echo "::warning::GitHub Pages is off for this repo, so the web app was not published. Turn it on under Settings → Pages → Source: GitHub Actions."
+                  fi
+
+            - uses: actions/download-artifact@v7
+              if: steps.check.outputs.enabled == 'true'
               with:
                   name: installers-linux
                   path: out
 
-            - run: tar -xzf out/element-fork-web.tar.gz
+            - if: steps.check.outputs.enabled == 'true'
+              run: tar -xzf out/element-fork-web.tar.gz
 
-            - uses: actions/upload-pages-artifact@v3
+            - uses: actions/upload-pages-artifact@v4
+              if: steps.check.outputs.enabled == 'true'
               with:
                   path: webapp
 
             - id: deploy
-              uses: actions/deploy-pages@v4
+              if: steps.check.outputs.enabled == 'true'
+              uses: actions/deploy-pages@v5
