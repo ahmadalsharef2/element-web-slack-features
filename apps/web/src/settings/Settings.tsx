@@ -674,7 +674,8 @@ export const SETTINGS: Settings = {
         description: _td("labs|document_previews_description"),
         supportedLevels: LEVELS_DEVICE_ONLY_SETTINGS_WITH_CONFIG_PRIORITISED,
         supportedLevelsAreOrdered: true,
-        default: false,
+        // Element Fork: on by default, so attachments can be read without downloading them
+        default: true,
     },
     "feature_login_with_qr": {
         supportedLevels: [SettingLevel.CONFIG],

@@ -1,0 +1,58 @@
+/*
+Copyright 2026 Ahmad
+
+SPDX-License-Identifier: AGPL-3.0-only OR LicenseRef-Element-Commercial
+Please see LICENSE in the repository root for full details.
+*/
+
+/* Fills the shell's document surface, which is the positioning context. */
+.content {
+    position: absolute;
+    inset: 0;
+    overflow: auto;
+    background: var(--cpd-color-bg-canvas-default);
+}
+
+.sheets {
+    display: flex;
+    gap: var(--cpd-space-1x);
+    overflow-x: auto;
+}
+
+.table {
+    border-collapse: separate;
+    border-spacing: 0;
+    font: var(--cpd-font-body-sm-regular);
+}
+
+.table th,
+.table td {
+    max-width: 320px;
+    padding: var(--cpd-space-1x) var(--cpd-space-2x);
+    text-align: start;
+    vertical-align: top;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    border-right: var(--cpd-border-width-1) solid var(--cpd-color-border-interactive-secondary);
+    border-bottom: var(--cpd-border-width-1) solid var(--cpd-color-border-interactive-secondary);
+}
+
+/* The header stays in view while scrolling down a long sheet. */
+.table th {
+    position: sticky;
+    top: 0;
+    font: var(--cpd-font-body-sm-semibold);
+    background: var(--cpd-color-bg-subtle-secondary);
+}
+
+.table tbody tr:nth-child(even) td {
+    background: var(--cpd-color-bg-subtle-primary);
+}
+
+.empty,
+.truncated {
+    margin: 0;
+    padding: var(--cpd-space-3x) var(--cpd-space-4x);
+    color: var(--cpd-color-text-secondary);
+    font: var(--cpd-font-body-sm-regular);
+}

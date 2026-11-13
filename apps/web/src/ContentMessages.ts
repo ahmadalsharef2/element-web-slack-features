@@ -54,6 +54,8 @@ import { addReplyToMessageContent } from "./utils/Reply";
 import ErrorDialog from "./components/views/dialogs/ErrorDialog";
 import UploadFailureDialog from "./components/views/dialogs/UploadFailureDialog";
 import UploadConfirmDialog from "./components/views/dialogs/UploadConfirmDialog";
+import CompressVideoDialog from "./components/views/dialogs/CompressVideoDialog";
+import { canCompressVideo, isCompressibleVideo } from "./utils/compressVideo";
 import { scheduledMessages } from "./utils/scheduledMessages";
 import { createThumbnail } from "./utils/image-media";
 import { attachMentions, attachRelation } from "./utils/messages.ts";
@@ -470,7 +472,7 @@ export default class ContentMessages {
             }
         }
 
-        const tooBigFiles: File[] = [];
+        let tooBigFiles: File[] = [];
         const okFiles: File[] = [];
 
         for (const file of files) {
@@ -478,6 +480,18 @@ export default class ContentMessages {
                 okFiles.push(file);
             } else {
                 tooBigFiles.push(file);
+            }
+        }
+
+        // Element Fork: make videos over the limit small enough to send, on the device, before giving up on them
+        const limit = this.getUploadLimit();
+        const bigVideos = tooBigFiles.filter(isCompressibleVideo);
+        if (limit && bigVideos.length > 0 && canCompressVideo()) {
+            const { finished } = Modal.createDialog(CompressVideoDialog, { videos: bigVideos, limit });
+            const [result] = await finished;
+            if (result) {
+                okFiles.push(...result.compressed);
+                tooBigFiles = tooBigFiles.filter((file) => !bigVideos.includes(file) || result.failed.includes(file));
             }
         }
 

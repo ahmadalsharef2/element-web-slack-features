@@ -16,6 +16,12 @@ $accent-1300: var(--cpd-color-orange-1300);
 $accent-1400: var(--cpd-color-orange-1400);
 $eventbubble-self-bg: var(--cpd-color-orange-300);
 
+/* Figtree instead of Element's Inter, with Inter kept as the fallback for scripts Figtree does not cover (Cyrillic,
+   Greek, Vietnamese). As in res/themes/brand/_brand.pcss. */
+$font-family:
+    "Figtree", "Inter", var(--emoji-font-family), "Apple Color Emoji", "Segoe UI Emoji", "Arial", "Helvetica",
+    sans-serif, "Noto Color Emoji";
+
 /* Compound primitives live in a lower cascade layer, so these win. Ratios checked against WCAG AA. */
 .cpd-theme-light {
     --cpd-color-theme-bg: #fbf9f6;

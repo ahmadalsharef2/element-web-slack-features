@@ -25,6 +25,12 @@ $accent-1300: var(--cpd-color-blue-1300);
 $accent-1400: var(--cpd-color-blue-1400);
 $eventbubble-self-bg: var(--cpd-color-blue-300);
 
+/* Figtree instead of Element's Inter, with Inter kept as the fallback for scripts Figtree does not cover (Cyrillic,
+   Greek, Vietnamese). Loaded in src/theme.ts. */
+$font-family:
+    "Figtree", "Inter", var(--emoji-font-family), "Apple Color Emoji", "Segoe UI Emoji", "Arial", "Helvetica",
+    sans-serif, "Noto Color Emoji";
+
 /* The logo blue on white is 4.8:1, enough for text (WCAG AA). Hover and pressed get darker from there. */
 .cpd-theme-light {
     --cpd-color-blue-900: #0074d0;

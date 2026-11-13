@@ -29,6 +29,8 @@ import { BlurhashEncoder } from "./BlurhashEncoder";
 import Modal from "./Modal";
 import ErrorDialog from "./components/views/dialogs/ErrorDialog";
 import UploadConfirmDialog from "./components/views/dialogs/UploadConfirmDialog";
+import UploadFailureDialog from "./components/views/dialogs/UploadFailureDialog";
+import CompressVideoDialog from "./components/views/dialogs/CompressVideoDialog";
 import { _t } from "./languageHandler";
 import { PosthogAnalytics } from "./PosthogAnalytics";
 import { scheduledMessages } from "./utils/scheduledMessages";
@@ -665,5 +667,106 @@ describe("sendContentListToRoom analytics", () => {
             }),
         );
         expect(contentMessages.sendContentToRoom).not.toHaveBeenCalled();
+    });
+});
+
+describe("sendContentListToRoom with videos over the upload limit", () => {
+    const roomId = "!roomId:server";
+    let client: MatrixClient;
+    let contentMessages: ContentMessages;
+
+    beforeEach(() => {
+        client = createTestClient();
+        vi.mocked(client.getMediaConfig).mockResolvedValue({ "m.upload.size": 10 });
+        vi.mocked(doMaybeLocalRoomAction).mockImplementation(
+            <T>(roomId: string, fn: (actualRoomId: string) => Promise<T>) => fn(roomId),
+        );
+        contentMessages = new ContentMessages();
+        vi.spyOn(contentMessages, "sendContentToRoom").mockResolvedValue(undefined);
+        vi.spyOn(PosthogAnalytics.instance, "trackEvent").mockImplementation(() => {});
+        vi.stubGlobal("VideoEncoder", class {});
+        vi.stubGlobal("VideoDecoder", class {});
+    });
+
+    afterEach(() => {
+        vi.restoreAllMocks();
+        vi.unstubAllGlobals();
+        vi.stubGlobal("OffscreenCanvas", undefined);
+    });
+
+    const bigVideo = new File(["a video well over ten bytes"], "big.mov", { type: "video/quicktime" });
+    const bigZip = new File(["an archive well over ten bytes"], "big.zip", { type: "application/zip" });
+    const smaller = new File(["small"], "big.mp4", { type: "video/mp4" });
+
+    /** Answer each dialog with the given result; leave any other open. */
+    function answerDialogs(answers: Map<unknown, unknown[]>): MockInstance<typeof Modal.createDialog> {
+        return vi.spyOn(Modal, "createDialog").mockImplementation((component: unknown) => {
+            const answer = answers.get(component);
+            if (answer) return { finished: Promise.resolve(answer) } as any;
+            return { finished: new Promise(() => {}), close: vi.fn() } as any;
+        });
+    }
+
+    it("sends the smaller video in place of the original", async () => {
+        const createDialog = answerDialogs(
+            new Map<unknown, unknown[]>([
+                [CompressVideoDialog, [{ compressed: [smaller], failed: [] }]],
+                [UploadConfirmDialog, [true]],
+            ]),
+        );
+
+        await contentMessages.sendContentListToRoom([bigVideo], roomId, undefined, undefined, client);
+
+        expect(createDialog).toHaveBeenCalledWith(CompressVideoDialog, { videos: [bigVideo], limit: 10 });
+        expect(createDialog).not.toHaveBeenCalledWith(UploadFailureDialog, expect.anything());
+        expect(createDialog).toHaveBeenCalledWith(UploadConfirmDialog, { files: [smaller] });
+    });
+
+    it("only tries videos, and reports what could not be made small enough", async () => {
+        const createDialog = answerDialogs(
+            new Map<unknown, unknown[]>([
+                [CompressVideoDialog, [{ compressed: [], failed: [bigVideo] }]],
+                [UploadFailureDialog, [false]],
+            ]),
+        );
+
+        await contentMessages.sendContentListToRoom([bigVideo, bigZip], roomId, undefined, undefined, client);
+
+        expect(createDialog).toHaveBeenCalledWith(CompressVideoDialog, { videos: [bigVideo], limit: 10 });
+        expect(createDialog).toHaveBeenCalledWith(
+            UploadFailureDialog,
+            expect.objectContaining({ badFiles: [bigVideo, bigZip] }),
+        );
+    });
+
+    it("treats a cancelled compression as too big", async () => {
+        const createDialog = answerDialogs(
+            new Map<unknown, unknown[]>([
+                [CompressVideoDialog, [undefined]],
+                [UploadFailureDialog, [false]],
+            ]),
+        );
+
+        await contentMessages.sendContentListToRoom([bigVideo], roomId, undefined, undefined, client);
+
+        expect(createDialog).toHaveBeenCalledWith(
+            UploadFailureDialog,
+            expect.objectContaining({ badFiles: [bigVideo] }),
+        );
+        expect(contentMessages.sendContentToRoom).not.toHaveBeenCalled();
+    });
+
+    it("does not try where the browser cannot encode video", async () => {
+        vi.unstubAllGlobals();
+        vi.stubGlobal("OffscreenCanvas", undefined);
+        const createDialog = answerDialogs(new Map<unknown, unknown[]>([[UploadFailureDialog, [false]]]));
+
+        await contentMessages.sendContentListToRoom([bigVideo], roomId, undefined, undefined, client);
+
+        expect(createDialog).not.toHaveBeenCalledWith(CompressVideoDialog, expect.anything());
+        expect(createDialog).toHaveBeenCalledWith(
+            UploadFailureDialog,
+            expect.objectContaining({ badFiles: [bigVideo] }),
+        );
     });
 });

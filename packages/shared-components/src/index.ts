@@ -46,6 +46,7 @@ export * from "./room/HistoryVisibilityBadge";
 export * from "./room/right-panel/DocumentViewerView";
 export * from "./room/right-panel/PdfViewerView";
 export * from "./room/right-panel/MarkdownViewerView";
+export * from "./room/right-panel/SpreadsheetViewerView";
 export * from "./room/right-panel/WidgetContextMenuView";
 export * from "./room/timeline/DateSeparatorView";
 export * from "./room/timeline/TimelineSeparator";

@@ -35,3 +35,22 @@ Please see LICENSE files in the repository root for full details.
 :root .mx_MessageComposer.mx_MessageComposer--compact:not(.mx_MessageComposer_e2eStatus) .mx_MessageComposer_wrapper {
     padding-inline: var(--cpd-space-3x);
 }
+
+/* The space bar on the far left is a navy brand rail in every theme. SpacePanel.tsx gives it the dark Compound theme,
+   so its icons, text and badges are already drawn for a dark background; this sets the navy behind them. */
+:root .mx_SpacePanel {
+    --cpd-color-bg-canvas-default: #0b2a4a;
+    background-color: #0b2a4a;
+    border-right: none;
+}
+
+/* Avatars are rounded squares rather than Element's circles, for people as well as rooms. Compound draws every
+   avatar with this radius; rooms and spaces already use 25%. */
+:root [class*="_avatar_"][data-type="round"] {
+    --cpd-avatar-radius: 30%;
+}
+
+/* The open room is marked in a tint of the brand blue, not grey */
+:root .mx_RoomListItemView {
+    --cpd-color-bg-action-tertiary-selected: var(--cpd-color-blue-300);
+}

@@ -368,7 +368,7 @@ describe("FileBodyViewModel", () => {
         });
 
         it.each([
-            ["a non-PDF mimetype", { info: { mimetype: "text/plain" } }],
+            ["a mimetype no viewer opens", { info: { mimetype: "application/zip" } }],
             ["no mimetype at all", {}],
         ])("does not offer the viewer for %s", (_label, content) => {
             const vm = createPdfVm({

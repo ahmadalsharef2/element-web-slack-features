@@ -14,6 +14,14 @@ import { _t } from "../languageHandler";
 import { MediaEventHelper } from "./MediaEventHelper";
 import { isPdfEvent } from "./pdfViewer";
 import { isMarkdownEvent } from "./markdownViewer";
+import {
+    CSV_FORMAT,
+    DOCX_FORMAT,
+    HTML_FORMAT,
+    isDocumentFormatEvent,
+    TEXT_FORMAT,
+    XLSX_FORMAT,
+} from "./documentFormats";
 import SettingsStore from "../settings/SettingsStore";
 import defaultDispatcher from "../dispatcher/dispatcher";
 import { Action } from "../dispatcher/actions";
@@ -60,6 +68,43 @@ const DOCUMENT_VIEWERS: readonly DocumentViewer[] = [
         openLabel: () => _t("markdown_viewer|open"),
         Component: lazyViewer(() =>
             import("../components/views/right_panel/MarkdownViewer").then((module) => module.MarkdownViewer),
+        ),
+    },
+    // Element Fork: spreadsheets, Word files, web pages and plain text. Plain text comes last, as many
+    // senders label every text-like file text/plain.
+    {
+        matches: (mxEvent) => isDocumentFormatEvent(mxEvent, CSV_FORMAT),
+        openLabel: () => _t("document_viewer|open_spreadsheet"),
+        Component: lazyViewer(() =>
+            import("../components/views/right_panel/SpreadsheetViewer").then((module) => module.CsvViewer),
+        ),
+    },
+    {
+        matches: (mxEvent) => isDocumentFormatEvent(mxEvent, XLSX_FORMAT),
+        openLabel: () => _t("document_viewer|open_spreadsheet"),
+        Component: lazyViewer(() =>
+            import("../components/views/right_panel/SpreadsheetViewer").then((module) => module.XlsxViewer),
+        ),
+    },
+    {
+        matches: (mxEvent) => isDocumentFormatEvent(mxEvent, DOCX_FORMAT),
+        openLabel: () => _t("document_viewer|open_document"),
+        Component: lazyViewer(() =>
+            import("../components/views/right_panel/ConvertedDocumentViewer").then((module) => module.WordViewer),
+        ),
+    },
+    {
+        matches: (mxEvent) => isDocumentFormatEvent(mxEvent, HTML_FORMAT),
+        openLabel: () => _t("document_viewer|open_web_page"),
+        Component: lazyViewer(() =>
+            import("../components/views/right_panel/ConvertedDocumentViewer").then((module) => module.HtmlViewer),
+        ),
+    },
+    {
+        matches: (mxEvent) => isDocumentFormatEvent(mxEvent, TEXT_FORMAT),
+        openLabel: () => _t("document_viewer|open_text"),
+        Component: lazyViewer(() =>
+            import("../components/views/right_panel/ConvertedDocumentViewer").then((module) => module.TextViewer),
         ),
     },
 ];

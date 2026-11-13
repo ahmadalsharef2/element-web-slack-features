@@ -74,8 +74,11 @@
         "toggle_event": "Event source"
     },
     "document_viewer": {
+        "empty_sheet": "This sheet is empty.",
         "error_load": "Unable to load this file.",
-        "loading": "Loading document…"
+        "loading": "Loading document…",
+        "rows_truncated": "Showing the first %(count)s rows. Download the file to see the rest.",
+        "sheets": "Sheets"
     },
     "emoji": {
         "categories": "Categories",

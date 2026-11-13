@@ -932,6 +932,10 @@
     },
     "dialog_close_label": "Close dialog",
     "document_viewer": {
+        "open_document": "Open document",
+        "open_spreadsheet": "Open spreadsheet",
+        "open_text": "Open text file",
+        "open_web_page": "Open web page",
         "title": "Document"
     },
     "download_completed": "Download Completed",
@@ -1519,7 +1523,7 @@
         "config_only": "Can only be enabled via config.json.",
         "currently_experimental": "Currently experimental.",
         "document_previews": "Experimental document previews",
-        "document_previews_description": "Open PDF and Markdown attachments in the right panel.",
+        "document_previews_description": "Open PDF, Word, Excel, CSV, Markdown, web page and text attachments in the right panel.",
         "dynamic_room_predecessors": "Dynamic room predecessors",
         "dynamic_room_predecessors_description": "Enable MSC3946 (to support late-arriving room archives)",
         "element_call_video_rooms": "Element Call video rooms",
@@ -3867,6 +3871,10 @@
     "upload_file": {
         "cancel_all_button": "Cancel All",
         "caption_label": "Add a caption (optional)",
+        "compress_video_description": "<b>%(fileName)s</b> is %(size)s, over the %(limit)s limit. Making it smaller on this device so it can be sent.",
+        "compress_video_percent": "%(percent)s%% done",
+        "compress_video_title": "Making video smaller",
+        "compress_video_title_n": "Making video %(index)s of %(total)s smaller",
         "error_file_too_large": "This file is <b>too large</b> to upload. The file size limit is %(limit)s but this file is %(sizeOfThisFile)s.",
         "error_files_too_large": "These files are <b>too large</b> to upload. The file size limit is %(limit)s.",
         "error_some_files_too_large": "Some files are <b>too large</b> to be uploaded. The file size limit is %(limit)s.",

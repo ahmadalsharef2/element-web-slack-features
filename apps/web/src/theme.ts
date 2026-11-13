@@ -16,6 +16,16 @@ import "@fontsource/inter/600-italic.css";
 import "@fontsource/inter/700.css";
 import "@fontsource/inter/700-italic.css";
 
+// Element Fork: the fork's typeface; see $font-family in res/themes/brand/_brand.pcss
+import "@fontsource/figtree/400.css";
+import "@fontsource/figtree/400-italic.css";
+import "@fontsource/figtree/500.css";
+import "@fontsource/figtree/500-italic.css";
+import "@fontsource/figtree/600.css";
+import "@fontsource/figtree/600-italic.css";
+import "@fontsource/figtree/700.css";
+import "@fontsource/figtree/700-italic.css";
+
 import "@fontsource/fira-code/latin-ext-400.css";
 import "@fontsource/fira-code/latin-400.css";
 import "@fontsource/fira-code/latin-ext-700.css";

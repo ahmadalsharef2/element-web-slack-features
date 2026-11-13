@@ -447,7 +447,9 @@ const SpacePanel: React.FC = () => {
                     ]}
                 >
                     <nav
-                        className={classNames("mx_SpacePanel", {
+                        // Element Fork: the space bar is always dark, in any theme (see _ForkLook.pcss). The theme
+                        // class comes first: _common.pcss only sets the app font on classes starting with it.
+                        className={classNames("cpd-theme-dark mx_SpacePanel", {
                             collapsed: isPanelCollapsed,
                         })}
                         onKeyDown={(ev) => {

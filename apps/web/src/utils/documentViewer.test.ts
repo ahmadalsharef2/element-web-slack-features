@@ -33,7 +33,20 @@ describe("documentViewerForEvent", () => {
     });
 
     it("offers nothing for a file no viewer can open", () => {
-        expect(documentViewerForEvent(mkFileEvent("notes.txt", { mimetype: "text/plain" }))).toBeUndefined();
+        expect(documentViewerForEvent(mkFileEvent("archive.zip", { mimetype: "application/zip" }))).toBeUndefined();
+    });
+
+    it.each([
+        ["data.csv", "text/csv", "Open spreadsheet"],
+        ["data.csv", "application/vnd.ms-excel", "Open spreadsheet"],
+        ["budget.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Open spreadsheet"],
+        ["letter.docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "Open document"],
+        ["page.html", "text/html", "Open web page"],
+        ["notes.txt", "text/plain", "Open text file"],
+        // A Markdown file sent as plain text still opens as Markdown, not as text
+        ["README.md", "text/plain", "Open Markdown"],
+    ])("picks the right viewer for %s sent as %s", (name, mimetype, label) => {
+        expect(documentViewerForEvent(mkFileEvent(name, { mimetype }))?.openLabel()).toBe(label);
     });
 
     it("picks the PDF viewer for a PDF", () => {
@@ -83,7 +96,7 @@ function mkHelper(blob = new Blob(["%PDF-1.7\n"], { type: "application/pdf" })):
 
 describe("documentMediaForEvent", () => {
     it("returns nothing for a file no viewer can open", () => {
-        expect(documentMediaForEvent(mkFileEvent("notes.txt", { mimetype: "text/plain" }))).toBeUndefined();
+        expect(documentMediaForEvent(mkFileEvent("archive.zip", { mimetype: "application/zip" }))).toBeUndefined();
     });
 
     it("keys on the MXC URI and defers to the helper for the bytes", async () => {
