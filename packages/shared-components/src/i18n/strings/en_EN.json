@@ -398,7 +398,8 @@
         "open_settings": "All settings",
         "resume_notifications": "Resume notifications",
         "sign_out": "Sign out",
-        "snooze_notifications": "Snooze notifications for 1 hour"
+        "snooze_notifications": "Snooze notifications for 1 hour",
+        "theme": "Theme"
     },
     "voip": {
         "element_call_mock": {

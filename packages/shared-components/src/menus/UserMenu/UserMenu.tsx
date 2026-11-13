@@ -6,7 +6,7 @@
  */
 
 import React, { type JSX } from "react";
-import { Avatar, Button, Link, Menu, MenuItem, Separator, Text } from "@vector-im/compound-web";
+import { Avatar, Button, Link, Menu, MenuItem, RadioMenuItem, Separator, SubMenu, Text } from "@vector-im/compound-web";
 import {
     ChatProblemIcon,
     DevicesIcon,
@@ -16,6 +16,7 @@ import {
     NotificationsIcon,
     NotificationsOffIcon,
     SettingsIcon,
+    ThemeIcon,
     SignOutIcon,
 } from "@vector-im/compound-design-tokens/assets/web/icons";
 import classNames from "classnames";
@@ -65,6 +66,14 @@ export interface UserMenuViewSnapshot {
      * Whether notification pop-ups and sounds are snoozed on this device.
      */
     notificationsSnoozed?: boolean;
+    /**
+     * The themes to choose from. The theme menu is hidden when this is empty or unset.
+     */
+    themes?: { id: string; name: string }[];
+    /**
+     * The id of the theme that is in use.
+     */
+    selectedThemeId?: string;
     /**
      * ViewModel for the set status view.
      */
@@ -132,6 +141,10 @@ export declare interface UserMenuViewActions {
      */
     clearStatus: () => void;
     /**
+     * Called to switch to the theme with the given id.
+     */
+    setTheme: (themeId: string) => void;
+    /**
      * Called to sign out of this device.
      */
     signOut: () => void;
@@ -157,6 +170,8 @@ export function UserMenuView({ vm, className }: UserMenuViewProps): JSX.Element 
         userStatus,
         setStatusViewModel,
         notificationsSnoozed,
+        themes,
+        selectedThemeId,
         showUserStatus = true,
     } = useViewModel(vm);
     const { translate: _t } = useI18n();
@@ -265,6 +280,18 @@ export function UserMenuView({ vm, className }: UserMenuViewProps): JSX.Element 
                             }
                             onSelect={vm.toggleSnooze}
                         />
+                    )}
+                    {themes && themes.length > 0 && (
+                        <SubMenu trigger={<MenuItem Icon={ThemeIcon} label={_t("user_menu|theme")} onSelect={null} />}>
+                            {themes.map((theme) => (
+                                <RadioMenuItem
+                                    key={theme.id}
+                                    label={theme.name}
+                                    checked={theme.id === selectedThemeId}
+                                    onSelect={() => vm.setTheme(theme.id)}
+                                />
+                            ))}
+                        </SubMenu>
                     )}
                     {actions.openSettings && (
                         <MenuItem

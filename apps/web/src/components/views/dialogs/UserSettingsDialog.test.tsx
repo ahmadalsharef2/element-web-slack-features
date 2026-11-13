@@ -183,13 +183,6 @@ describe("<UserSettingsDialog />", () => {
         expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Settings: Keyboard");
     });
 
-    it("renders with sidebar tab selected", () => {
-        const { container } = render(getComponent({ initialTabId: UserTab.Sidebar }));
-
-        expect(getActiveTabLabel(container)).toEqual("Sidebar");
-        expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Settings: Sidebar");
-    });
-
     it("renders with voip tab selected", () => {
         useMockMediaDevices();
         mockSettingsStore.getValue.mockImplementation((settingName: any): any => settingName === UIFeature.Voip);

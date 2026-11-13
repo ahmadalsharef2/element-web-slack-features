@@ -387,7 +387,8 @@
         "open_settings": "Alle Einstellungen",
         "resume_notifications": "Benachrichtigungen fortsetzen",
         "sign_out": "Abmelden",
-        "snooze_notifications": "Benachrichtigungen für 1 Stunde pausieren"
+        "snooze_notifications": "Benachrichtigungen für 1 Stunde pausieren",
+        "theme": "Design"
     },
     "widget": {
         "context_menu": {

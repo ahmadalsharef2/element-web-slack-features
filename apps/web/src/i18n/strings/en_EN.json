@@ -1849,9 +1849,7 @@
         "unreachable": "User's server unreachable"
     },
     "quick_settings": {
-        "all_settings": "All settings",
-        "sidebar_settings": "More options",
-        "title": "Quick settings"
+        "sidebar_settings": "More options"
     },
     "quit_warning": {
         "call_in_progress": "You seem to be in a call, are you sure you want to quit?",
@@ -3018,18 +3016,7 @@
         "show_typing_notifications": "Show typing notifications",
         "showbold": "Show all activity in the room list (dots or number of unread messages)",
         "sidebar": {
-            "dialog_title": "<strong>Settings:</strong> Sidebar",
-            "metaspaces_home_all_rooms": "Show all rooms",
-            "metaspaces_home_all_rooms_description": "Show all your rooms in Home, even if they're in a space.",
-            "metaspaces_home_description": "Home is useful for getting an overview of everything.",
-            "metaspaces_orphans": "Rooms outside of a space",
-            "metaspaces_orphans_description": "Group all your rooms that aren't part of a space in one place.",
-            "metaspaces_subsection": "Spaces to show",
-            "metaspaces_video_rooms": "Video rooms and conferences",
-            "metaspaces_video_rooms_description": "Group all private video rooms and conferences.",
-            "metaspaces_video_rooms_description_invite_extension": "In conferences you can invite people outside of matrix.",
-            "spaces_explainer": "Spaces are ways to group rooms and people. Alongside the spaces you're in, you can use some pre-built ones too.",
-            "title": "Sidebar"
+            "dialog_title": "<strong>Settings:</strong> Sidebar"
         },
         "start_automatically": {
             "disabled": "No",
@@ -3339,33 +3326,6 @@
         "my_threads_description": "Shows all threads you've participated in",
         "open_thread": "Open thread",
         "show_thread_filter": "Show:"
-    },
-    "threads_activity_centre": {
-        "a11y": {
-            "default": "Open thread in %(roomName)s from %(sender)s: %(preview)s, with unread messages.",
-            "default_no_sender": "Open thread in %(roomName)s with unread messages.",
-            "mention": {
-                "one": "Open thread in %(roomName)s from %(sender)s: %(preview)s, with 1 unread mention.",
-                "other": "Open thread in %(roomName)s from %(sender)s: %(preview)s, with %(count)s unread messages including mentions."
-            },
-            "mention_no_sender": {
-                "one": "Open thread in %(roomName)s with 1 unread mention.",
-                "other": "Open thread in %(roomName)s with %(count)s unread messages including mentions."
-            },
-            "unread": {
-                "one": "Open thread in %(roomName)s from %(sender)s: %(preview)s, with 1 unread message.",
-                "other": "Open thread in %(roomName)s from %(sender)s: %(preview)s, with %(count)s unread messages."
-            },
-            "unread_no_sender": {
-                "one": "Open thread in %(roomName)s with 1 unread message.",
-                "other": "Open thread in %(roomName)s with %(count)s unread messages."
-            }
-        },
-        "header": "Threads activity",
-        "my_threads_tab": "My threads",
-        "no_other_unread_threads": "No unread threads from other people.",
-        "no_participating_threads_unread": "You don't have unread threads you've participated in.",
-        "other_threads_tab": "Other threads"
     },
     "time": {
         "date_at_time": "%(date)s at %(time)s",

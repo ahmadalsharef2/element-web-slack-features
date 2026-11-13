@@ -28,6 +28,7 @@ import FeedbackDialog from "../../components/views/dialogs/FeedbackDialog";
 import { type OwnProfileStore } from "../../stores/OwnProfileStore";
 import SettingsStore from "../../settings/SettingsStore";
 import { SettingLevel } from "../../settings/SettingLevel";
+import * as themeChoice from "../../utils/themeChoice";
 import * as notesToSelf from "../../utils/notesToSelf";
 import * as LogoutDialogModule from "../../components/views/dialogs/LogoutDialog";
 
@@ -186,6 +187,23 @@ describe("UserMenuViewModel", () => {
                 action: Action.ViewUserSettings,
             }),
         );
+    });
+
+    it("offers the themes and marks the one in use", () => {
+        vi.spyOn(themeChoice, "getSelectedThemeChoice").mockReturnValue("dark");
+        const vm = new UserMenuViewModel({ ownProfileStore: mockOwnProfileStore }, dispatcher, client, true);
+        expect(vm.getSnapshot().themes?.map((t) => t.id)).toContain(themeChoice.MATCH_SYSTEM_THEME_ID);
+        expect(vm.getSnapshot().selectedThemeId).toBe("dark");
+    });
+
+    it("can switch the theme and closes the menu", () => {
+        const applyThemeChoice = vi.spyOn(themeChoice, "applyThemeChoice").mockResolvedValue();
+        const vm = new UserMenuViewModel({ ownProfileStore: mockOwnProfileStore }, dispatcher, client, true);
+        vm.setOpen(true);
+        vm.setTheme("light");
+        expect(applyThemeChoice).toHaveBeenCalledWith("light");
+        expect(vm.getSnapshot().open).toBe(false);
+        expect(vm.getSnapshot().selectedThemeId).toBe("light");
     });
 
     it("can clear a user status", async () => {

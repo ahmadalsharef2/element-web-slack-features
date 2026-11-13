@@ -67,6 +67,16 @@ const ACTIVE_SPACE_LS_KEY = "mx_active_space";
 
 const metaSpaceOrder: MetaSpace[] = [MetaSpace.Home, MetaSpace.Orphans, MetaSpace.VideoRooms];
 
+/**
+ * Element Fork: Home and "Rooms outside a space" are always on, and Home always shows all rooms. There is no Sidebar
+ * settings tab any more, so whatever an account has stored for these is ignored.
+ */
+const withAlwaysOnMetaSpaces = (stored: Partial<Record<MetaSpace, boolean>>): Partial<Record<MetaSpace, boolean>> => ({
+    ...stored,
+    [MetaSpace.Home]: true,
+    [MetaSpace.Orphans]: true,
+});
+
 const MAX_SUGGESTED_ROOMS = 20;
 
 const getSpaceContextKey = (space: SpaceKey): string => `mx_space_context_${space}`;
@@ -1125,10 +1135,10 @@ export default class SpaceStore extends AsyncStoreWithClient<EmptyObject> {
         this.matrixClient.on(ClientEvent.AccountData, this.onAccountData);
 
         const oldMetaSpaces = this._enabledMetaSpaces;
-        const enabledMetaSpaces = SettingsStore.getValue("Spaces.enabledMetaSpaces");
+        const enabledMetaSpaces = withAlwaysOnMetaSpaces(SettingsStore.getValue("Spaces.enabledMetaSpaces"));
         this._enabledMetaSpaces = metaSpaceOrder.filter((k) => enabledMetaSpaces[k]);
 
-        this._allRoomsInHome = SettingsStore.getValue("Spaces.allRoomsInHome");
+        this._allRoomsInHome = true;
         this.sendUserProperties();
 
         this.rebuildSpaceHierarchy(); // trigger an initial update
@@ -1227,7 +1237,7 @@ export default class SpaceStore extends AsyncStoreWithClient<EmptyObject> {
             case Action.SettingUpdated: {
                 switch (payload.settingName) {
                     case "Spaces.allRoomsInHome": {
-                        const newValue = SettingsStore.getValue("Spaces.allRoomsInHome");
+                        const newValue = true;
                         if (this.allRoomsInHome !== newValue) {
                             this._allRoomsInHome = newValue;
                             if (this.enabledMetaSpaces.includes(MetaSpace.Home)) {
@@ -1240,7 +1250,7 @@ export default class SpaceStore extends AsyncStoreWithClient<EmptyObject> {
                     }
 
                     case "Spaces.enabledMetaSpaces": {
-                        const newValue = SettingsStore.getValue("Spaces.enabledMetaSpaces");
+                        const newValue = withAlwaysOnMetaSpaces(SettingsStore.getValue("Spaces.enabledMetaSpaces"));
                         const enabledMetaSpaces = metaSpaceOrder.filter((k) => newValue[k]);
                         if (arrayHasDiff(this._enabledMetaSpaces, enabledMetaSpaces)) {
                             const hadHomeEnabled = this.enabledMetaSpaces.some((s) => s === MetaSpace.Home);

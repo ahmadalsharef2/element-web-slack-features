@@ -24,6 +24,7 @@ import { type SetStatusViewModel, UserMenuSetStatusViewModel } from "../status/S
 import SettingsStore from "../../settings/SettingsStore";
 import { SettingLevel } from "../../settings/SettingLevel";
 import { openNotesToSelf } from "../../utils/notesToSelf";
+import { applyThemeChoice, getSelectedThemeChoice, getThemeChoices } from "../../utils/themeChoice";
 import LogoutDialog, { shouldShowLogoutDialog } from "../../components/views/dialogs/LogoutDialog";
 
 /** How long the user menu snoozes notifications for */
@@ -72,6 +73,8 @@ export class UserMenuViewModel
             showUserStatus: SettingsStore.getValue("feature_user_status") && isAuthenticated,
             setStatusViewModel,
             notificationsSnoozed: UserMenuViewModel.isSnoozed(),
+            themes: getThemeChoices(),
+            selectedThemeId: getSelectedThemeChoice(),
             actions: {
                 createAccount: !isAuthenticated,
                 signIn: !isAuthenticated,
@@ -112,8 +115,18 @@ export class UserMenuViewModel
     };
 
     public readonly setOpen = (isOpen: boolean): void => {
-        // The snooze may have ended or been changed with /snooze since the menu was last open
-        this.snapshot.merge({ open: isOpen, notificationsSnoozed: UserMenuViewModel.isSnoozed() });
+        // The snooze may have ended or been changed with /snooze since the menu was last open, and the theme
+        // may have been changed in Settings
+        this.snapshot.merge({
+            open: isOpen,
+            notificationsSnoozed: UserMenuViewModel.isSnoozed(),
+            selectedThemeId: getSelectedThemeChoice(),
+        });
+    };
+
+    public readonly setTheme = (themeId: string): void => {
+        this.snapshot.merge({ open: false, selectedThemeId: themeId });
+        void applyThemeChoice(themeId);
     };
 
     public readonly toggleSnooze = (): void => {

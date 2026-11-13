@@ -17,7 +17,6 @@ import NotificationsIcon from "@vector-im/compound-design-tokens/assets/web/icon
 import PreferencesIcon from "@vector-im/compound-design-tokens/assets/web/icons/preferences";
 import KeyboardIcon from "@vector-im/compound-design-tokens/assets/web/icons/keyboard";
 import KeyIcon from "@vector-im/compound-design-tokens/assets/web/icons/key";
-import SidebarIcon from "@vector-im/compound-design-tokens/assets/web/icons/sidebar";
 import MicOnIcon from "@vector-im/compound-design-tokens/assets/web/icons/mic-on";
 import LockIcon from "@vector-im/compound-design-tokens/assets/web/icons/lock";
 import LabsIcon from "@vector-im/compound-design-tokens/assets/web/icons/labs";
@@ -41,7 +40,6 @@ import HelpUserSettingsTab from "../settings/tabs/user/HelpUserSettingsTab";
 import MjolnirUserSettingsTab from "../settings/tabs/user/MjolnirUserSettingsTab";
 import { UIFeature } from "../../../settings/UIFeature";
 import BaseDialog from "./BaseDialog";
-import SidebarUserSettingsTab from "../settings/tabs/user/SidebarUserSettingsTab";
 import KeyboardUserSettingsTab from "../settings/tabs/user/KeyboardUserSettingsTab";
 import SessionManagerTab from "../settings/tabs/user/SessionManagerTab";
 import { UserTab } from "./UserTab";
@@ -75,7 +73,6 @@ interface IProps {
  */
 const ADVANCED_TABS: ReadonlySet<UserTab> = new Set([
     UserTab.Keyboard,
-    UserTab.Sidebar,
     UserTab.Security,
     UserTab.Encryption,
     UserTab.Labs,
@@ -204,15 +201,6 @@ export default function UserSettingsDialog(props: IProps): JSX.Element {
                 <KeyboardIcon />,
                 <KeyboardUserSettingsTab />,
                 "UserSettingsKeyboard",
-            ),
-        );
-        tabs.push(
-            new Tab(
-                UserTab.Sidebar,
-                _td("settings|sidebar|title"),
-                <SidebarIcon />,
-                <SidebarUserSettingsTab />,
-                "UserSettingsSidebar",
             ),
         );
 

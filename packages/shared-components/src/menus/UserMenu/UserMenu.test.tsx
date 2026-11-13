@@ -50,6 +50,13 @@ describe("UserMenu", () => {
         const { baseElement } = render(<NoAvatar />);
         expect(baseElement).toMatchSnapshot();
     });
+    it("offers the themes in a submenu and marks the one in use", async () => {
+        // The menu is opened by the view model, which the stories mock, so start from an open one
+        const { getByRole, findByRole } = render(<Open />);
+        await userEvent.click(await findByRole("menuitem", { name: "Theme" }));
+        expect(await findByRole("menuitemradio", { name: "Light" })).toBeChecked();
+        expect(getByRole("menuitemradio", { name: "Dark" })).not.toBeChecked();
+    });
     it("renders an open menu with user status", async () => {
         const { container } = render(<WithStatusOpen />);
         expect(container).toMatchSnapshot();

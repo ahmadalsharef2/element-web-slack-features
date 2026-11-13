@@ -33,6 +33,7 @@ const UserMenuWrapperImpl = (snapshot: UserMenuViewSnapshot): JSX.Element => {
         openSettings: fn(),
         toggleSnooze: fn(),
         clearStatus: fn(),
+        setTheme: fn(),
         signOut: fn(),
     });
 
@@ -51,6 +52,12 @@ const meta = {
         displayName: "Sally Sanderson",
         userId: "@person-name:homeserver.com",
         expanded: true,
+        themes: [
+            { id: "MATCH_SYSTEM_THEME_ID", name: "Match system" },
+            { id: "light", name: "Light" },
+            { id: "dark", name: "Dark" },
+        ],
+        selectedThemeId: "light",
         actions: {
             openNotes: true,
             linkNewDevice: true,

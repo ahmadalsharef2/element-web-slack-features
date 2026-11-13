@@ -51,16 +51,8 @@ import {
 } from "../../../stores/spaces";
 import { RovingTabIndexProvider } from "../../../accessibility/RovingTabIndex";
 import { UPDATE_STATUS_INDICATOR } from "../../../stores/notifications/RoomNotificationStateStore";
-import type SpaceContextMenu from "../context_menus/SpaceContextMenu";
-import IconizedContextMenu, {
-    IconizedContextMenuCheckbox,
-    IconizedContextMenuOptionList,
-} from "../context_menus/IconizedContextMenu";
 import SettingsStore from "../../../settings/SettingsStore";
-import { SettingLevel } from "../../../settings/SettingLevel";
 import UIStore from "../../../stores/UIStore";
-import QuickSettingsButton from "./QuickSettingsButton";
-import { useSettingValue } from "../../../hooks/useSettings";
 import IndicatorScrollbar from "../../structures/IndicatorScrollbar";
 import { useDispatcher } from "../../../hooks/useDispatcher";
 import defaultDispatcher from "../../../dispatcher/dispatcher";
@@ -71,7 +63,6 @@ import { KeyBindingAction } from "../../../accessibility/KeyboardShortcuts";
 import { getKeyBindingsManager } from "../../../KeyBindingsManager";
 import { shouldShowComponent } from "../../../customisations/helpers/UIComponents";
 import { UIComponent } from "../../../settings/UIFeature";
-import { ThreadsActivityCentre } from "./threads-activity-centre/";
 import AccessibleButton from "../elements/AccessibleButton";
 import { Landmark, LandmarkNavigation } from "../../../accessibility/LandmarkNavigation";
 import { KeyboardShortcut } from "../settings/KeyboardShortcut";
@@ -96,35 +87,6 @@ const useSpaces = (): [Room[], MetaSpace[], Room[], SpaceKey] => {
         return sdkContext.spaceStore.activeSpace;
     });
     return [invites, metaSpaces, actualSpaces, activeSpace];
-};
-
-export const HomeButtonContextMenu: React.FC<ComponentProps<typeof SpaceContextMenu>> = ({
-    onFinished,
-    hideHeader,
-    ...props
-}) => {
-    const allRoomsInHome = useSettingValue("Spaces.allRoomsInHome");
-
-    return (
-        <IconizedContextMenu {...props} onFinished={onFinished} className="mx_SpacePanel_contextMenu" compact>
-            {!hideHeader && <div className="mx_SpacePanel_contextMenu_header">{_t("common|home")}</div>}
-            <IconizedContextMenuOptionList first>
-                <IconizedContextMenuCheckbox
-                    label={_t("settings|sidebar|metaspaces_home_all_rooms")}
-                    active={allRoomsInHome}
-                    onClick={() => {
-                        onFinished();
-                        void SettingsStore.setValue(
-                            "Spaces.allRoomsInHome",
-                            null,
-                            SettingLevel.ACCOUNT,
-                            !allRoomsInHome,
-                        );
-                    }}
-                />
-            </IconizedContextMenuOptionList>
-        </IconizedContextMenu>
-    );
 };
 
 interface IMetaSpaceButtonProps extends ComponentProps<typeof SpaceButton> {
@@ -174,8 +136,6 @@ const HomeButton: React.FC<MetaSpaceButtonProps> = ({ selected, isPanelCollapsed
             isPanelCollapsed={isPanelCollapsed}
             label={getMetaSpaceName(MetaSpace.Home, allRoomsInHome)}
             notificationState={notificationState}
-            ContextMenuComponent={HomeButtonContextMenu}
-            contextMenuTooltip={_t("common|options")}
             size="32px"
             icon={<HomeSolidIcon />}
         />
@@ -488,10 +448,6 @@ const SpacePanel: React.FC = () => {
                             <ChevronRightIcon />
                         </AccessibleButton>
                         <InnerSpacePanel isPanelCollapsed={isPanelCollapsed} setPanelCollapsed={setPanelCollapsed} />
-
-                        <ThreadsActivityCentre displayButtonLabel={!isPanelCollapsed} />
-
-                        <QuickSettingsButton isPanelCollapsed={isPanelCollapsed} />
                     </nav>
                 </DragDropProvider>
             )}
