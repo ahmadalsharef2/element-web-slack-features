@@ -34,4 +34,14 @@ Please see LICENSE files in the repository root for full details.
         width: 100%;
         box-sizing: border-box;
     }
+
+    /* Upstream pins the card to the top edge on phones; centre it with a margin all round instead */
+    :root .mx_AuthPage_modal {
+        margin: auto var(--cpd-space-4x);
+    }
+}
+
+:root .mx_AuthPage {
+    box-sizing: border-box;
+    padding: var(--fork-safe-top) var(--fork-safe-right) var(--fork-safe-bottom) var(--fork-safe-left);
 }

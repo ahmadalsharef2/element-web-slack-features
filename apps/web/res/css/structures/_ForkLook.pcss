@@ -35,3 +35,19 @@ Please see LICENSE files in the repository root for full details.
 :root .mx_MessageComposer.mx_MessageComposer--compact:not(.mx_MessageComposer_e2eStatus) .mx_MessageComposer_wrapper {
     padding-inline: var(--cpd-space-3x);
 }
+
+/* Keep the app clear of the status bar, notch and gesture bar. The page asks to draw edge to edge
+   (viewport-fit=cover), so phone browsers report env(safe-area-inset-*) and the Android app (mobile/) sets the
+   --safe-area-inset-* variables instead; both are 0 on a desktop. */
+:root {
+    --fork-safe-top: max(env(safe-area-inset-top, 0px), var(--safe-area-inset-top, 0px));
+    --fork-safe-right: max(env(safe-area-inset-right, 0px), var(--safe-area-inset-right, 0px));
+    --fork-safe-bottom: max(env(safe-area-inset-bottom, 0px), var(--safe-area-inset-bottom, 0px));
+    --fork-safe-left: max(env(safe-area-inset-left, 0px), var(--safe-area-inset-left, 0px));
+}
+
+/* The sign-in pages pad themselves (below), so their background reaches under the bars */
+:root #matrixchat:not(:has(.mx_AuthPage)) {
+    box-sizing: border-box;
+    padding: var(--fork-safe-top) var(--fork-safe-right) var(--fork-safe-bottom) var(--fork-safe-left);
+}
