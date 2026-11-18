@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Element Fork</string>
+    <string name="title_activity_main">Element Fork</string>
+    <string name="package_name">org.elementfork.app</string>
+    <string name="custom_url_scheme">org.elementfork.app</string>
+</resources>
