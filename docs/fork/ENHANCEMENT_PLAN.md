@@ -184,3 +184,26 @@
 ## 8. Licensing
 
 Repo is tri-licensed `AGPL-3.0-only OR GPL-3.0-only OR LicenseRef-Element-Commercial` (`LICENSE-AGPL-3.0`, `LICENSE-GPL-3.0`, `LICENSE-COMMERCIAL` at root; `README.md:107-113`). Without a commercial licence: any fork you **distribute** (binaries, Desktop builds) must ship its full source under GPL/AGPL, and under AGPL any fork you **host** for others over a network must offer the complete modified source to its users (AGPL §13). Keep the existing per-file license headers and `LICENSE-*` files, add your own copyright line (not "Element Creations Ltd.", per `AGENTS.md`), and don't rebrand as Element — trademarks aren't covered by the licence. Runtime modules loaded via config `modules` are a separate work only if genuinely separate; anything compiled into `apps/web` is derivative.
+
+## 9. bytEM tab: what a market needs
+
+The bytEM tab (space bar → bytEM) is the bytEM PWA's demand side copied into the app: the user adds markets one by
+one (account setting `bytemMarkets`, offered from https://bytem.app/markets/bytem-market-list.json), one search and
+one map cover all of them, and the legend hides or shows classes. Under the tab the room list shows the rooms whose
+`bytem.app.room-base-type` is `demand`.
+
+"Request access" sends `POST /api/demand/access-by-deid` with `{deid, matrix_user, location}`, polls
+`/api/demand/access-by-deid-status/<request_id>` and joins the `room_id` it reports. The market makes or reuses that
+room on its own homeserver and invites `matrix_user`.
+
+On each market:
+
+- **CORS**: the messenger's origin must be allowed. A gateway with `api-gateway/middleware/corsPolicy.js` allows
+  every origin without credentials; an older one needs the origin in `CORS_EXTRA_ORIGINS` (the web app's host,
+  `http://localhost:8080` for the dev server, `vector://vector` for Desktop). Without it the browser blocks every
+  call and the market's chip says "unreachable".
+- **Federation**: the user's homeserver on the market's federation allow list, so invites reach the user.
+- **For `new_remote`** (not built on either side): the tab would make the room on the user's homeserver and send
+  `demand_room_id` and `openid_token`; `access-by-deid` verifies the token through the requester's homeserver
+  (`/_matrix/federation/v1/openid/userinfo`) and answers `bot_user`, whom the tab invites;
+  `deidAccessConsumer.run` joins `demand_room_id` instead of creating a room, and reports it as `room_id`.

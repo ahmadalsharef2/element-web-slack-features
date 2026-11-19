@@ -307,6 +307,7 @@ export interface Settings {
     "SpotlightSearch.recentSearches": IBaseSetting<string[]>;
     "SpotlightSearch.showNsfwPublicRooms": IBaseSetting<boolean>;
     "room_directory_servers": IBaseSetting<string[]>;
+    "bytemMarkets": IBaseSetting<string[]>;
     "integrationProvisioning": IBaseSetting<boolean>;
     "allowedWidgets": IBaseSetting<{ [eventId: string]: boolean }>;
     "analyticsOptIn": IBaseSetting<boolean>;
@@ -1129,6 +1130,11 @@ export const SETTINGS: Settings = {
         default: [],
         // Contains connected servers for user
         shouldExportToRageshake: false,
+    },
+    // Element Fork: the bytEM markets the user added in the bytEM tab, searched together
+    "bytemMarkets": {
+        supportedLevels: [SettingLevel.ACCOUNT],
+        default: [],
     },
     "integrationProvisioning": {
         supportedLevels: [SettingLevel.ACCOUNT],

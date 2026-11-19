@@ -26,6 +26,7 @@ import * as testUtils from "test-utils";
 import { mkEvent, setupAsyncStoreWithClient, stubClient, TestSDKContext } from "test-utils";
 
 import SpaceStore from "./SpaceStore";
+import { ModuleApi } from "../../modules/Api.ts";
 import {
     MetaSpace,
     UPDATE_HOME_BEHAVIOUR,
@@ -449,6 +450,16 @@ describe("SpaceStore", () => {
                     await setShowAllRooms(true);
                     expect(store.isRoomInSpace(MetaSpace.Orphans, orphan1)).toBeTruthy();
                     expect(store.isRoomInSpace(MetaSpace.Orphans, orphan2)).toBeTruthy();
+                });
+
+                it("a module's space contains the rooms the module names", () => {
+                    ModuleApi.instance.extras.getVisibleRoomBySpaceKey("module-space", () => [orphan1]);
+                    try {
+                        expect(store.isRoomInSpace("module-space", orphan1)).toBeTruthy();
+                        expect(store.isRoomInSpace("module-space", room1)).toBeFalsy();
+                    } finally {
+                        ModuleApi.instance.extras.visibleRoomBySpaceKey.delete("module-space");
+                    }
                 });
 
                 it("video room space contains all video rooms", async () => {

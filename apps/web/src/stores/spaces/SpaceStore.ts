@@ -446,6 +446,9 @@ export default class SpaceStore extends AsyncStoreWithClient<EmptyObject> {
     }
 
     public isRoomInSpace(space: SpaceKey, roomId: string, includeDescendantSpaces = true): boolean {
+        // Element Fork: a space bar item added through the module API lists the rooms its module names
+        const moduleRooms = ModuleApi.instance.extras.visibleRoomBySpaceKey.get(space);
+        if (moduleRooms) return moduleRooms().includes(roomId);
         if (space === MetaSpace.Home && this.allRoomsInHome) {
             return true;
         }
