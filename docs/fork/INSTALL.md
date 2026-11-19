@@ -9,7 +9,8 @@ Download the installer for your computer from the
 | Mac with Apple chip (M1 or newer) | the `.dmg` file ending in `mac-arm64.dmg` |
 | Mac with Intel chip               | the `.dmg` file ending in `mac-x64.dmg`   |
 | Linux (Ubuntu, Debian, Mint)      | the `.deb` file                           |
-| Phone (iPhone, Android)           | nothing: open the web app, see below      |
+| Android phone                     | the `.apk` file, see below                |
+| iPhone                            | nothing: open the web app, see below      |
 
 Not sure which Mac you have? Apple menu → **About This Mac**. "Chip: Apple M…" means Apple chip, "Processor: Intel" means Intel.
 
@@ -47,8 +48,9 @@ one screen at a time like a chat app. To get an icon on the home screen:
 - **iPhone:** open the link in Safari, tap **Share**, then **Add to Home Screen**.
 - **Android:** open the link in Chrome, tap the **⋮** menu, then **Add to Home screen** (or **Install app**).
 
-**Android APK:** `scripts/build-apk.sh` builds `mobile/android/app/build/outputs/apk/debug/app-debug.apk`. Copy it to
-the phone and allow "install unknown apps" once. It is debug-signed, so it is not for the Play Store.
+**Android APK:** download the `.apk` file from the release on the phone and open it, allowing "install unknown apps"
+once. It is debug-signed, so it is not for the Play Store. To build one yourself, `scripts/build-apk.sh` writes
+`mobile/android/app/build/outputs/apk/debug/app-debug.apk`.
 
 There is no App Store or Play Store app yet.
 
