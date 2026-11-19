@@ -512,8 +512,10 @@ export default class ContentMessages {
         if (okFiles.length > 0) {
             const { finished } = Modal.createDialog(UploadConfirmDialog, { files: okFiles });
             let confirmed: boolean | undefined;
-            [confirmed, caption, sendAt] = await finished;
-            if (confirmed) filesToSend = okFiles;
+            let editedFiles: File[] | undefined;
+            [confirmed, caption, sendAt, editedFiles] = await finished;
+            // Element Fork: pictures may have been cropped or drawn on in the dialog
+            if (confirmed) filesToSend = editedFiles ?? okFiles;
         }
         // Files scheduled together are listed, changed and cancelled together
         const schedule = sendAt

@@ -32,3 +32,16 @@ Please see LICENSE files in the repository root for full details.
 .mx_UploadConfirmDialog_caption {
     margin-top: var(--cpd-space-4x);
 }
+
+/* Element Fork: an Edit button for each picture, under the previews */
+.mx_UploadConfirmDialog_edit {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--cpd-space-2x);
+    margin-top: var(--cpd-space-3x);
+
+    &:empty {
+        display: none;
+    }
+}

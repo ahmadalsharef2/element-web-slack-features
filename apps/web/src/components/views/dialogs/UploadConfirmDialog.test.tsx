@@ -114,7 +114,7 @@ describe("<UploadConfirmDialog />", () => {
         fireEvent.change(getByLabelText("Add a caption (optional)"), { target: { value: "  hi  " } });
         fireEvent.click(getByText("Upload"));
 
-        expect(onFinished).toHaveBeenCalledWith(true, "hi");
+        expect(onFinished).toHaveBeenCalledWith(true, "hi", undefined, [file]);
     });
 
     it("should upload with the caption when pressing Enter in the caption field", () => {
@@ -126,7 +126,7 @@ describe("<UploadConfirmDialog />", () => {
         fireEvent.change(input, { target: { value: "hello" } });
         fireEvent.keyDown(input, { key: "Enter" });
 
-        expect(onFinished).toHaveBeenCalledWith(true, "hello");
+        expect(onFinished).toHaveBeenCalledWith(true, "hello", undefined, [file]);
     });
 
     it("should not pass a caption when the field is empty", () => {
@@ -136,7 +136,7 @@ describe("<UploadConfirmDialog />", () => {
 
         fireEvent.click(getByText("Upload"));
 
-        expect(onFinished).toHaveBeenCalledWith(true, undefined);
+        expect(onFinished).toHaveBeenCalledWith(true, undefined, undefined, [file]);
     });
 
     it("should preview every file and caption them together", () => {
@@ -157,7 +157,48 @@ describe("<UploadConfirmDialog />", () => {
         fireEvent.change(getByLabelText("Add a caption (optional)"), { target: { value: "holiday" } });
         fireEvent.click(getByText("Upload"));
         expect(onFinished).toHaveBeenCalledTimes(1);
-        expect(onFinished).toHaveBeenCalledWith(true, "holiday");
+        expect(onFinished).toHaveBeenCalledWith(true, "holiday", undefined, files);
+    });
+
+    describe("editing pictures", () => {
+        it("should offer Edit only for pictures that can be edited", () => {
+            const files = [
+                new File(["a"], "photo.jpg", { type: "image/jpeg" }),
+                new File(["b"], "anim.gif", { type: "image/gif" }),
+                new File(["c"], "notes.txt", { type: "text/plain" }),
+            ];
+            const { getAllByRole, getByRole } = render(<UploadConfirmDialog files={files} onFinished={vi.fn()} />);
+
+            expect(getByRole("button", { name: "Edit photo.jpg" })).toBeInTheDocument();
+            expect(getAllByRole("button", { name: /^Edit/ })).toHaveLength(1);
+        });
+
+        it("should send the edited picture instead of the original", async () => {
+            const original = new File(["a"], "photo.png", { type: "image/png" });
+            const edited = new File(["b"], "photo.png", { type: "image/png" });
+            vi.spyOn(Modal, "createDialog").mockReturnValue({ finished: Promise.resolve([edited]) } as any);
+            const onFinished = vi.fn();
+            const { getByRole, getByText } = render(<UploadConfirmDialog files={[original]} onFinished={onFinished} />);
+
+            fireEvent.click(getByRole("button", { name: "Edit" }));
+            await waitFor(() => expect(Modal.createDialog).toHaveBeenCalled());
+            await waitFor(() => {
+                fireEvent.click(getByText("Upload"));
+                expect(onFinished).toHaveBeenLastCalledWith(true, undefined, undefined, [edited]);
+            });
+        });
+
+        it("should keep the original when editing is cancelled", async () => {
+            const original = new File(["a"], "photo.png", { type: "image/png" });
+            vi.spyOn(Modal, "createDialog").mockReturnValue({ finished: Promise.resolve([undefined]) } as any);
+            const onFinished = vi.fn();
+            const { getByRole, getByText } = render(<UploadConfirmDialog files={[original]} onFinished={onFinished} />);
+
+            fireEvent.click(getByRole("button", { name: "Edit" }));
+            await waitFor(() => expect(Modal.createDialog).toHaveBeenCalled());
+            fireEvent.click(getByText("Upload"));
+            expect(onFinished).toHaveBeenCalledWith(true, undefined, undefined, [original]);
+        });
     });
 
     describe("scheduling", () => {
@@ -173,7 +214,7 @@ describe("<UploadConfirmDialog />", () => {
             fireEvent.change(getByLabelText("Add a caption (optional)"), { target: { value: "later" } });
             fireEvent.click(getByText("Schedule"));
 
-            await waitFor(() => expect(onFinished).toHaveBeenCalledWith(true, "later", 1234));
+            await waitFor(() => expect(onFinished).toHaveBeenCalledWith(true, "later", 1234, [file]));
         });
 
         it("should keep the dialog open when no time is chosen", async () => {

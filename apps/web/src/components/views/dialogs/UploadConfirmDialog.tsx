@@ -9,6 +9,9 @@ Please see LICENSE files in the repository root for full details.
 
 import React, { useCallback, useState, type JSX } from "react";
 
+import { Button } from "@vector-im/compound-web";
+import { EditIcon } from "@vector-im/compound-design-tokens/assets/web/icons";
+
 import { _t } from "../../../languageHandler";
 import BaseDialog from "./BaseDialog";
 import DialogButtons from "../elements/DialogButtons";
@@ -16,6 +19,8 @@ import Field from "../elements/Field";
 import { fileSize } from "../../../utils/FileUtils";
 import Modal from "../../../Modal";
 import SchedulePickerDialog from "./SchedulePickerDialog";
+import EditImageDialog from "./EditImageDialog";
+import { isEditableImage } from "../../../utils/imageEdit";
 import {
     attachmentIcon,
     type ImageSize,
@@ -30,9 +35,10 @@ interface IProps {
     files: File[];
     /**
      * `caption` is the text to send with the first file, if any. `sendAt` is the time to send at,
-     * as a timestamp in ms, when the person chose to schedule instead of sending now.
+     * as a timestamp in ms, when the person chose to schedule instead of sending now. `files` are the files to
+     * send, with any pictures the person edited in place of the originals.
      */
-    onFinished: (uploadConfirmed: boolean, caption?: string, sendAt?: number) => void;
+    onFinished: (uploadConfirmed: boolean, caption?: string, sendAt?: number, files?: File[]) => void;
 }
 
 const previewableFormats = ["video", "audio", "image"];
@@ -111,8 +117,26 @@ class UploadPreviewViewModel extends MediaPreviewGroupViewModel {
     }
 }
 
-export default function UploadConfirmDialog({ files, onFinished }: IProps): JSX.Element {
+/** The previews; given a new key when a picture is edited, so its view model is made again for the new files. */
+function UploadPreview({ files }: { files: File[] }): JSX.Element {
     const vm = useCreateAutoDisposedViewModel(() => new UploadPreviewViewModel(files));
+    return <MediaPreviewGroupPreview vm={vm} />;
+}
+
+export default function UploadConfirmDialog({ files: originalFiles, onFinished }: IProps): JSX.Element {
+    const [files, setFiles] = useState(originalFiles);
+    const [previewKey, setPreviewKey] = useState(0);
+
+    const onEditClick = useCallback(
+        async (index: number): Promise<void> => {
+            const { finished } = Modal.createDialog(EditImageDialog, { file: files[index] });
+            const [edited] = await finished;
+            if (!edited) return;
+            setFiles((current) => current.map((f, i) => (i === index ? edited : f)));
+            setPreviewKey((k) => k + 1);
+        },
+        [files],
+    );
 
     const onCancelClick = useCallback((): void => {
         onFinished(false);
@@ -121,14 +145,14 @@ export default function UploadConfirmDialog({ files, onFinished }: IProps): JSX.
     const [caption, setCaption] = useState("");
 
     const onUploadClick = useCallback((): void => {
-        onFinished(true, caption.trim() || undefined);
-    }, [onFinished, caption]);
+        onFinished(true, caption.trim() || undefined, undefined, files);
+    }, [onFinished, caption, files]);
 
     const onScheduleClick = useCallback(async (): Promise<void> => {
         const { finished } = Modal.createDialog(SchedulePickerDialog);
         const [confirmed, sendAt] = await finished;
-        if (confirmed && sendAt) onFinished(true, caption.trim() || undefined, sendAt);
-    }, [onFinished, caption]);
+        if (confirmed && sendAt) onFinished(true, caption.trim() || undefined, sendAt, files);
+    }, [onFinished, caption, files]);
 
     const onCaptionKeyDown = useCallback(
         (e: React.KeyboardEvent): void => {
@@ -151,8 +175,27 @@ export default function UploadConfirmDialog({ files, onFinished }: IProps): JSX.
             <div id="mx_Dialog_content">
                 <div className="mx_UploadConfirmDialog_previewOuter">
                     <div className="mx_UploadConfirmDialog_previewInner">
-                        <MediaPreviewGroupPreview vm={vm} />
+                        <UploadPreview key={previewKey} files={files} />
                     </div>
+                </div>
+                <div className="mx_UploadConfirmDialog_edit">
+                    {files.map((file, i) =>
+                        isEditableImage(file) ? (
+                            <Button
+                                // The list never changes length or order, so the index is a stable key
+                                // oxlint-disable-next-line react/no-array-index-key
+                                key={i}
+                                kind="secondary"
+                                size="md"
+                                Icon={EditIcon}
+                                onClick={() => void onEditClick(i)}
+                            >
+                                {files.length > 1
+                                    ? _t("upload_file|edit_image_named", { fileName: file.name })
+                                    : _t("upload_file|edit_image")}
+                            </Button>
+                        ) : null,
+                    )}
                 </div>
                 <Field
                     className="mx_UploadConfirmDialog_caption"
