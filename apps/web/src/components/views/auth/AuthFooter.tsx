@@ -15,7 +15,7 @@ import { _t } from "../../../languageHandler";
 const AuthFooter = (): ReactElement => {
     const brandingConfig = SdkConfig.getObject("branding");
     const links = brandingConfig?.get("auth_footer_links") ?? [
-        { text: "Source code", url: "https://github.com/ahmadalsharef994/element-web-slack-features" },
+        { text: "Source code", url: "https://github.com/ahmadalsharef2/element-web-slack-features" },
     ];
 
     const authFooterLinks: JSX.Element[] = [];

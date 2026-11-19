@@ -1,7 +1,7 @@
 # Installing Element Fork
 
 Download the installer for your computer from the
-[latest release](https://github.com/ahmadalsharef994/element-web-slack-features/releases/latest), under **Assets**.
+[latest release](https://github.com/ahmadalsharef2/element-web-slack-features/releases/latest), under **Assets**.
 
 | Your computer                     | Download                                  |
 | --------------------------------- | ----------------------------------------- |

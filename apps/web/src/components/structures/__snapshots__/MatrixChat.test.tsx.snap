@@ -238,7 +238,7 @@ exports[`<MatrixChat /> > Multi-tab lockout > waits for other tab to stop during
       role="contentinfo"
     >
       <a
-        href="https://github.com/ahmadalsharef994/element-web-slack-features"
+        href="https://github.com/ahmadalsharef2/element-web-slack-features"
         rel="noreferrer noopener"
         target="_blank"
       >
@@ -531,7 +531,7 @@ exports[`<MatrixChat /> > with a soft-logged-out session > should show the soft-
       role="contentinfo"
     >
       <a
-        href="https://github.com/ahmadalsharef994/element-web-slack-features"
+        href="https://github.com/ahmadalsharef2/element-web-slack-features"
         rel="noreferrer noopener"
         target="_blank"
       >

@@ -80,7 +80,7 @@ git merge upstream/develop
 ## Download
 
 Installers for Windows (`.exe`), Linux (`.deb`) and Mac (`.dmg`) are on the
-[latest release](https://github.com/ahmadalsharef994/element-web-slack-features/releases/latest) page. Steps for
+[latest release](https://github.com/ahmadalsharef2/element-web-slack-features/releases/latest) page. Steps for
 non-developers are in [docs/fork/INSTALL.md](docs/fork/INSTALL.md).
 
 ## Upstream and licence
