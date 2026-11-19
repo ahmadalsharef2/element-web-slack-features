@@ -87,6 +87,27 @@ describe("RightPanelStore", () => {
         });
     });
 
+    describe("switching rooms", () => {
+        const matchMedia = window.matchMedia;
+        const setPhone = (phone: boolean): void => {
+            window.matchMedia = vi.fn().mockReturnValue({ matches: phone }) as unknown as typeof window.matchMedia;
+        };
+        afterEach(() => {
+            window.matchMedia = matchMedia;
+        });
+
+        it.each([
+            [false, true],
+            [true, false],
+        ])("on a phone: %s, the panel left open in a room is open: %s", async (phone, open) => {
+            setPhone(phone);
+            await viewRoom("!1:example.org");
+            setCard("!2:example.org", RightPanelPhases.RoomSummary);
+            await viewRoom("!2:example.org");
+            expect(store.isOpen).toEqual(open);
+        });
+    });
+
     describe("currentCard", () => {
         it("has a phase of null if nothing is open", () => {
             expect(store.currentCard.phase).toEqual(null);

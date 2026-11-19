@@ -293,6 +293,8 @@ interface EventTileRenderInputs {
     isOwnEvent: boolean;
 }
 
+/** How long a finger rests on a message before its menu opens. */
+const LONG_PRESS_MS = 500;
 /** EventTile implementation rendered inside a RoomContext with `timelineRenderingType` set. */
 export class UnwrappedEventTile extends React.Component<EventTileProps, IState> {
     private suppressReadReceiptAnimation: boolean;
@@ -380,6 +382,11 @@ export class UnwrappedEventTile extends React.Component<EventTileProps, IState> 
 
     public componentDidMount(): void {
         this.suppressReadReceiptAnimation = false;
+        // Element Fork: iOS never sends contextmenu, so holding a finger on a message opens its menu from here
+        this.ref.current?.addEventListener("touchstart", this.onTouchStart, { passive: true });
+        this.ref.current?.addEventListener("touchmove", this.cancelLongPress, { passive: true });
+        this.ref.current?.addEventListener("touchend", this.cancelLongPress);
+        this.ref.current?.addEventListener("touchcancel", this.cancelLongPress);
         this.e2eViewModelSubscription = this.e2eViewModel.subscribe(() => {
             this.forceUpdate();
         });
@@ -425,6 +432,11 @@ export class UnwrappedEventTile extends React.Component<EventTileProps, IState> 
 
     public componentWillUnmount(): void {
         this.stopStaleHoverCheck();
+        this.cancelLongPress();
+        this.ref.current?.removeEventListener("touchstart", this.onTouchStart);
+        this.ref.current?.removeEventListener("touchmove", this.cancelLongPress);
+        this.ref.current?.removeEventListener("touchend", this.cancelLongPress);
+        this.ref.current?.removeEventListener("touchcancel", this.cancelLongPress);
         const client = MatrixClientPeg.get();
         if (client) {
             client.removeListener(RoomEvent.Receipt, this.onRoomReceipt);
@@ -765,7 +777,34 @@ export class UnwrappedEventTile extends React.Component<EventTileProps, IState> 
     };
 
     private readonly onContextMenu = (ev: React.MouseEvent): void => {
+        // The long press already opened the menu; Android sends contextmenu for it too
+        if (this.longPressOpened) {
+            ev.preventDefault();
+            return;
+        }
         this.showContextMenu(ev);
+    };
+
+    private longPressTimer?: number;
+    private longPressOpened = false;
+
+    private readonly onTouchStart = (ev: TouchEvent): void => {
+        this.cancelLongPress();
+        this.longPressOpened = false;
+        if (ev.touches.length !== 1 || this.props.editState) return;
+        const target = ev.target as HTMLElement;
+        // Links keep the browser's own menu
+        if (target.closest("a")) return;
+        const { clientX, clientY } = ev.touches[0];
+        this.longPressTimer = window.setTimeout(() => {
+            this.longPressOpened = true;
+            this.openContextMenuAt(clientX, clientY);
+        }, LONG_PRESS_MS);
+    };
+
+    private readonly cancelLongPress = (): void => {
+        window.clearTimeout(this.longPressTimer);
+        this.longPressTimer = undefined;
     };
 
     private readonly onTimestampContextMenu = (ev: React.MouseEvent): void => {
@@ -781,7 +820,9 @@ export class UnwrappedEventTile extends React.Component<EventTileProps, IState> 
         // There is no way to copy non-PNG images into clipboard, so we can't
         // have our own handling for copying images, so we leave it to the
         // Electron layer (webcontents-handler.ts)
-        if (clickTarget instanceof HTMLImageElement) return;
+        // Element Fork: except for a long press on a touch screen, where our menu is the only way to act on the picture
+        const fromTouch = (ev.nativeEvent as PointerEvent | undefined)?.pointerType === "touch";
+        if (clickTarget instanceof HTMLImageElement && !fromTouch) return;
 
         // Return if we're in a browser and click either an a tag, as in those cases we want to use the native browser menu
         if (!PlatformPeg.get()?.allowOverridingNativeContextMenus() && anchorElement) return;
@@ -791,14 +832,18 @@ export class UnwrappedEventTile extends React.Component<EventTileProps, IState> 
 
         ev.preventDefault();
         ev.stopPropagation();
+        this.openContextMenuAt(ev.clientX, ev.clientY, anchorElement?.href || permalink);
+    }
+
+    private openContextMenuAt(x: number, y: number, link?: string): void {
         this.setState((prevState) => ({
             interaction: eventTileOpenContextMenu(prevState.interaction, {
                 position: {
-                    left: ev.clientX,
-                    top: ev.clientY,
-                    bottom: ev.clientY,
+                    left: x,
+                    top: y,
+                    bottom: y,
                 },
-                link: anchorElement?.href || permalink,
+                link,
             }),
         }));
     }

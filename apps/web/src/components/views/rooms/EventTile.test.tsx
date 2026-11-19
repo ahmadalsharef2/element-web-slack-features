@@ -734,6 +734,45 @@ describe("EventTile", () => {
             expect(event.defaultPrevented).toBe(false);
             expect(screen.queryByTestId("mx_MessageContextMenu")).toBeNull();
         });
+
+        describe("long press", () => {
+            beforeEach(() => vi.useFakeTimers());
+            afterEach(() => vi.useRealTimers());
+
+            it("opens the message context menu when a finger rests on the message", () => {
+                const { container } = getComponent();
+
+                fireEvent.touchStart(getLine(container), { touches: [{ clientX: 1, clientY: 2 }] });
+                act(() => vi.advanceTimersByTime(500));
+
+                expect(screen.getByTestId("mx_MessageContextMenu")).toBeInTheDocument();
+            });
+
+            it("does not open the menu when the finger moves or lifts early", () => {
+                const { container } = getComponent();
+
+                fireEvent.touchStart(getLine(container), { touches: [{ clientX: 1, clientY: 2 }] });
+                fireEvent.touchMove(getLine(container));
+                act(() => vi.advanceTimersByTime(500));
+                fireEvent.touchStart(getLine(container), { touches: [{ clientX: 1, clientY: 2 }] });
+                fireEvent.touchEnd(getLine(container));
+                act(() => vi.advanceTimersByTime(500));
+
+                expect(screen.queryByTestId("mx_MessageContextMenu")).toBeNull();
+            });
+
+            it("leaves links to the browser", () => {
+                const { container } = getComponent();
+                const link = document.createElement("a");
+                link.href = "https://example.org/";
+                getLine(container).appendChild(link);
+
+                fireEvent.touchStart(link, { touches: [{ clientX: 1, clientY: 2 }] });
+                act(() => vi.advanceTimersByTime(500));
+
+                expect(screen.queryByTestId("mx_MessageContextMenu")).toBeNull();
+            });
+        });
     });
 
     describe("reply chain", () => {

@@ -1087,6 +1087,20 @@ describe("SpaceStore", () => {
             store.setActiveSpace(MetaSpace.Home);
             expect(getCurrentRoom()).toBeNull(); // Home
         });
+
+        it("shows the space's rooms instead of opening one on a phone", async () => {
+            const matchMedia = window.matchMedia;
+            window.matchMedia = vi.fn().mockReturnValue({ matches: true }) as unknown as typeof window.matchMedia;
+            try {
+                store.setActiveSpace(space1);
+                viewRoom(room1);
+                store.setActiveSpace(space2);
+                store.setActiveSpace(space1);
+                expect(getCurrentRoom()).toBeNull(); // Home, showing space1's room list
+            } finally {
+                window.matchMedia = matchMedia;
+            }
+        });
     });
 
     describe("space auto switching tests", () => {

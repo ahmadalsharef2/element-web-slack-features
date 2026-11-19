@@ -135,7 +135,7 @@ exports[`RoomHeader > dm > does not show the face pile for DMs 1`] = `
     <button
       aria-label="Search messages…"
       aria-labelledby="react-use-id-5"
-      class="_icon-button"
+      class="_icon-button mx_RoomHeader_search"
       data-kind="primary"
       role="button"
       style="--cpd-icon-button-size: 32px;"

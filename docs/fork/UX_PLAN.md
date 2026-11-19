@@ -113,8 +113,10 @@ Ranked by how often a user meets them times how much they cost.
 4. **Element Call is bundled (44 MB of the 97 MB web app).** Loading it from a hosted Element Call instead would
    shrink the desktop apps by that much, at the cost of depending on that server for calls. A decision for Ahmad.
 5. **Phones: browser and home-screen app now; store apps not yet.** iOS and Android store apps would wrap this same
-   layout (for example with Capacitor) and need Apple and Google developer accounts. Not yet tried on real phones:
-   long-press menus, the on-screen keyboard covering the composer, safe areas on notched phones.
+   layout (for example with Capacitor) and need Apple and Google developer accounts. Every page now has a way back,
+   long press opens the message menu, and settings and dialogs fit a 390 px screen (19 November 2026). Not yet tried
+   on real phones: the long press on iOS, the on-screen keyboard covering the composer, safe areas on notched phones,
+   the Android back button.
 6. **Not yet checked:** accessibility tools (axe, keyboard only, screen reader), right-to-left languages, and the same
    tasks in Slack for comparison (Slack is not installed on the build machine).
 

@@ -9,7 +9,8 @@ Please see LICENSE files in the repository root for full details.
    room replaces it, and the back button in the room header returns to the list. LoggedInView sets
    mx_MatrixChat--pageOpen while a room (or any page other than Home) is shown. */
 
-.mx_RoomHeader_back {
+.mx_RoomHeader_back,
+.mx_MatrixChat_phoneBack {
     display: none !important;
 }
 
@@ -75,9 +76,101 @@ Please see LICENSE files in the repository root for full details.
         gap: var(--cpd-space-2x) !important;
     }
 
+    /* Pages without a room header (invites, previews, space home, people, module pages) get a back bar instead */
+    .mx_MatrixChat--pageOpen .mx_RoomView_wrapper:not(:has(.mx_RoomHeader)) {
+        padding-top: 48px;
+
+        .mx_MatrixChat_phoneBack {
+            display: flex !important;
+            align-items: center;
+            position: absolute;
+            inset: 0 0 auto;
+            height: 48px;
+            padding-inline: var(--cpd-space-2x);
+            z-index: 2;
+            border-bottom: 1px solid var(--cpd-color-border-interactive-secondary);
+            background-color: var(--cpd-color-bg-canvas-default);
+        }
+    }
+
+    /* A long press on a message opens our menu (EventTile.tsx), so iOS should not open its own on top of it */
+    .mx_EventTile {
+        -webkit-touch-callout: none;
+    }
+
+    /* Calls, threads and room info stay in the header; search and people are in room info */
+    .mx_RoomHeader_info {
+        padding-right: 0;
+    }
+
+    .mx_RoomHeader_search,
+    .mx_RoomHeader_members {
+        display: none !important;
+    }
+
     /* Dialogs use the whole width of the screen */
     .mx_Dialog_fixedWidth {
         width: calc(100vw - 2 * var(--cpd-space-4x)) !important;
         max-width: none !important;
+    }
+
+    /* Dialogs that set their own width stay inside the screen too */
+    .mx_Dialog {
+        padding: var(--cpd-space-6x) var(--cpd-space-4x);
+        max-width: 100vw;
+    }
+
+    .mx_UploadConfirmDialog_previewInner {
+        width: 100%;
+    }
+
+    .mx_ForwardDialog,
+    .mx_ShareDialog,
+    .mx_ServerPickerDialog,
+    .mx_CreateSecretStorageDialog,
+    .mx_InviteDialog_transfer .mx_InviteDialog_content,
+    .mx_SpacePreferencesDialog {
+        width: auto !important;
+        max-width: 100% !important;
+    }
+
+    /* Settings fill the screen, with the tabs in a row along the top instead of a column down the side */
+    .mx_UserSettingsDialog,
+    .mx_RoomSettingsDialog,
+    .mx_SpaceSettingsDialog,
+    .mx_SpacePreferencesDialog {
+        width: 100vw !important;
+        height: 100dvh;
+        max-height: none;
+
+        .mx_TabbedView {
+            top: 64px;
+            padding-left: var(--cpd-space-4x);
+        }
+
+        .mx_TabbedView .mx_SettingsTab {
+            min-width: 0;
+            padding-right: var(--cpd-space-4x);
+        }
+    }
+
+    .mx_TabbedView_tabsOnLeft {
+        .mx_TabbedView_tabLabels {
+            position: static;
+            display: flex;
+            width: auto !important;
+            max-width: none;
+            overflow-x: auto;
+            flex-shrink: 0;
+            margin-bottom: var(--cpd-space-2x);
+        }
+
+        .mx_TabbedView_tabLabel {
+            flex-shrink: 0;
+        }
+
+        .mx_TabbedView_tabPanel {
+            margin-left: 0 !important;
+        }
     }
 }

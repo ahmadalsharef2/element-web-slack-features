@@ -1477,7 +1477,7 @@ exports[`RoomView > should hide the composer when hideComposer=true 1`] = `
           <button
             aria-label="Search messages…"
             aria-labelledby="react-use-id-3"
-            class="_icon-button"
+            class="_icon-button mx_RoomHeader_search"
             data-kind="primary"
             role="button"
             style="--cpd-icon-button-size: 32px;"
@@ -2166,7 +2166,7 @@ exports[`RoomView > should hide the pinned message banner when hidePinnedMessage
           <button
             aria-label="Search messages…"
             aria-labelledby="react-use-id-3"
-            class="_icon-button"
+            class="_icon-button mx_RoomHeader_search"
             data-kind="primary"
             role="button"
             style="--cpd-icon-button-size: 32px;"
@@ -2785,7 +2785,7 @@ exports[`RoomView > should hide the right panel when hideRightPanel=true 1`] = `
           <button
             aria-label="Search messages…"
             aria-labelledby="react-use-id-3"
-            class="_icon-button"
+            class="_icon-button mx_RoomHeader_search"
             data-kind="primary"
             role="button"
             style="--cpd-icon-button-size: 32px;"
@@ -3404,7 +3404,7 @@ exports[`RoomView > should not display the timeline when the room encryption is 
           <button
             aria-label="Search messages…"
             aria-labelledby="react-use-id-3"
-            class="_icon-button"
+            class="_icon-button mx_RoomHeader_search"
             data-kind="primary"
             role="button"
             style="--cpd-icon-button-size: 32px;"
@@ -3694,7 +3694,7 @@ exports[`RoomView > should not display the timeline when the room encryption is 
           <button
             aria-label="Search messages…"
             aria-labelledby="react-use-id-4"
-            class="_icon-button"
+            class="_icon-button mx_RoomHeader_search"
             data-kind="primary"
             role="button"
             style="--cpd-icon-button-size: 32px;"
@@ -4326,7 +4326,7 @@ exports[`RoomView > video rooms > should render joined video room view 1`] = `
           <button
             aria-label="Search messages…"
             aria-labelledby="react-use-id-2"
-            class="_icon-button"
+            class="_icon-button mx_RoomHeader_search"
             data-kind="primary"
             role="button"
             style="--cpd-icon-button-size: 32px;"

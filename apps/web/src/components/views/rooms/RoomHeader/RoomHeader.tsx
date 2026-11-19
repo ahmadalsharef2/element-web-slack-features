@@ -312,6 +312,7 @@ function RoomHeaderButtons({ room, extraButtons }: { room: Room; extraButtons?: 
             {/* Element Fork: search was only reachable inside the Room info panel */}
             <Tooltip label={_t("room|search|placeholder")}>
                 <IconButton
+                    className="mx_RoomHeader_search"
                     onClick={(evt) => {
                         evt.stopPropagation();
                         defaultDispatcher.fire(Action.FocusMessageSearch);

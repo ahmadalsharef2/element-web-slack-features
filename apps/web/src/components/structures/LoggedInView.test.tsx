@@ -430,6 +430,65 @@ describe("<LoggedInView />", () => {
         expect(room.container.querySelector(".mx_MatrixChat")).toHaveClass("mx_MatrixChat--pageOpen");
     });
 
+    it("offers a way back to Home from pages without a room header, for the phone layout", () => {
+        vi.spyOn(defaultDispatcher, "dispatch").mockImplementation(() => {});
+        const { getByRole } = getComponent({ page_type: "room" });
+
+        // The phone layout CSS decides when it is visible
+        fireEvent.click(getByRole("button", { name: "Back" }));
+        expect(defaultDispatcher.dispatch).toHaveBeenCalledWith({ action: Action.ViewHomePage });
+    });
+
+    describe("Android back button", () => {
+        let press: () => void;
+        const minimizeApp = vi.fn().mockResolvedValue(undefined);
+
+        beforeEach(() => {
+            window.Capacitor = {
+                Plugins: {
+                    App: {
+                        addListener: (_: string, listener: () => void) => {
+                            press = listener;
+                            return Promise.resolve({ remove: vi.fn().mockResolvedValue(undefined) });
+                        },
+                        minimizeApp,
+                    },
+                },
+            };
+            vi.spyOn(defaultDispatcher, "dispatch").mockImplementation(() => {});
+        });
+
+        afterEach(() => {
+            delete window.Capacitor;
+            minimizeApp.mockClear();
+            vi.mocked(defaultDispatcher.dispatch).mockRestore();
+            if (vi.isMockFunction(Modal.hasDialogs)) vi.mocked(Modal.hasDialogs).mockRestore();
+            if (vi.isMockFunction(Modal.closeCurrentModal)) vi.mocked(Modal.closeCurrentModal).mockRestore();
+        });
+
+        it("closes the open dialog first", () => {
+            vi.spyOn(Modal, "hasDialogs").mockReturnValue(true);
+            const closeCurrentModal = vi.spyOn(Modal, "closeCurrentModal").mockReturnValue(true);
+            getComponent({ page_type: "room" });
+            press();
+            expect(closeCurrentModal).toHaveBeenCalled();
+            expect(defaultDispatcher.dispatch).not.toHaveBeenCalledWith({ action: Action.ViewHomePage });
+        });
+
+        it("goes from a page to the room list", () => {
+            getComponent({ page_type: "room" });
+            press();
+            expect(defaultDispatcher.dispatch).toHaveBeenCalledWith({ action: Action.ViewHomePage });
+            expect(minimizeApp).not.toHaveBeenCalled();
+        });
+
+        it("puts the app in the background from the room list", () => {
+            getComponent({ page_type: PageTypes.HomePage });
+            press();
+            expect(minimizeApp).toHaveBeenCalled();
+        });
+    });
+
     it("should fire FocusMessageSearch on Ctrl+F when enabled", async () => {
         vi.spyOn(defaultDispatcher, "fire").mockImplementation(() => {});
         await SettingsStore.setValue("ctrlFForSearch", null, SettingLevel.DEVICE, true);

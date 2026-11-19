@@ -258,7 +258,18 @@ export default class SpaceStore extends AsyncStoreWithClient<EmptyObject> {
             // if the space being selected is an invite then always view that invite
             // else if the last viewed room in this space is joined then view that
             // else view space home or home depending on what is being clicked on
+            // Element Fork: on a phone a room hides the room list, so show the space's rooms instead of opening one
+            const onPhone = window.matchMedia?.("(max-width: 640px)").matches;
             if (
+                onPhone &&
+                cliSpace?.getMyMembership() !== KnownMembership.Invite &&
+                !ModuleApi.instance.extras.spacePanelItems.has(space)
+            ) {
+                this.dispatcher.dispatch<ViewHomePagePayload>({
+                    action: Action.ViewHomePage,
+                    context_switch: true,
+                });
+            } else if (
                 roomId &&
                 cliSpace?.getMyMembership() !== KnownMembership.Invite &&
                 this.matrixClient.getRoom(roomId)?.getMyMembership() === KnownMembership.Join &&

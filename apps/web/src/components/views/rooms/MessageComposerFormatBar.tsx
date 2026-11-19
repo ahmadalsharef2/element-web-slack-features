@@ -23,6 +23,7 @@ import {
 import { _t } from "../../../languageHandler";
 import { RovingAccessibleButton } from "../../../accessibility/RovingTabIndex";
 import Toolbar from "../../../accessibility/Toolbar";
+import UIStore from "../../../stores/UIStore";
 
 export enum Formatting {
     Bold = "bold",
@@ -128,7 +129,10 @@ export default class MessageComposerFormatBar extends React.PureComponent<IProps
 
         this.setState({ visible: true });
         const parentRect = this.formatBarRef.current.parentElement.getBoundingClientRect();
-        this.formatBarRef.current.style.left = `${selectionRect.left - parentRect.left}px`;
+        // Element Fork: keep the bar inside the window, which matters on a narrow phone screen
+        const maxLeft = UIStore.instance.windowWidth - parentRect.left - this.formatBarRef.current.offsetWidth;
+        const left = Math.max(0, Math.min(selectionRect.left - parentRect.left, maxLeft));
+        this.formatBarRef.current.style.left = `${left}px`;
         const halfBarHeight = this.BAR_HEIGHT / 2; // used to center the bar
         const offset = halfBarHeight + 2; // makes sure the bar won't cover selected text
         const offsetLimit = halfBarHeight + offset;

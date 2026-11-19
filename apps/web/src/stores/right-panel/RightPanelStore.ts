@@ -469,6 +469,9 @@ export default class RightPanelStore extends ReadyWatchingStore {
             this.currentCard.state.isInitialEventHighlighted = undefined;
             this.currentCard.state.initialEventScrollIntoView = undefined;
         }
+        // Element Fork: on a phone the panel covers the whole room, so a room always opens on its messages
+        const panel = this.byRoom[newRoomId ?? ""];
+        if (panel?.isOpen && window.matchMedia?.("(max-width: 640px)").matches) panel.isOpen = false;
 
         this.emitAndUpdateSettings();
     }

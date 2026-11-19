@@ -23,9 +23,12 @@ import {
 import { type MatrixCall } from "matrix-js-sdk/src/webrtc/call";
 import classNames from "classnames";
 import { GroupView, SeparatorView, Panel, LeftResizablePanelView } from "@element-hq/web-shared-components";
+import { IconButton } from "@vector-im/compound-web";
+import ChevronLeftIcon from "@vector-im/compound-design-tokens/assets/web/icons/chevron-left";
 
 import { isOnlyCtrlOrCmdKeyEvent, Key } from "../../Keyboard";
 import PageTypes from "../../PageTypes";
+import { _t } from "../../languageHandler";
 import MediaDeviceHandler from "../../MediaDeviceHandler";
 import dis from "../../dispatcher/dispatcher";
 import { type IMatrixClientCreds } from "../../utils/createMatrixClient";
@@ -40,6 +43,7 @@ import RoomListStoreV3 from "../../stores/room-list-v3/RoomListStoreV3";
 import NonUrgentToastContainer from "./NonUrgentToastContainer";
 import { type IOOBData, type IThreepidInvite } from "../../stores/ThreepidInviteStore";
 import Modal from "../../Modal";
+import { onAndroidBackButton } from "../../utils/androidBackButton";
 import { getKeyBindingsManager } from "../../KeyBindingsManager";
 import { type IOpts } from "../../createRoom";
 import SpacePanel from "../views/spaces/SpacePanel";
@@ -148,8 +152,24 @@ class LoggedInView extends React.Component<IProps, IState> {
         this._roomView = React.createRef();
     }
 
+    private stopAndroidBackButton = (): void => {};
+
+    /** Element Fork: Android's back button closes a dialog, then leaves a page for the room list. */
+    private readonly onAndroidBack = (): boolean => {
+        if (Modal.hasDialogs()) {
+            Modal.closeCurrentModal();
+            return true;
+        }
+        if (this.props.page_type && this.props.page_type !== PageTypes.HomePage) {
+            dis.dispatch({ action: Action.ViewHomePage });
+            return true;
+        }
+        return false;
+    };
+
     public componentDidMount(): void {
         document.addEventListener("keydown", this.onNativeKeyDown, false);
+        this.stopAndroidBackButton = onAndroidBackButton(this.onAndroidBack);
         this.context.legacyCallHandler.addListener(LegacyCallHandlerEvent.CallState, this.onCallState);
 
         void this.updateServerNoticeEvents();
@@ -228,6 +248,7 @@ class LoggedInView extends React.Component<IProps, IState> {
 
     public componentWillUnmount(): void {
         document.removeEventListener("keydown", this.onNativeKeyDown, false);
+        this.stopAndroidBackButton();
         this.context.legacyCallHandler.removeListener(LegacyCallHandlerEvent.CallState, this.onCallState);
         this._matrixClient.removeListener(ClientEvent.AccountData, this.onAccountData);
         this._matrixClient.removeListener(ClientEvent.Sync, this.onSync);
@@ -691,7 +712,21 @@ class LoggedInView extends React.Component<IProps, IState> {
             </div>
         );
 
-        const roomView = <div className="mx_RoomView_wrapper">{pageElement}</div>;
+        // Element Fork: on a phone the page hides the room list, so pages without a room header (invites, previews,
+        // space home, people, module pages) get this way back to it. CSS shows it only there.
+        const roomView = (
+            <div className="mx_RoomView_wrapper">
+                <div className="mx_MatrixChat_phoneBack">
+                    <IconButton
+                        onClick={() => dis.dispatch({ action: Action.ViewHomePage })}
+                        aria-label={_t("action|back")}
+                    >
+                        <ChevronLeftIcon />
+                    </IconButton>
+                </div>
+                {pageElement}
+            </div>
+        );
 
         let content: React.ReactNode;
         const resizerViewModel = !moduleRenderer ? this.getResizerViewModel() : undefined;

@@ -25,7 +25,8 @@ cd "$root/mobile"
 rm -rf www
 cp -r ../apps/web/webapp www
 cp ../apps/desktop/element.io/release/config.json www/config.json
-[[ -d node_modules ]] || npm install --no-audit --no-fund
+# Every time, so plugins added since the last build are installed
+npm install --no-audit --no-fund
 [[ -d android ]] || npx cap add android
 npx cap sync android
 
