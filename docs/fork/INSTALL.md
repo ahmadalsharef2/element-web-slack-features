@@ -47,6 +47,9 @@ one screen at a time like a chat app. To get an icon on the home screen:
 - **iPhone:** open the link in Safari, tap **Share**, then **Add to Home Screen**.
 - **Android:** open the link in Chrome, tap the **⋮** menu, then **Add to Home screen** (or **Install app**).
 
+**Android APK:** `scripts/build-apk.sh` builds `mobile/android/app/build/outputs/apk/debug/app-debug.apk`. Copy it to
+the phone and allow "install unknown apps" once. It is debug-signed, so it is not for the Play Store.
+
 There is no App Store or Play Store app yet.
 
 The same web app is in the release as `element-fork-web.tar.gz`, for hosting on your own server.

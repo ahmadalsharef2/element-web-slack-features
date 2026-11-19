@@ -1,0 +1,4 @@
+/www
+/node_modules
+# This npm project is outside the pnpm workspace, so its lockfile is the only pin; the root .gitignore ignores package-lock.json
+!/package-lock.json
