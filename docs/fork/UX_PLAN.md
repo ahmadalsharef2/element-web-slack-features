@@ -35,6 +35,10 @@ on a phone. Their tasks, most frequent first:
   downloads.
 - **Screens** (`screens.spec.ts`): the main screens at phone (390 px), tablet (820 px) and desktop (1280 px) widths, in
   Light and Dark, for review by eye.
+- **Phone walkthrough** (`phone.spec.ts`): a touch phone (412 px, Android browser) goes through the app: room list,
+  room, long press, composer, room info, sending a picture with text drawn on it, an invite, a space, the user menu,
+  settings and the bytEM tab. It saves a screenshot per step in `phone/` and lists any step that failed in
+  `phone/phone-steps.txt`.
 
 Run them against a production build, not the dev server:
 
@@ -116,7 +120,9 @@ Ranked by how often a user meets them times how much they cost.
    layout (for example with Capacitor) and need Apple and Google developer accounts. Every page now has a way back,
    long press opens the message menu, and settings and dialogs fit a 390 px screen (19 November 2026). Not yet tried
    on real phones: the long press on iOS, the on-screen keyboard covering the composer, safe areas on notched phones,
-   the Android back button.
+   the Android back button. The Android emulator is installed (`~/Android/Sdk`, device `pixel`, Java in
+   `~/.local/jdk/jdk-21`), but this computer has SVM turned off in the BIOS. Without it the emulator only runs in
+   a slow software mode, where Android's WebView crashes while loading the app, so nothing has been seen in it yet.
 6. **Not yet checked:** accessibility tools (axe, keyboard only, screen reader), right-to-left languages, and the same
    tasks in Slack for comparison (Slack is not installed on the build machine).
 
