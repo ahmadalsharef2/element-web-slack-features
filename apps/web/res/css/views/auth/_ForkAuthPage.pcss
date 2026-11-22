@@ -43,5 +43,7 @@ Please see LICENSE files in the repository root for full details.
 
 :root .mx_AuthPage {
     box-sizing: border-box;
-    padding: var(--fork-safe-top) var(--fork-safe-right) var(--fork-safe-bottom) var(--fork-safe-left);
+    /* The variables are set in _ForkLook.pcss; the 0px says what to use should that file ever not load */
+    padding: var(--fork-safe-top, 0px) var(--fork-safe-right, 0px) var(--fork-safe-bottom, 0px)
+        var(--fork-safe-left, 0px);
 }
