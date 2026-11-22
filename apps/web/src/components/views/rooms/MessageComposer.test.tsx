@@ -301,8 +301,9 @@ describe("MessageComposer", () => {
                     expect(screen.queryByLabelText("Sticker")).not.toBeInTheDocument();
                 });
 
-                it("should not show the attachment button", () => {
-                    expect(screen.queryByLabelText("Attachment")).not.toBeInTheDocument();
+                // Element Fork: sending a photo stays one tap away on a phone
+                it("should still show the attachment button", () => {
+                    expect(screen.getByLabelText("Attachment")).toBeInTheDocument();
                 });
 
                 it("should close the sticker picker", () => {
