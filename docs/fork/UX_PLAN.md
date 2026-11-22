@@ -1,12 +1,12 @@
 # UX plan
 
-How Element Fork's user experience is measured, what changed, and what is still open. Numbers come from the harness
+How LiberMsg's user experience is measured, what changed, and what is still open. Numbers come from the harness
 in `apps/web/playwright/e2e/ux/`, run against production builds of the app before and after the change (12 November
 2026).
 
 ## Users and their tasks
 
-Element Fork is a team chat app on Matrix: people who chat with colleagues all day, on a desktop app, in a browser or
+LiberMsg is a team chat app on Matrix: people who chat with colleagues all day, on a desktop app, in a browser or
 on a phone. Their tasks, most frequent first:
 
 | #   | Task                                    | How often       |
@@ -96,7 +96,7 @@ and the dev server writes its own into the same folder, so every earlier build w
 
 - No "added by Ahmad" markers in the UI.
 - The fork's logo everywhere the app shows one (sign-in, browser tab, phone home screen, error page, link previews),
-  "Welcome to Element Fork" instead of Element's slogan, and a light blue sign-in background instead of the lake
+  "Welcome to LiberMsg" instead of Element's slogan, and a light blue sign-in background instead of the lake
   photo.
 - Light and Dark themes use the logo blue (#0074D0) as their accent. Green still means success (verified, sent).
 - Main buttons and text links are blue instead of black; the message box has an outline that turns blue while typing.

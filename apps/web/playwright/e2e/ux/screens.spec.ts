@@ -23,7 +23,7 @@ for (const [size, viewport] of Object.entries(SIZES)) {
             test.use({
                 viewport,
                 displayName: "Dana",
-                config: { brand: "Element Fork", default_theme: theme },
+                config: { brand: "LiberMsg", default_theme: theme },
                 botCreateOpts: { displayName: "Sam" },
             });
 
@@ -63,7 +63,7 @@ for (const [size, viewport] of Object.entries(SIZES)) {
 test.describe("signed out", () => {
     for (const [size, viewport] of Object.entries(SIZES)) {
         test.describe(size, () => {
-            test.use({ viewport, config: { brand: "Element Fork" } });
+            test.use({ viewport, config: { brand: "LiberMsg" } });
             test("welcome", async ({ page, homeserver }) => {
                 await page.goto("/#/welcome");
                 await page.getByRole("link", { name: "Sign in" }).waitFor();

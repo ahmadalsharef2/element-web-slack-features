@@ -18,7 +18,7 @@ describe("isElementBranded", () => {
         expect(isElementBranded()).toBe(true);
     });
 
-    it.each(["Element Fork", "Elemental", "Acme Chat"])("is false for %s", (brand) => {
+    it.each(["LiberMsg", "Element Fork", "Elemental", "Acme Chat"])("is false for %s", (brand) => {
         SdkConfig.put({ brand });
         expect(isElementBranded()).toBe(false);
     });

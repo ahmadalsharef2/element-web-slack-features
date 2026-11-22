@@ -1,15 +1,17 @@
 <p align="center">
-  <img src="apps/desktop/build/icon.png" alt="Element Fork logo" width="120" />
+  <img src="apps/desktop/build/icon.png" alt="LiberMsg logo" width="120" />
 </p>
 
-<h1 align="center">Element Fork</h1>
+<h1 align="center">LiberMsg</h1>
+
+<p align="center">by <a href="https://ahmadalsharef.com">ahmadalsharef.com</a></p>
 
 <p align="center">
   A Matrix client for the web, phones, Windows, macOS and Linux, with the everyday conveniences of a team chat app:
   schedule send, snooze, hidden presence, richer formatting and tables.
 </p>
 
-Element Fork is Ahmad's fork of [Element Web and Desktop](https://github.com/element-hq/element-web). It stays close to
+LiberMsg (earlier called Element Fork) is Ahmad's fork of [Element Web and Desktop](https://github.com/element-hq/element-web). It stays close to
 upstream and adds a small set of features on top.
 
 ## Features
@@ -19,7 +21,7 @@ upstream and adds a small set of features on top.
 | Works on phones                         | One pane at a time in a phone browser, with a back button; can be added to the home screen. |
 | Clear sign out                          | "Sign out" in the user menu, and "Sign out" instead of "Remove this device" everywhere.     |
 | Search button in every room             | Search messages from the room header, or with Ctrl+F.                                       |
-| Element Fork look                       | The fork's logo throughout, and its blue as the accent of the Light and Dark themes.        |
+| LiberMsg look                           | The fork's logo throughout, and its blue as the accent of the Light and Dark themes.        |
 | Schedule send                           | Send a message or files later. List, edit, send now or cancel queued messages.              |
 | Upload captions                         | Add a caption to uploads and send several files from one dialog.                            |
 | Snooze notifications                    | Pause notifications on this device from the user menu or with `/snooze`.                    |
@@ -85,7 +87,7 @@ non-developers are in [docs/fork/INSTALL.md](docs/fork/INSTALL.md).
 
 ## Upstream and licence
 
-Element Fork is built on Element by New Vector Ltd (Element). The original README is kept at
+LiberMsg is built on Element by New Vector Ltd (Element). The original README is kept at
 [docs/fork/UPSTREAM_README.md](docs/fork/UPSTREAM_README.md).
 
 Upstream is multi-licensed. This fork is distributed under the **GNU Affero General Public License v3.0 only**

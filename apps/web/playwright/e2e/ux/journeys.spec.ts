@@ -31,8 +31,8 @@ async function seed(app: ElementAppPage, bot: Bot): Promise<{ general: string; r
 test.describe("UX journeys", () => {
     test.use({
         displayName: "Dana",
-        // The settings Element Fork ships in its config.json
-        config: { brand: "Element Fork", setting_defaults: { ctrlFForSearch: true } },
+        // The settings LiberMsg ships in its config.json
+        config: { brand: "LiberMsg", setting_defaults: { ctrlFForSearch: true } },
         botCreateOpts: { displayName: "Sam" },
     });
 
@@ -384,7 +384,7 @@ test.describe("UX journeys", () => {
 });
 
 test.describe("UX journeys, signed out", () => {
-    test.use({ displayName: "Dana", config: { brand: "Element Fork", setting_defaults: { ctrlFForSearch: true } } });
+    test.use({ displayName: "Dana", config: { brand: "LiberMsg", setting_defaults: { ctrlFForSearch: true } } });
 
     test("11 sign in", async ({ page, credentials }) => {
         await page.goto("/");

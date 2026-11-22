@@ -15,6 +15,7 @@ import { _t } from "../../../languageHandler";
 const AuthFooter = (): ReactElement => {
     const brandingConfig = SdkConfig.getObject("branding");
     const links = brandingConfig?.get("auth_footer_links") ?? [
+        { text: "LiberMsg by ahmadalsharef.com", url: "https://ahmadalsharef.com" },
         { text: "Source code", url: "https://github.com/ahmadalsharef2/element-web-slack-features" },
     ];
 

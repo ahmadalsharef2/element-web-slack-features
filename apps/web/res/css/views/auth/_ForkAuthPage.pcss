@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-only OR GPL-3.0-only OR LicenseRef-Element-Com
 Please see LICENSE files in the repository root for full details.
 */
 
-/* Element Fork's sign-in pages sit on a light background (themes/element/img/backgrounds/brand.svg), so the
+/* LiberMsg's sign-in pages sit on a light background (themes/element/img/backgrounds/brand.svg), so the
    footer drops the dark band that kept its links readable over Element's lake photo. */
 .mx_AuthFooter {
     background: none;
@@ -38,6 +38,13 @@ Please see LICENSE files in the repository root for full details.
     /* Upstream pins the card to the top edge on phones; centre it with a margin all round instead */
     :root .mx_AuthPage_modal {
         margin: auto var(--cpd-space-4x);
+    }
+
+    /* The footer's links wrap whole, one below the other when they do not fit side by side */
+    :root .mx_AuthFooter a {
+        display: inline-block;
+        margin: var(--cpd-space-1x) var(--cpd-space-3x);
+        white-space: nowrap;
     }
 }
 

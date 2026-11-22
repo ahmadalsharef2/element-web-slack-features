@@ -1,4 +1,4 @@
-Element Fork
+LiberMsg (earlier called Element Fork)
 Copyright 2026 Ahmad
 
 This product is a modified version of Element Web and Element Desktop:
@@ -8,7 +8,7 @@ This product is a modified version of Element Web and Element Desktop:
   Copyright (c) 2025 Element Creations Ltd.
 Upstream: https://github.com/element-hq/element-web
 
-Element Fork is distributed under the GNU Affero General Public License,
+LiberMsg is distributed under the GNU Affero General Public License,
 version 3 only (see LICENSE-AGPL-3.0). It is not distributed under the
 Element Commercial Licence.
 
@@ -18,7 +18,6 @@ Changes from upstream are listed in docs/fork/FORK_CHANGES.md and in the
 git history.
 
 "Element" is a trademark of Element. This fork is a separate, unofficial
-project, is not endorsed by Element, and is named "Element Fork" to make that
-clear.
+project and is not endorsed by Element.
 
 Third-party components keep their own licences; see their package metadata.

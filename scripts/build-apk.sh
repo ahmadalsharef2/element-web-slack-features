@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: AGPL-3.0-only OR GPL-3.0-only OR LicenseRef-Element-Commercial
 # Please see LICENSE files in the repository root for full details.
 #
-# Builds Element Fork for Android: the built web app inside a Capacitor shell, as a debug-signed APK.
+# Builds LiberMsg for Android: the built web app inside a Capacitor shell, as a debug-signed APK.
 # Needs Node 22+, Java 17+ and the Android SDK (ANDROID_HOME, default ~/Android/Sdk).
 # Usage: scripts/build-apk.sh [--skip-web]   (--skip-web reuses apps/web/webapp)
 

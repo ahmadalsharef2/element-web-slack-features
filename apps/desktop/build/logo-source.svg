@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <!-- Element Fork messenger mark, Liberbyte palette, no name. Source for apps/desktop/build icons. -->
+  <!-- LiberMsg messenger mark, Liberbyte palette, no name. Source for apps/desktop/build icons. -->
   <circle cx="256" cy="256" r="256" fill="#0074D0"/>
   <rect x="112" y="120" width="288" height="216" rx="64" fill="#fff"/>
   <polygon points="150,300 236,320 128,400" fill="#fff"/>

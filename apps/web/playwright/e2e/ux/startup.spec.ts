@@ -14,7 +14,7 @@ import { test } from "../../element-web-test";
 import { UX_OUT } from "./journey";
 
 test.describe("UX start-up cost", () => {
-    test.use({ displayName: "Dana", config: { brand: "Element Fork" } });
+    test.use({ displayName: "Dana", config: { brand: "LiberMsg" } });
 
     test("open the app", async ({ page, user }) => {
         const runs: { roomListMs: number; scriptKB: number; allKB: number; requests: number; largest: string[] }[] = [];

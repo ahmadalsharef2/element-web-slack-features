@@ -145,7 +145,7 @@ async function start(): Promise<void> {
         // (https://github.com/element-hq/element-web/issues/7378)
         const preventRedirect = !!parsedUrl.params.threepid || parsedUrl.location.length > 0;
 
-        // Element Fork runs in phone browsers too (see res/css/structures/_PhoneLayout.pcss), so phones are no
+        // LiberMsg runs in phone browsers too (see res/css/structures/_PhoneLayout.pcss), so phones are no
         // longer sent to the guide for Element's own mobile apps, which lack the fork's features
         const redirectPhones = false;
         if (redirectPhones && !preventRedirect) {

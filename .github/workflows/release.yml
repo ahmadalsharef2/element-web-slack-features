@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: AGPL-3.0-only OR GPL-3.0-only OR LicenseRef-Element-Commercial
 # Please see LICENSE files in the repository root for full details.
 
-# Builds Element Fork for Linux, Windows, macOS and Android and attaches the installers to a GitHub release. The web app goes
+# Builds LiberMsg for Linux, Windows, macOS and Android and attaches the installers to a GitHub release. The web app goes
 # to GitHub Pages, so phones (and any browser) can open it and add it to the home screen.
 # Start it by pushing a tag (`git tag v1.0.0 && git push origin v1.0.0`) or from the Actions tab.
 name: Release
@@ -76,7 +76,7 @@ jobs:
                       linux)
                           cp *.deb *.tar.gz ../../../out/
                           # The web app itself, for phones (GitHub Pages) and for hosting it on your own server
-                          tar -czf ../../../out/element-fork-web.tar.gz -C ../../web webapp
+                          tar -czf ../../../out/libermsg-web.tar.gz -C ../../web webapp
                           ;;
                       windows) cp squirrel-windows/*Setup*.exe *.msi ../../../out/ ;;
                       mac-*) for f in *.dmg; do cp "$f" "../../../out/${f%.dmg}-${{ matrix.name }}.dmg"; done ;;
@@ -115,14 +115,14 @@ jobs:
             - name: Build the APK
               working-directory: mobile
               run: |
-                  tar -xzf ../linux/element-fork-web.tar.gz
+                  tar -xzf ../linux/libermsg-web.tar.gz
                   mv webapp www
                   npm ci --no-audit --no-fund
                   npx cap sync android
                   cd android
                   ./gradlew assembleDebug
                   mkdir -p ../../out
-                  cp app/build/outputs/apk/debug/app-debug.apk "../../out/element-fork-${{ github.ref_name }}.apk"
+                  cp app/build/outputs/apk/debug/app-debug.apk "../../out/libermsg-${{ github.ref_name }}.apk"
 
             - uses: actions/upload-artifact@v6
               with:
@@ -148,7 +148,7 @@ jobs:
               env:
                   GH_TOKEN: ${{ github.token }}
                   GH_REPO: ${{ github.repository }}
-              run: gh release create "${{ github.ref_name }}" out/* --title "Element Fork ${{ github.ref_name }}" --generate-notes
+              run: gh release create "${{ github.ref_name }}" out/* --title "LiberMsg ${{ github.ref_name }}" --generate-notes
 
     pages:
         name: Publish the web app (phones and browsers)
@@ -182,7 +182,7 @@ jobs:
                   path: out
 
             - if: steps.check.outputs.enabled == 'true'
-              run: tar -xzf out/element-fork-web.tar.gz
+              run: tar -xzf out/libermsg-web.tar.gz
 
             - uses: actions/upload-pages-artifact@v4
               if: steps.check.outputs.enabled == 'true'

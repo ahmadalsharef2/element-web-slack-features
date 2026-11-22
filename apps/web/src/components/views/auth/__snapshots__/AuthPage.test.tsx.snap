@@ -26,6 +26,13 @@ exports[`<AuthPage /> > should match snapshot 1`] = `
       role="contentinfo"
     >
       <a
+        href="https://ahmadalsharef.com"
+        rel="noreferrer noopener"
+        target="_blank"
+      >
+        LiberMsg by ahmadalsharef.com
+      </a>
+      <a
         href="https://github.com/ahmadalsharef2/element-web-slack-features"
         rel="noreferrer noopener"
         target="_blank"

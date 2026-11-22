@@ -1,4 +1,4 @@
-# Installing Element Fork
+# Installing LiberMsg
 
 Download the installer for your computer from the
 [latest release](https://github.com/ahmadalsharef2/element-web-slack-features/releases/latest), under **Assets**.
@@ -16,15 +16,18 @@ Not sure which Mac you have? Apple menu â†’ **About This Mac**. "Chip: Apple Mâ€
 
 The app is not signed with a paid certificate, so your computer will warn you once. The warning is expected for this build.
 
+On Windows and Mac the installer and the installed app are still listed as "Element Fork", the app's earlier name.
+Inside, the app is LiberMsg.
+
 ## Windows
 
 1. Double-click the `Setup.exe` file.
 2. If Windows shows "Windows protected your PC", click **More info**, then **Run anyway**.
-3. Element Fork starts by itself when the install finishes.
+3. The app starts by itself when the install finishes.
 
 ## Mac
 
-1. Open the `.dmg` file and drag **Element Fork** into **Applications**.
+1. Open the `.dmg` file and drag the app into **Applications**.
 2. The first time, macOS may say the app is "damaged" or from an unidentified developer. To open it anyway, open
    **Terminal** and run:
 
@@ -37,11 +40,11 @@ The app is not signed with a paid certificate, so your computer will warn you on
 ## Linux
 
 Double-click the `.deb` file and press **Install**, or run `sudo apt install ./<downloaded file>.deb`. Start it from the
-app menu as "Element Fork".
+app menu as "LiberMsg".
 
 ## Phone
 
-Element Fork runs in the phone's browser at
+LiberMsg runs in the phone's browser at
 [ahmadalsharef2.github.io/element-web-slack-features](https://ahmadalsharef2.github.io/element-web-slack-features/),
 one screen at a time like a chat app. To get an icon on the home screen:
 
@@ -54,7 +57,7 @@ once. It is debug-signed, so it is not for the Play Store. To build one yourself
 
 There is no App Store or Play Store app yet.
 
-The same web app is in the release as `element-fork-web.tar.gz`, for hosting on your own server.
+The same web app is in the release as `libermsg-web.tar.gz`, for hosting on your own server.
 
 ## Signing in
 

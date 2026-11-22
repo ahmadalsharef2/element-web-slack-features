@@ -6,7 +6,7 @@ adds the things that are easy to get wrong here.
 
 ## This fork
 
-This is Element Fork, Ahmad's fork of Element Web and Desktop. Fork notes live in `docs/fork/`:
+This is LiberMsg (earlier called Element Fork), Ahmad's fork of Element Web and Desktop. Fork notes live in `docs/fork/`:
 
 - **Adding or changing a user-facing feature:** add a row to [docs/fork/FORK_CHANGES.md](./docs/fork/FORK_CHANGES.md),
   which lists everything the fork adds on top of upstream. New files carry a `Copyright <year> Ahmad` header. The UI
@@ -16,8 +16,10 @@ This is Element Fork, Ahmad's fork of Element Web and Desktop. Fork notes live i
   production build (`BASE_URL`), as described there.
 - **Planning a feature from the roadmap:** [docs/fork/ENHANCEMENT_PLAN.md](./docs/fork/ENHANCEMENT_PLAN.md) has the
   file maps, steps and gotchas for each one.
-- **Naming and branding:** the product name is "Element Fork". The Liberbyte name, wordmark and domains wait for the
-  CEO's approval; Liberbyte colours and style are already in use.
+- **Naming and branding:** the product name is "LiberMsg", with the byline "by ahmadalsharef.com" where one fits. Two
+  things keep the earlier name: the desktop app's internal `productName` ("Element Fork"), because its profile folder
+  and keychain entries are found by it, and the `Element Fork:` comments that mark our changes in upstream files. The
+  Liberbyte name, wordmark and domains wait for the CEO's approval; Liberbyte colours and style are already in use.
 - **Building the Linux desktop app:** `scripts/build-deb.sh` builds the web app and the `.deb` and installs it
   (`--no-install` to only build).
 

@@ -1,6 +1,6 @@
 {
-    "name": "Element Fork",
-    "short_name": "Element Fork",
+    "name": "LiberMsg",
+    "short_name": "LiberMsg",
     "display": "standalone",
     "theme_color": "#0074D0",
     "start_url": "index.html",

@@ -26,7 +26,7 @@ test.use({
     userAgent:
         "Mozilla/5.0 (Linux; Android 15; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0 Mobile Safari/537.36",
     displayName: "Dana",
-    config: { brand: "Element Fork" },
+    config: { brand: "LiberMsg" },
     botCreateOpts: { displayName: "Sam" },
     actionTimeout: 10_000,
 });
