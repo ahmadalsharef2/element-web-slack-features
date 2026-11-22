@@ -15,6 +15,18 @@ import { vi, describe, it, expect, beforeEach, afterEach } from "vitest";
 import UploadConfirmDialog from "./UploadConfirmDialog.tsx";
 import Modal from "../../../Modal";
 
+const edited = new File(["b"], "photo.png", { type: "image/png" });
+
+// The editor draws on a canvas, which happy-dom does not have; it has its own tests. This stands in for it.
+vi.mock("./EditImageDialog", () => ({
+    default: ({ onFinished }: { onFinished: (file?: File) => void }) => (
+        <div role="dialog" aria-label="Edit picture">
+            <button onClick={() => onFinished(edited)}>Finish editing</button>
+            <button onClick={() => onFinished()}>Cancel editing</button>
+        </div>
+    ),
+}));
+
 /**
  * The shared media preview tile hides the image until it has loaded it once out of band, which jsdom
  * never does: it fires neither `load` nor `error` for a real element. Stub the loader so the preview
@@ -173,29 +185,31 @@ describe("<UploadConfirmDialog />", () => {
             expect(getAllByRole("button", { name: /^Edit/ })).toHaveLength(1);
         });
 
-        it("should send the edited picture instead of the original", async () => {
+        it("should send the edited picture instead of the original, keeping the caption", async () => {
             const original = new File(["a"], "photo.png", { type: "image/png" });
-            const edited = new File(["b"], "photo.png", { type: "image/png" });
-            vi.spyOn(Modal, "createDialog").mockReturnValue({ finished: Promise.resolve([edited]) } as any);
             const onFinished = vi.fn();
-            const { getByRole, getByText } = render(<UploadConfirmDialog files={[original]} onFinished={onFinished} />);
+            const { getByRole, getByText, getByLabelText } = render(
+                <UploadConfirmDialog files={[original]} onFinished={onFinished} />,
+            );
+            fireEvent.change(getByLabelText("Add a caption (optional)"), { target: { value: "look" } });
 
+            // The editor takes the dialog's place and hands back the edited picture
             fireEvent.click(getByRole("button", { name: "Edit" }));
-            await waitFor(() => expect(Modal.createDialog).toHaveBeenCalled());
-            await waitFor(() => {
-                fireEvent.click(getByText("Upload"));
-                expect(onFinished).toHaveBeenLastCalledWith(true, undefined, undefined, [edited]);
-            });
+            expect(getByRole("dialog", { name: "Edit picture" })).toBeInTheDocument();
+            fireEvent.click(getByRole("button", { name: "Finish editing" }));
+
+            expect(getByLabelText("Add a caption (optional)")).toHaveValue("look");
+            fireEvent.click(getByText("Upload"));
+            expect(onFinished).toHaveBeenCalledWith(true, "look", undefined, [edited]);
         });
 
         it("should keep the original when editing is cancelled", async () => {
             const original = new File(["a"], "photo.png", { type: "image/png" });
-            vi.spyOn(Modal, "createDialog").mockReturnValue({ finished: Promise.resolve([undefined]) } as any);
             const onFinished = vi.fn();
             const { getByRole, getByText } = render(<UploadConfirmDialog files={[original]} onFinished={onFinished} />);
 
             fireEvent.click(getByRole("button", { name: "Edit" }));
-            await waitFor(() => expect(Modal.createDialog).toHaveBeenCalled());
+            fireEvent.click(getByRole("button", { name: "Cancel editing" }));
             fireEvent.click(getByText("Upload"));
             expect(onFinished).toHaveBeenCalledWith(true, undefined, undefined, [original]);
         });

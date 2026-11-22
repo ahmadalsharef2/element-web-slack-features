@@ -9,7 +9,15 @@ Please see LICENSE in the repository root for full details.
 
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import { drawMarks, exportEditedImage, isEditableImage, rectBetween } from "./imageEdit";
+import {
+    drawMarks,
+    exportEditedImage,
+    findTextAt,
+    isEditableImage,
+    type Mark,
+    rectBetween,
+    textBox,
+} from "./imageEdit";
 
 /** A 2D context that records the calls made to it. */
 function mockContext(): CanvasRenderingContext2D {
@@ -24,6 +32,8 @@ function mockContext(): CanvasRenderingContext2D {
         fillText: vi.fn(),
         translate: vi.fn(),
         drawImage: vi.fn(),
+        // Every letter is 6 pixels wide
+        measureText: (text: string) => ({ width: text.length * 6 }),
     } as unknown as CanvasRenderingContext2D;
 }
 
@@ -93,6 +103,33 @@ describe("drawMarks", () => {
         expect(ctx.fillText).toHaveBeenCalledWith("hi", 5, 6);
         expect(ctx.strokeText).toHaveBeenCalledWith("hi", 5, 6);
         expect(ctx.font).toBe("bold 24px sans-serif");
+    });
+});
+
+describe("text boxes", () => {
+    const hello: Mark = { kind: "text", color: "#000000", size: 30, at: { x: 10, y: 20 }, text: "hello" };
+    const stroke: Mark = { kind: "pen", color: "#000000", width: 4, points: [{ x: 15, y: 25 }] };
+
+    it("measures the text", () => {
+        expect(textBox(mockContext(), hello as Extract<Mark, { kind: "text" }>)).toEqual({
+            x: 10,
+            y: 20,
+            width: 30,
+            height: 36,
+        });
+    });
+
+    it("finds the text under a point, with a little room around it", () => {
+        const ctx = mockContext();
+        expect(findTextAt(ctx, [hello], { x: 25, y: 30 })).toBe(0);
+        expect(findTextAt(ctx, [hello], { x: 5, y: 15 })).toBe(0);
+        expect(findTextAt(ctx, [hello], { x: 80, y: 30 })).toBeNull();
+    });
+
+    it("prefers the text drawn last, and skips strokes", () => {
+        const ctx = mockContext();
+        expect(findTextAt(ctx, [hello, stroke, { ...hello, text: "over" }], { x: 15, y: 25 })).toBe(2);
+        expect(findTextAt(ctx, [stroke], { x: 15, y: 25 })).toBeNull();
     });
 });
 

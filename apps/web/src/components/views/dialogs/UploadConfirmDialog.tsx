@@ -127,15 +127,19 @@ export default function UploadConfirmDialog({ files: originalFiles, onFinished }
     const [files, setFiles] = useState(originalFiles);
     const [previewKey, setPreviewKey] = useState(0);
 
-    const onEditClick = useCallback(
-        async (index: number): Promise<void> => {
-            const { finished } = Modal.createDialog(EditImageDialog, { file: files[index] });
-            const [edited] = await finished;
-            if (!edited) return;
-            setFiles((current) => current.map((f, i) => (i === index ? edited : f)));
-            setPreviewKey((k) => k + 1);
+    // The picture being edited, if any. The editor takes this dialog's place rather than opening as a second
+    // dialog: Modal only keeps the top dialog mounted, so this one would come back with its files and caption reset.
+    const [editingIndex, setEditingIndex] = useState<number | null>(null);
+
+    const onEditFinished = useCallback(
+        (edited?: File): void => {
+            if (edited) {
+                setFiles((current) => current.map((f, i) => (i === editingIndex ? edited : f)));
+                setPreviewKey((k) => k + 1);
+            }
+            setEditingIndex(null);
         },
-        [files],
+        [editingIndex],
     );
 
     const onCancelClick = useCallback((): void => {
@@ -164,6 +168,10 @@ export default function UploadConfirmDialog({ files: originalFiles, onFinished }
         [onUploadClick],
     );
 
+    if (editingIndex !== null) {
+        return <EditImageDialog file={files[editingIndex]} onFinished={onEditFinished} />;
+    }
+
     return (
         <BaseDialog
             className="mx_UploadConfirmDialog"
@@ -188,7 +196,7 @@ export default function UploadConfirmDialog({ files: originalFiles, onFinished }
                                 kind="secondary"
                                 size="md"
                                 Icon={EditIcon}
-                                onClick={() => void onEditClick(i)}
+                                onClick={() => setEditingIndex(i)}
                             >
                                 {files.length > 1
                                     ? _t("upload_file|edit_image_named", { fileName: file.name })

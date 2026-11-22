@@ -46,8 +46,15 @@ describe("<EditImageDialog />", () => {
             width: 100,
             height: 50,
         } as DOMRect);
+        // Every letter is 6 picture pixels wide, so text boxes can be measured
         vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(
-            new Proxy({}, { get: () => vi.fn() }) as unknown as CanvasRenderingContext2D,
+            new Proxy(
+                {},
+                {
+                    get: (_, prop) =>
+                        prop === "measureText" ? (text: string) => ({ width: text.length * 6 }) : vi.fn(),
+                },
+            ) as unknown as CanvasRenderingContext2D,
         );
         vi.mocked(exportEditedImage).mockResolvedValue(edited);
     });
@@ -59,9 +66,8 @@ describe("<EditImageDialog />", () => {
 
     async function renderDialog(onFinished = vi.fn()) {
         const result = render(<EditImageDialog file={file} onFinished={onFinished} />);
-        await waitFor(() =>
-            expect(result.getByRole("button", { name: "Done" })).not.toHaveAttribute("aria-disabled", "true"),
-        );
+        // Done is disabled until the picture has loaded
+        await waitFor(() => expect(result.getByRole("button", { name: "Done" })).toBeEnabled());
         return { ...result, onFinished, canvas: result.getByLabelText("Picture being edited") };
     }
 
@@ -119,20 +125,112 @@ describe("<EditImageDialog />", () => {
         expect(vi.mocked(exportEditedImage).mock.calls[0][3]).toEqual({ x: 20, y: 10, width: 100, height: 50 });
     });
 
-    it("writes text where the user taps", async () => {
-        const { getByRole, getByLabelText, canvas, onFinished } = await renderDialog();
-        fireEvent.click(getByRole("button", { name: "Text" }));
-        fireEvent.click(getByRole("radio", { name: "#0074d0" }));
-        fireEvent.pointerDown(canvas, { clientX: 50, clientY: 25 });
+    describe("text", () => {
+        /** Types text at a point on screen and finishes it with Enter. */
+        function addText(
+            { getByLabelText, canvas }: Awaited<ReturnType<typeof renderDialog>>,
+            x: number,
+            y: number,
+            value: string,
+        ): void {
+            fireEvent.pointerDown(canvas, { clientX: x, clientY: y });
+            const input = getByLabelText("Text", { selector: "input" });
+            fireEvent.change(input, { target: { value } });
+            fireEvent.keyDown(input, { key: "Enter" });
+        }
 
-        const input = getByLabelText("Text", { selector: "input" });
-        fireEvent.change(input, { target: { value: "  look here " } });
-        fireEvent.keyDown(input, { key: "Enter" });
-        fireEvent.click(getByRole("button", { name: "Done" }));
+        async function sentMarks(dialog: Awaited<ReturnType<typeof renderDialog>>): Promise<unknown> {
+            fireEvent.click(dialog.getByRole("button", { name: "Done" }));
+            await waitFor(() => expect(dialog.onFinished).toHaveBeenCalled());
+            return vi.mocked(exportEditedImage).mock.calls[0]?.[2];
+        }
 
-        await waitFor(() => expect(onFinished).toHaveBeenCalledWith(edited));
-        expect(vi.mocked(exportEditedImage).mock.calls[0][2]).toEqual([
-            { kind: "text", color: "#0074d0", size: 10, at: { x: 100, y: 50 }, text: "look here" },
-        ]);
+        it("writes text centred on the tap, in the chosen colour and size", async () => {
+            const dialog = await renderDialog();
+            fireEvent.click(dialog.getByRole("button", { name: "Text" }));
+            fireEvent.click(dialog.getByRole("radio", { name: "#0074d0" }));
+            fireEvent.click(dialog.getByRole("radio", { name: "Large" }));
+            // 50, 25 on screen is 100, 50 in the picture; large text is 200 / 12 picture pixels tall
+            addText(dialog, 50, 25, "  look here ");
+
+            expect(await sentMarks(dialog)).toEqual([
+                {
+                    kind: "text",
+                    color: "#0074d0",
+                    size: expect.closeTo(200 / 12),
+                    at: { x: 100, y: expect.closeTo(50 - 200 / 24) },
+                    text: "look here",
+                },
+            ]);
+        });
+
+        it("moves text that is dragged", async () => {
+            const dialog = await renderDialog();
+            fireEvent.click(dialog.getByRole("button", { name: "Text" }));
+            addText(dialog, 50, 25, "hi");
+            // The text starts at 100, 45 in the picture; drag it 20 picture pixels right and 10 down
+            fireEvent.pointerDown(dialog.canvas, { clientX: 51, clientY: 25 });
+            fireEvent.pointerMove(dialog.canvas, { clientX: 61, clientY: 30 });
+            fireEvent.pointerUp(dialog.canvas);
+
+            expect(await sentMarks(dialog)).toEqual([expect.objectContaining({ text: "hi", at: { x: 120, y: 55 } })]);
+        });
+
+        it("opens text that is tapped, to change it", async () => {
+            const dialog = await renderDialog();
+            fireEvent.click(dialog.getByRole("button", { name: "Text" }));
+            addText(dialog, 50, 25, "hi");
+            fireEvent.pointerDown(dialog.canvas, { clientX: 51, clientY: 25 });
+            fireEvent.pointerUp(dialog.canvas);
+
+            const input = dialog.getByLabelText("Text", { selector: "input" });
+            expect(input).toHaveValue("hi");
+            fireEvent.click(dialog.getByRole("radio", { name: "#000000" }));
+            fireEvent.change(input, { target: { value: "hello" } });
+            fireEvent.keyDown(input, { key: "Enter" });
+
+            expect(await sentMarks(dialog)).toEqual([
+                expect.objectContaining({ text: "hello", color: "#000000", at: { x: 100, y: 45 } }),
+            ]);
+        });
+
+        it("removes text with Remove text", async () => {
+            const dialog = await renderDialog();
+            fireEvent.click(dialog.getByRole("button", { name: "Text" }));
+            addText(dialog, 50, 25, "hi");
+            fireEvent.pointerDown(dialog.canvas, { clientX: 51, clientY: 25 });
+            fireEvent.pointerUp(dialog.canvas);
+            fireEvent.click(dialog.getByRole("button", { name: "Remove text" }));
+
+            // Nothing is left to change, so the picture is not re-saved
+            await sentMarks(dialog);
+            expect(dialog.onFinished).toHaveBeenCalledWith();
+        });
+
+        it("finishes the text being typed with a tap elsewhere, and keeps it when Escape is pressed", async () => {
+            const dialog = await renderDialog();
+            fireEvent.click(dialog.getByRole("button", { name: "Text" }));
+            fireEvent.pointerDown(dialog.canvas, { clientX: 10, clientY: 10 });
+            fireEvent.change(dialog.getByLabelText("Text", { selector: "input" }), { target: { value: "one" } });
+            fireEvent.pointerDown(dialog.canvas, { clientX: 80, clientY: 40 });
+            expect(dialog.queryByLabelText("Text", { selector: "input" })).toBeNull();
+
+            fireEvent.pointerDown(dialog.canvas, { clientX: 80, clientY: 40 });
+            const input = dialog.getByLabelText("Text", { selector: "input" });
+            fireEvent.change(input, { target: { value: "two" } });
+            fireEvent.keyDown(input, { key: "Escape" });
+            expect(dialog.onFinished).not.toHaveBeenCalled();
+
+            expect(await sentMarks(dialog)).toEqual([expect.objectContaining({ text: "one" })]);
+        });
+
+        it("counts text still being typed when Done is pressed", async () => {
+            const dialog = await renderDialog();
+            fireEvent.click(dialog.getByRole("button", { name: "Text" }));
+            fireEvent.pointerDown(dialog.canvas, { clientX: 10, clientY: 10 });
+            fireEvent.change(dialog.getByLabelText("Text", { selector: "input" }), { target: { value: "late" } });
+
+            expect(await sentMarks(dialog)).toEqual([expect.objectContaining({ text: "late" })]);
+        });
     });
 });

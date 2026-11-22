@@ -10,11 +10,48 @@ Please see LICENSE in the repository root for full details.
 }
 
 .mx_EditImageDialog_tools,
-.mx_EditImageDialog_colors {
+.mx_EditImageDialog_options {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--cpd-space-2x);
+    align-items: center;
+    gap: var(--cpd-space-2x) var(--cpd-space-4x);
     margin-bottom: var(--cpd-space-3x);
+}
+
+.mx_EditImageDialog_colors,
+.mx_EditImageDialog_sizes {
+    display: flex;
+    align-items: center;
+    gap: var(--cpd-space-2x);
+}
+
+.mx_EditImageDialog_size {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 1px solid var(--cpd-color-border-interactive-secondary);
+    border-radius: 8px;
+    background: none;
+    color: var(--cpd-color-text-primary);
+    font-weight: bold;
+    cursor: pointer;
+
+    &[aria-checked="true"] {
+        border-color: var(--cpd-color-border-focused);
+        background-color: var(--cpd-color-bg-subtle-secondary);
+    }
+}
+
+.mx_EditImageDialog_size_small {
+    font-size: 12px;
+}
+
+.mx_EditImageDialog_size_medium {
+    font-size: 17px;
+}
+
+.mx_EditImageDialog_size_large {
+    font-size: 24px;
 }
 
 .mx_EditImageDialog_color {
@@ -49,16 +86,41 @@ Please see LICENSE in the repository root for full details.
 
 .mx_EditImageDialog_textInput {
     position: absolute;
-    min-width: 8em;
-    font: var(--cpd-font-body-lg-semibold);
-    background: rgb(0 0 0 / 50%);
-    border: 1px dashed var(--cpd-color-border-interactive-primary);
-    border-radius: 4px;
-    padding: 2px var(--cpd-space-1x);
+    /* Font, size, colour and outline are set inline to match the text the canvas will draw */
+    min-width: 4ch;
+    box-sizing: content-box;
+    padding: 0;
+    border: none;
+    background: none;
+    line-height: 1.2;
+    paint-order: stroke fill;
+    outline: 2px dashed rgb(255 255 255 / 85%);
+    outline-offset: 4px;
+    box-shadow: 0 0 0 6px rgb(0 0 0 / 25%);
+
+    &::placeholder {
+        color: inherit;
+        opacity: 0.6;
+    }
 }
 
 .mx_EditImageDialog_hint {
     color: var(--cpd-color-text-secondary);
     font: var(--cpd-font-body-sm-regular);
     margin-top: var(--cpd-space-2x);
+}
+
+/* On a phone the five tools fit on one row: the words stay, the icons go */
+@media (max-width: 640px) {
+    .mx_EditImageDialog_tools {
+        gap: var(--cpd-space-1-5x);
+
+        button {
+            padding-inline: var(--cpd-space-3x);
+
+            svg {
+                display: none;
+            }
+        }
+    }
 }

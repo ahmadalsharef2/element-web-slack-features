@@ -57,13 +57,52 @@ export function rectBetween(a: Point, b: Point, width: number, height: number): 
     return { x: x1, y: y1, width: x2 - x1, height: y2 - y1 };
 }
 
+/** Text sizes on offer, as a share of the picture's longer side, so text looks the same on any picture. */
+export const TEXT_SIZES = { small: 1 / 30, medium: 1 / 20, large: 1 / 12 } as const;
+
+/** The font text marks are drawn in. */
+export function textFont(size: number): string {
+    return `bold ${size}px sans-serif`;
+}
+
+/** The box a text mark covers, in the picture's own pixels. */
+export function textBox(ctx: CanvasRenderingContext2D, mark: TextMark): Rect {
+    ctx.save();
+    ctx.font = textFont(mark.size);
+    const width = ctx.measureText(mark.text).width;
+    ctx.restore();
+    return { x: mark.at.x, y: mark.at.y, width, height: mark.size * 1.2 };
+}
+
+/**
+ * The text mark under a point, if any: the one drawn last wins, as it is on top. The box is padded a little, so a
+ * finger does not have to land exactly on a letter.
+ */
+export function findTextAt(ctx: CanvasRenderingContext2D, marks: Mark[], p: Point): number | null {
+    for (let i = marks.length - 1; i >= 0; i--) {
+        const mark = marks[i];
+        if (mark.kind !== "text") continue;
+        const box = textBox(ctx, mark);
+        const pad = mark.size / 3;
+        if (
+            p.x >= box.x - pad &&
+            p.x <= box.x + box.width + pad &&
+            p.y >= box.y - pad &&
+            p.y <= box.y + box.height + pad
+        ) {
+            return i;
+        }
+    }
+    return null;
+}
+
 /** Draws the marks onto a canvas whose pixels match the picture's. */
 export function drawMarks(ctx: CanvasRenderingContext2D, marks: Mark[]): void {
     for (const mark of marks) {
         ctx.save();
         if (mark.kind === "text") {
             ctx.fillStyle = mark.color;
-            ctx.font = `bold ${mark.size}px sans-serif`;
+            ctx.font = textFont(mark.size);
             ctx.textBaseline = "top";
             // A thin dark outline keeps the text readable on any background
             ctx.lineWidth = Math.max(1, mark.size / 12);
