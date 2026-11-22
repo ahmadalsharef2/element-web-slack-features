@@ -63,6 +63,8 @@ interface Variant extends Metadata {
     "appId": string;
     "linux.executableName"?: string;
     "linux.deb.name"?: string;
+    // Element Fork: the name shown in the Linux app menu, when it differs from productName
+    "linux.desktop.name"?: string;
     "protocols": string[];
 }
 
@@ -257,6 +259,12 @@ if (process.env.VERSION) {
 
 if (variant["linux.deb.name"]) {
     config.deb.fpm.push("--name", variant["linux.deb.name"]);
+}
+
+// Element Fork: productName also names the profile folder and the keychain entries, so it cannot change without
+// signing everyone out. This changes only the name shown in the app menu.
+if (variant["linux.desktop.name"]) {
+    config.linux.desktop = { entry: { Name: variant["linux.desktop.name"] } };
 }
 
 /**

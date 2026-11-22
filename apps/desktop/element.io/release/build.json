@@ -2,8 +2,9 @@
     "appId": "io.github.ahmadalsharef994.element",
     "name": "element-desktop-fork",
     "productName": "Element Fork",
-    "description": "Element with Slack-style features (personal build)",
+    "description": "LiberMsg by ahmadalsharef.com: team chat on Matrix",
     "protocols": ["io.element.fork", "element"],
     "linux.executableName": "element-desktop-fork",
-    "linux.deb.name": "element-fork"
+    "linux.deb.name": "element-fork",
+    "linux.desktop.name": "LiberMsg"
 }
