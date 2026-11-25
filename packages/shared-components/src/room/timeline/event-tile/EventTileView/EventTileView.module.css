@@ -336,6 +336,25 @@
         max-width: min(calc(100% - var(--event-tile-group-gutter) - 80px), 600px);
     }
 
+    /* Element Fork: on a phone the receipt column would take almost a third of the width. Keep room for one or
+       two receipt avatars; a longer row of them covers the end of the message's first line. */
+    @media (max-width: 640px) {
+        --event-tile-content-inline-end: 0;
+
+        &.hasReceiptSlot .line,
+        &.hasReceiptSlot .slotThreadInfo {
+            margin-inline-end: 36px;
+        }
+
+        &.hasReceiptSlot .slotThreadInfo {
+            max-width: calc(100% - var(--event-tile-group-gutter) - 36px);
+        }
+
+        .slotReceipt {
+            margin-inline-end: 0;
+        }
+    }
+
     /* Informational events use a smaller metadata row while retaining the
        normal group slot order. */
     &.stateInfo {
