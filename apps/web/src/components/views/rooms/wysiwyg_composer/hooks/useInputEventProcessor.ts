@@ -27,6 +27,7 @@ import type Autocomplete from "../../Autocomplete";
 import { handleClipboardEvent, handleEventWithAutocomplete, isEventToHandleAsClipboardEvent } from "./utils";
 import { useScopedRoomContext } from "../../../../../contexts/ScopedRoomContext.tsx";
 import { useRoomUploadViewModel } from "../../../../../viewmodels/room/RoomUploadViewModel.tsx";
+import { isCtrlEnterToSend as ctrlEnterToSendOrTouch } from "../../../../../utils/enterSendsMessage";
 
 export function useInputEventProcessor(
     onSend: () => void,
@@ -37,7 +38,8 @@ export function useInputEventProcessor(
     const roomContext = useScopedRoomContext("liveTimeline", "room", "replyToEvent", "timelineRenderingType");
     const composerContext = useComposerContext();
     const mxClient = useMatrixClientContext();
-    const isCtrlEnterToSend = useSettingValue("MessageComposerInput.ctrlEnterToSend");
+    // Element Fork: on touch-only devices Enter starts a new line, as with the Ctrl+Enter setting
+    const isCtrlEnterToSend = ctrlEnterToSendOrTouch(useSettingValue("MessageComposerInput.ctrlEnterToSend"));
 
     return useCallback(
         (event: WysiwygEvent, composer: Wysiwyg, editor: HTMLElement) => {
