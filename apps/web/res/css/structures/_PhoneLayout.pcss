@@ -39,7 +39,9 @@ Please see LICENSE files in the repository root for full details.
         margin-inline-end: calc(-1 * var(--cpd-space-2x));
     }
 
-    /* The panels are sized inline by the resizable layout, hence !important */
+    /* The panels are sized inline by the resizable layout, hence !important. Opening a room slides it in from the
+       right; going back brings the room list in from the left. Each panel is display: none while hidden, so its
+       animation plays when it is shown again. */
     .mx_MatrixChat--pageOpen {
         .mx_SpacePanel,
         [data-panel]:has(.mx_LeftPanel),
@@ -49,6 +51,7 @@ Please see LICENSE files in the repository root for full details.
 
         [data-panel]:has(.mx_RoomView_wrapper) {
             flex: 1 1 100% !important;
+            animation: mx_PhoneLayout_pageIn 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
         }
     }
 
@@ -60,6 +63,7 @@ Please see LICENSE files in the repository root for full details.
 
         [data-panel]:has(.mx_LeftPanel) {
             flex: 1 1 100% !important;
+            animation: mx_PhoneLayout_listIn 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         .mx_LeftPanel_panel {
@@ -174,5 +178,29 @@ Please see LICENSE files in the repository root for full details.
         .mx_TabbedView_tabPanel {
             margin-left: 0 !important;
         }
+    }
+}
+
+@keyframes mx_PhoneLayout_pageIn {
+    from {
+        opacity: 0;
+        transform: translateX(40%);
+    }
+}
+
+@keyframes mx_PhoneLayout_listIn {
+    from {
+        opacity: 0.4;
+        transform: translateX(-20%);
+    }
+}
+
+@media (prefers-reduced-motion) {
+    @keyframes mx_PhoneLayout_pageIn {
+        /* No movement in reduced-motion */
+    }
+
+    @keyframes mx_PhoneLayout_listIn {
+        /* No movement in reduced-motion */
     }
 }
