@@ -21,10 +21,10 @@ if [[ "${1:-}" != "--skip-web" ]]; then
     pnpm build
 fi
 
-cd "$root/mobile"
+cd "$root/apps/mobile"
 rm -rf www
-cp -r ../apps/web/webapp www
-cp ../apps/desktop/element.io/release/config.json www/config.json
+cp -r ../web/webapp www
+cp ../desktop/element.io/release/config.json www/config.json
 # Every time, so plugins added since the last build are installed
 npm install --no-audit --no-fund
 [[ -d android ]] || npx cap add android
@@ -32,5 +32,5 @@ npx cap sync android
 
 cd android
 ./gradlew assembleDebug
-apk="$root/mobile/android/app/build/outputs/apk/debug/app-debug.apk"
+apk="$root/apps/mobile/android/app/build/outputs/apk/debug/app-debug.apk"
 echo "Built $apk"

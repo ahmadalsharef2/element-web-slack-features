@@ -89,7 +89,7 @@ jobs:
                   path: out/*
                   if-no-files-found: error
 
-    # The Android app wraps the web app the Linux build made, in the Capacitor shell under mobile/
+    # The Android app wraps the web app the Linux build made, in the Capacitor shell under apps/mobile/
     android:
         name: Build (android)
         needs: build
@@ -113,16 +113,16 @@ jobs:
                   path: linux
 
             - name: Build the APK
-              working-directory: mobile
+              working-directory: apps/mobile
               run: |
-                  tar -xzf ../linux/libermsg-web.tar.gz
+                  tar -xzf ../../linux/libermsg-web.tar.gz
                   mv webapp www
                   npm ci --no-audit --no-fund
                   npx cap sync android
                   cd android
                   ./gradlew assembleDebug
-                  mkdir -p ../../out
-                  cp app/build/outputs/apk/debug/app-debug.apk "../../out/libermsg-${{ github.ref_name }}.apk"
+                  mkdir -p ../../../out
+                  cp app/build/outputs/apk/debug/app-debug.apk "../../../out/libermsg-${{ github.ref_name }}.apk"
 
             - uses: actions/upload-artifact@v6
               with:

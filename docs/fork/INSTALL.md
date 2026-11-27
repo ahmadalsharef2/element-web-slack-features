@@ -53,7 +53,7 @@ one screen at a time like a chat app. To get an icon on the home screen:
 
 **Android APK:** download the `.apk` file from the release on the phone and open it, allowing "install unknown apps"
 once. It is debug-signed, so it is not for the Play Store. To build one yourself, `scripts/build-apk.sh` writes
-`mobile/android/app/build/outputs/apk/debug/app-debug.apk`.
+`apps/mobile/android/app/build/outputs/apk/debug/app-debug.apk`.
 
 There is no App Store or Play Store app yet.
 

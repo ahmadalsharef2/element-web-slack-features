@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-only OR LicenseRef-Element-Commercial
 Please see LICENSE in the repository root for full details.
 */
 
-/** The part of Capacitor's App plugin used here; the Android app (mobile/) provides it. */
+/** The part of Capacitor's App plugin used here; the Android app (apps/mobile/) provides it. */
 export interface CapacitorAppPlugin {
     addListener(event: "backButton", listener: () => void): Promise<{ remove(): Promise<void> }>;
     addListener(event: "appUrlOpen", listener: (data: { url: string }) => void): Promise<{ remove(): Promise<void> }>;

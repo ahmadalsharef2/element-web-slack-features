@@ -7,6 +7,8 @@ dedupePeers: true
 
 packages:
     - "apps/*"
+    # The Android shell is an npm project with its own lockfile
+    - "!apps/mobile"
     - "packages/*"
 
 catalog:
