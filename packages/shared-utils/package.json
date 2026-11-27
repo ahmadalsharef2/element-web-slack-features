@@ -32,9 +32,9 @@
         "coverage": "pnpm test:unit --coverage"
     },
     "devDependencies": {
-        "@microsoft/api-extractor": "^7.56.0",
-        "@types/sanitize-html": "2.16.1",
-        "@types/node": "catalog:ts6",
+        "@microsoft/api-extractor": "^7.60.1",
+        "@types/node": "26.6.11",
+        "@types/sanitize-html": "2.16.2",
         "@typescript/native": "catalog:",
         "typescript": "catalog:ts6",
         "unplugin-dts": "catalog:",
@@ -42,6 +42,6 @@
         "vitest": "catalog:"
     },
     "dependencies": {
-        "sanitize-html": "2.17.7"
+        "sanitize-html": "2.18.2"
     }
 }

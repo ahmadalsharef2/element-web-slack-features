@@ -24,6 +24,7 @@ import {
     type MatrixRTCSession,
     MatrixRTCSessionEvent,
     MatrixRTCSessionManagerEvents,
+    RTC_CALL_INTENT_AUDIO,
     type Transport,
 } from "matrix-js-sdk/src/matrixrtc";
 
@@ -984,7 +985,7 @@ export class ElementCall extends Call {
         widget: IApp,
         client: MatrixClient,
     ) {
-        super(widget, client, session.getConsensusCallIntent() === "audio" ? CallType.Voice : CallType.Video);
+        super(widget, client, session.getConsensusIntent() === RTC_CALL_INTENT_AUDIO ? CallType.Voice : CallType.Video);
 
         this.session.on(MatrixRTCSessionEvent.MembershipsChanged, this.onMembershipChanged);
         this.client.matrixRTC.on(MatrixRTCSessionManagerEvents.SessionEnded, this.checkDestroy);
@@ -1160,7 +1161,7 @@ export class ElementCall extends Call {
 
     private readonly onMembershipChanged = (): void => {
         this.updateParticipants();
-        this.callType = this.session.getConsensusCallIntent() === "audio" ? CallType.Voice : CallType.Video;
+        this.callType = this.session.getConsensusIntent() === RTC_CALL_INTENT_AUDIO ? CallType.Voice : CallType.Video;
     };
 
     private updateParticipants(): void {

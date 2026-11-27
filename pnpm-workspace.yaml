@@ -15,19 +15,18 @@ catalog:
     # typescript
     "typescript": 7.0.2
     "@typescript/native": npm:typescript@7.0.2
-    "@types/node": ts7.0
     # react
-    react: ^19.0.0
-    react-dom: ^19.0.0
-    "@types/react": ^19.2.10
-    "@types/react-dom": ^19.2.3
+    react: ^19.3.1
+    react-dom: ^19.3.1
+    "@types/react": ^19.3.3
+    "@types/react-dom": ^19.3.0
     # playwright
-    "@playwright/test": 1.63.0
-    "playwright-core": 1.63.0
-    serve: 14.2.6
+    "@playwright/test": 1.65.1
+    "playwright-core": 1.65.1
+    serve: 14.2.8
     # Compound
-    "@vector-im/compound-design-tokens": 10.2.1
-    "@vector-im/compound-web": 10.1.0
+    "@vector-im/compound-design-tokens": 11.3.1
+    "@vector-im/compound-web": 10.6.0
     # i18n
     matrix-web-i18n: 3.6.0
     # emojibase
@@ -35,23 +34,22 @@ catalog:
     # fonts
     "@fontsource/inter": 5.3.0
     # vite
-    vite: 8.3.1
+    vite: 8.4.0
     vite-plugin-svgr: 5.2.0
-    vitest: 5.0.2
-    "@vitest/coverage-v8": 5.0.2
-    "@vitest/browser-playwright": 5.0.2
-    "@vitest/browser": 5.0.2
-    "@vitest/spy": 5.0.2
-    "@vitest/ui": 5.0.2
-    "@vitejs/plugin-react": 6.1.1
-    unplugin-dts: 1.1.1
+    vitest: 5.1.2
+    "@vitest/coverage-v8": 5.1.2
+    "@vitest/browser-playwright": 5.1.2
+    "@vitest/browser": 5.1.2
+    "@vitest/spy": 5.1.2
+    "@vitest/ui": 5.1.2
+    "@vitejs/plugin-react": 6.3.0
+    unplugin-dts: 1.1.2
     # nx
-    nx: 23.2.1
+    nx: 24.0.7
 
 catalogs:
     ts6:
         typescript: npm:@typescript/typescript6@6.0.2
-        "@types/node": ts6.0
 
 packageExtensions:
     fdir:
@@ -143,6 +141,14 @@ overrides:
     "@types/react": "catalog:"
     "@types/react-dom": "catalog:"
     caniuse-lite: 1.0.30001810
+    # Element Fork: these libraries are patched (see patchedDependencies), and each patch only applies to this version
+    plist: 3.1.0
+    "@tanstack/virtual-core": 3.17.11
+    "@types/auto-launch": 5.0.5
+    knip: 6.38.0
+    linkify-html: 4.3.3
+    postcss-mixins: 12.1.2
+    react-blurhash: 0.3.0
 
     # Make sure we only have one instance of the widget API in the build;
     # failure to do so results in (unspecified) breakage in downstream builds
