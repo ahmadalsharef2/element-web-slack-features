@@ -33,6 +33,7 @@ import { type ValidatedServerConfig } from "../../../utils/ValidatedServerConfig
 import { filterBoolean } from "../../../utils/arrays";
 import { startOAuthLogin } from "../../../utils/oauth/authorize";
 import { ModuleApi } from "../../../modules/Api.ts";
+import { toMatrixIdOnServer } from "../../../utils/loginUsername";
 
 interface IProps {
     serverConfig: ValidatedServerConfig;
@@ -154,6 +155,8 @@ class LoginComponent extends React.PureComponent<IProps, IState> {
         phoneNumber: string | undefined,
         password: string,
     ): Promise<void> => {
+        // Element Fork: accept "name@server" for the Matrix ID "@name:server" on the chosen homeserver
+        if (username) username = toMatrixIdOnServer(username, this.props.serverConfig.hsName);
         if (!this.state.serverIsAlive) {
             this.setState({ busy: true });
             // Do a quick liveliness check on the URLs
@@ -222,6 +225,8 @@ class LoginComponent extends React.PureComponent<IProps, IState> {
     };
 
     public onUsernameBlur = async (username: string): Promise<void> => {
+        // Element Fork: accept "name@server" for the Matrix ID "@name:server" on the chosen homeserver
+        username = toMatrixIdOnServer(username, this.props.serverConfig.hsName);
         const doWellknownLookup = username[0] === "@";
         this.setState({
             username: username,

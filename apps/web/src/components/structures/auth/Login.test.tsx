@@ -394,6 +394,29 @@ describe("Login", function () {
         expect(screen.queryByText("Cannot reach homeserver")).not.toBeInTheDocument();
     });
 
+    it("signs in with name@server as the Matrix ID on the chosen homeserver", async () => {
+        render(
+            <Login
+                serverConfig={{ ...mkServerConfig("https://matrix.org", "https://vector.im"), hsName: "matrix.org" }}
+                onLoggedIn={() => {}}
+                onRegisterClick={() => {}}
+                onServerConfigChange={() => {}}
+            />,
+        );
+        await waitForElementToBeRemoved(() => screen.queryAllByLabelText("Loading…"));
+
+        fireEvent.change(screen.getByLabelText("Username"), { target: { value: "ahmad@matrix.org" } });
+        fireEvent.change(screen.getByLabelText("Password"), { target: { value: "secret" } });
+        fireEvent.click(screen.getByRole("button", { name: "Sign in" }));
+
+        await vi.waitFor(() =>
+            expect(mockClient.login).toHaveBeenCalledWith(
+                "m.login.password",
+                expect.objectContaining({ identifier: { type: "m.id.user", user: "@ahmad:matrix.org" } }),
+            ),
+        );
+    });
+
     describe("OIDC native flow", () => {
         const hsUrl = "https://matrix.org";
         const isUrl = "https://vector.im";
