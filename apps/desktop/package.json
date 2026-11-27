@@ -52,7 +52,7 @@
     },
     "dependencies": {
         "@matrix-org/seshat": "^6.0.1",
-        "@sentry/electron": "^8.5.0",
+        "@sentry/electron": "^7.20.0",
         "auto-launch": "^5.0.6",
         "counterpart": "^0.18.6",
         "electron-store": "^12.0.0",
