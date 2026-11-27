@@ -106,10 +106,7 @@ export default withMermaid({
             },
             {
                 text: "Distribution",
-                items: [
-                    { text: "Updates", link: "/updates" },
-                    { text: "Packaging", link: "/packaging" },
-                ],
+                items: [{ text: "Updates", link: "/updates" }],
             },
             {
                 text: "Development",
@@ -127,7 +124,6 @@ export default withMermaid({
             {
                 text: "Deep dive",
                 items: [
-                    { text: "Skinning", link: "/skinning" },
                     { text: "Cider editor", link: "/ciderEditor" },
                     { text: "Iconography", link: "/icons" },
                     { text: "Local echo", link: "/local-echo-dev" },

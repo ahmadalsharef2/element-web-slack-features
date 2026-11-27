@@ -16,7 +16,7 @@ If you do MVVM right, your view should be dumb i.e it gets data from the view mo
 
 ## Practical guidelines for MVVM in element-web
 
-A first documentation and implementation of MVVM was done in [MVVM-v1.md](MVVM-v1.md). This v1 version is now deprecated and this document describes the current implementation.
+A first version of MVVM (v1) is deprecated; this document describes the current implementation.
 
 #### Naming conventions
 
