@@ -63,7 +63,7 @@ import { manuallyVerifyDevice } from "../components/views/dialogs/ManualDeviceKe
 import upgraderoom from "./upgraderoom/upgraderoom";
 import { emoticon } from "./emoticon";
 import { statusCommand } from "./status";
-import { snoozeCommand } from "./snooze";
+import { snoozeCommand } from "../fork/snooze/snooze";
 import { SDKContextClass } from "../contexts/SDKContextClass.ts";
 
 export { CommandCategories, Command };

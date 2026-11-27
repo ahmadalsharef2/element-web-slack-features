@@ -21,7 +21,7 @@ import {
     isDocumentFormatEvent,
     TEXT_FORMAT,
     XLSX_FORMAT,
-} from "./documentFormats";
+} from "../fork/documents/documentFormats";
 import SettingsStore from "../settings/SettingsStore";
 import defaultDispatcher from "../dispatcher/dispatcher";
 import { Action } from "../dispatcher/actions";
@@ -75,36 +75,32 @@ const DOCUMENT_VIEWERS: readonly DocumentViewer[] = [
     {
         matches: (mxEvent) => isDocumentFormatEvent(mxEvent, CSV_FORMAT),
         openLabel: () => _t("document_viewer|open_spreadsheet"),
-        Component: lazyViewer(() =>
-            import("../components/views/right_panel/SpreadsheetViewer").then((module) => module.CsvViewer),
-        ),
+        Component: lazyViewer(() => import("../fork/documents/SpreadsheetViewer").then((module) => module.CsvViewer)),
     },
     {
         matches: (mxEvent) => isDocumentFormatEvent(mxEvent, XLSX_FORMAT),
         openLabel: () => _t("document_viewer|open_spreadsheet"),
-        Component: lazyViewer(() =>
-            import("../components/views/right_panel/SpreadsheetViewer").then((module) => module.XlsxViewer),
-        ),
+        Component: lazyViewer(() => import("../fork/documents/SpreadsheetViewer").then((module) => module.XlsxViewer)),
     },
     {
         matches: (mxEvent) => isDocumentFormatEvent(mxEvent, DOCX_FORMAT),
         openLabel: () => _t("document_viewer|open_document"),
         Component: lazyViewer(() =>
-            import("../components/views/right_panel/ConvertedDocumentViewer").then((module) => module.WordViewer),
+            import("../fork/documents/ConvertedDocumentViewer").then((module) => module.WordViewer),
         ),
     },
     {
         matches: (mxEvent) => isDocumentFormatEvent(mxEvent, HTML_FORMAT),
         openLabel: () => _t("document_viewer|open_web_page"),
         Component: lazyViewer(() =>
-            import("../components/views/right_panel/ConvertedDocumentViewer").then((module) => module.HtmlViewer),
+            import("../fork/documents/ConvertedDocumentViewer").then((module) => module.HtmlViewer),
         ),
     },
     {
         matches: (mxEvent) => isDocumentFormatEvent(mxEvent, TEXT_FORMAT),
         openLabel: () => _t("document_viewer|open_text"),
         Component: lazyViewer(() =>
-            import("../components/views/right_panel/ConvertedDocumentViewer").then((module) => module.TextViewer),
+            import("../fork/documents/ConvertedDocumentViewer").then((module) => module.TextViewer),
         ),
     },
 ];

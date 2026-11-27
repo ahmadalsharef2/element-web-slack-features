@@ -34,8 +34,8 @@ import { ModuleNotificationDecoration } from "../modules/components/ModuleNotifi
 import Login from "../Login.ts";
 import { startOAuthLogin } from "../utils/oauth/authorize.ts";
 import { ReleaseAnnouncementStore } from "../stores/ReleaseAnnouncementStore";
-import { registerBytemTab } from "../components/views/bytem/BytemTab";
-import { isInAndroidApp, listenForAndroidSsoReturn } from "../utils/androidSsoReturn";
+import { registerBytemTab } from "../fork/bytem/BytemTab";
+import { isInAndroidApp, listenForAndroidSsoReturn } from "../fork/phone/androidSsoReturn";
 
 // oxlint-disable-next-line node/no-process-env
 logger.log(`Application is running in ${process.env.NODE_ENV} mode`);

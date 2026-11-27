@@ -8,7 +8,11 @@ cd `dirname $0`
     # we used to have exclude /themes from the find at this point.
     # as themes are no longer a spurious subdirectory of css/, we don't
     # need it any more.
-    find . -iname _\*.pcss | fgrep -v _components.pcss | fgrep -v _index.pcss | LC_ALL=C sort |
+    # Element Fork: our own styles (./fork) go last, so they win over an upstream rule of the same weight
+    {
+        find . -iname _\*.pcss | fgrep -v ./fork/ | LC_ALL=C sort
+        find ./fork -iname _\*.pcss | LC_ALL=C sort
+    } | fgrep -v _components.pcss | fgrep -v _index.pcss |
         while read i; do
             echo "@import \"$i\";"
         done

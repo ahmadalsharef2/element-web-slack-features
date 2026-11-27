@@ -50,7 +50,7 @@ import Modal from "../../Modal";
 import { SETTINGS } from "../../settings/Settings";
 import ToastStore from "../../stores/ToastStore";
 import { ModuleApi } from "../../modules/Api";
-import type { CapacitorAppPlugin } from "../../utils/androidBackButton";
+import type { CapacitorAppPlugin } from "../../fork/phone/androidBackButton";
 
 describe("<LoggedInView />", () => {
     const userId = "@alice:domain.org";

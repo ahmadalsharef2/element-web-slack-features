@@ -33,7 +33,7 @@ import { type ValidatedServerConfig } from "../../../utils/ValidatedServerConfig
 import { filterBoolean } from "../../../utils/arrays";
 import { startOAuthLogin } from "../../../utils/oauth/authorize";
 import { ModuleApi } from "../../../modules/Api.ts";
-import { toMatrixIdOnServer } from "../../../utils/loginUsername";
+import { toMatrixIdOnServer } from "../../../fork/sign-in/loginUsername";
 
 interface IProps {
     serverConfig: ValidatedServerConfig;

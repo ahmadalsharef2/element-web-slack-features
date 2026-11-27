@@ -27,7 +27,7 @@ import type Autocomplete from "../../Autocomplete";
 import { handleClipboardEvent, handleEventWithAutocomplete, isEventToHandleAsClipboardEvent } from "./utils";
 import { useScopedRoomContext } from "../../../../../contexts/ScopedRoomContext.tsx";
 import { useRoomUploadViewModel } from "../../../../../viewmodels/room/RoomUploadViewModel.tsx";
-import { isCtrlEnterToSend as ctrlEnterToSendOrTouch } from "../../../../../utils/enterSendsMessage";
+import { isCtrlEnterToSend as ctrlEnterToSendOrTouch } from "../../../../../fork/phone/enterSendsMessage";
 
 export function useInputEventProcessor(
     onSend: () => void,

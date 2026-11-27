@@ -30,10 +30,10 @@ import Modal from "./Modal";
 import ErrorDialog from "./components/views/dialogs/ErrorDialog";
 import UploadConfirmDialog from "./components/views/dialogs/UploadConfirmDialog";
 import UploadFailureDialog from "./components/views/dialogs/UploadFailureDialog";
-import CompressVideoDialog from "./components/views/dialogs/CompressVideoDialog";
+import CompressVideoDialog from "./fork/video-compress/CompressVideoDialog";
 import { _t } from "./languageHandler";
 import { PosthogAnalytics } from "./PosthogAnalytics";
-import { scheduledMessages } from "./utils/scheduledMessages";
+import { scheduledMessages } from "./fork/scheduled-messages/scheduledMessages";
 
 vi.mock("matrix-encrypt-attachment", () => ({ default: { encryptAttachment: vi.fn().mockResolvedValue({}) } }));
 

@@ -22,7 +22,7 @@ import { GenericToast } from "@element-hq/web-shared-components";
 import SdkConfig from "../../SdkConfig.ts";
 import type { ActionPayload } from "../../dispatcher/payloads.ts";
 import * as SessionLock from "../../utils/SessionLock.ts";
-import { ANDROID_SSO_RETURN, isInAndroidApp } from "../../utils/androidSsoReturn";
+import { ANDROID_SSO_RETURN, isInAndroidApp } from "../../fork/phone/androidSsoReturn";
 
 const POKE_RATE_MS = 10 * 60 * 1000; // 10 min
 

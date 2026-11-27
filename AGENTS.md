@@ -23,7 +23,11 @@ This is LiberMsg (earlier called Element Fork), Ahmad's fork of Element Web and 
 - **Building the Linux desktop app:** `scripts/build-deb.sh` builds the web app and the `.deb` and installs it
   (`--no-install` to only build).
 
-Keep upstream files where they are, so upstream changes still merge cleanly.
+Keep upstream files where they are, so upstream changes still merge cleanly. Our own files live apart from them, one
+folder per feature: code and tests in `apps/web/src/fork/<feature>/`, styles in `apps/web/res/css/fork/<feature>/`
+(the style index lists these last, so they win over an upstream rule of the same weight). A new feature gets its own
+folder there, and an upstream file gets only the few lines that call into it. Views that follow MVVM still go to
+`packages/shared-components`.
 
 ## Repository layout
 

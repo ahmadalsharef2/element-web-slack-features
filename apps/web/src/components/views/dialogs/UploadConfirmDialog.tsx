@@ -18,9 +18,9 @@ import DialogButtons from "../elements/DialogButtons";
 import Field from "../elements/Field";
 import { fileSize } from "../../../utils/FileUtils";
 import Modal from "../../../Modal";
-import SchedulePickerDialog from "./SchedulePickerDialog";
-import EditImageDialog from "./EditImageDialog";
-import { isEditableImage } from "../../../utils/imageEdit";
+import SchedulePickerDialog from "../../../fork/scheduled-messages/SchedulePickerDialog";
+import EditImageDialog from "../../../fork/image-edit/EditImageDialog";
+import { isEditableImage } from "../../../fork/image-edit/imageEdit";
 import {
     attachmentIcon,
     type ImageSize,

@@ -18,7 +18,7 @@ import Modal from "../../../Modal";
 const edited = new File(["b"], "photo.png", { type: "image/png" });
 
 // The editor draws on a canvas, which happy-dom does not have; it has its own tests. This stands in for it.
-vi.mock("./EditImageDialog", () => ({
+vi.mock("../../../fork/image-edit/EditImageDialog", () => ({
     default: ({ onFinished }: { onFinished: (file?: File) => void }) => (
         <div role="dialog" aria-label="Edit picture">
             <button onClick={() => onFinished(edited)}>Finish editing</button>

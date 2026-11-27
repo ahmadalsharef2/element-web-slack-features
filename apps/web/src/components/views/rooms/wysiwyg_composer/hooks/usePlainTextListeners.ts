@@ -16,7 +16,7 @@ import { handleClipboardEvent, handleEventWithAutocomplete, isEventToHandleAsCli
 import { useSuggestion } from "./useSuggestion";
 import { isNotNull, isNotUndefined } from "../../../../../Typeguards";
 import type { RoomUploadViewModel } from "../../../../../viewmodels/room/RoomUploadViewModel.tsx";
-import { isCtrlEnterToSend } from "../../../../../utils/enterSendsMessage";
+import { isCtrlEnterToSend } from "../../../../../fork/phone/enterSendsMessage";
 
 function isDivElement(target: EventTarget): target is HTMLDivElement {
     return target instanceof HTMLDivElement;

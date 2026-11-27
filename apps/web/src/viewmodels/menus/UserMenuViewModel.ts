@@ -23,8 +23,8 @@ import { clearAllUserStatus } from "../../utils/userStatus";
 import { type SetStatusViewModel, UserMenuSetStatusViewModel } from "../status/SetStatusViewModel";
 import SettingsStore from "../../settings/SettingsStore";
 import { SettingLevel } from "../../settings/SettingLevel";
-import { openNotesToSelf } from "../../utils/notesToSelf";
-import { applyThemeChoice, getSelectedThemeChoice, getThemeChoices } from "../../utils/themeChoice";
+import { openNotesToSelf } from "../../fork/notes-to-self/notesToSelf";
+import { applyThemeChoice, getSelectedThemeChoice, getThemeChoices } from "../../fork/look/themeChoice";
 import LogoutDialog, { shouldShowLogoutDialog } from "../../components/views/dialogs/LogoutDialog";
 
 /** How long the user menu snoozes notifications for */

@@ -28,8 +28,8 @@ import FeedbackDialog from "../../components/views/dialogs/FeedbackDialog";
 import { type OwnProfileStore } from "../../stores/OwnProfileStore";
 import SettingsStore from "../../settings/SettingsStore";
 import { SettingLevel } from "../../settings/SettingLevel";
-import * as themeChoice from "../../utils/themeChoice";
-import * as notesToSelf from "../../utils/notesToSelf";
+import * as themeChoice from "../../fork/look/themeChoice";
+import * as notesToSelf from "../../fork/notes-to-self/notesToSelf";
 import * as LogoutDialogModule from "../../components/views/dialogs/LogoutDialog";
 
 describe("UserMenuViewModel", () => {
