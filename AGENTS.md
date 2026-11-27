@@ -16,6 +16,8 @@ This is LiberMsg (earlier called Element Fork), Ahmad's fork of Element Web and 
   production build (`BASE_URL`), as described there.
 - **Planning a feature from the roadmap:** [docs/fork/ENHANCEMENT_PLAN.md](./docs/fork/ENHANCEMENT_PLAN.md) has the
   file maps, steps and gotchas for each one.
+- **Paper documents:** [docs/fork/PAPER_DOCUMENTS_PLAN.md](./docs/fork/PAPER_DOCUMENTS_PLAN.md) plans scanning paper
+  post into rooms and finding it by its words, the first step of a personal document store.
 - **Naming and branding:** the product name is "LiberMsg", with the byline "by ahmadalsharef.com" where one fits. Two
   things keep the earlier name: the desktop app's internal `productName` ("Element Fork"), because its profile folder
   and keychain entries are found by it, and the `Element Fork:` comments that mark our changes in upstream files. The
