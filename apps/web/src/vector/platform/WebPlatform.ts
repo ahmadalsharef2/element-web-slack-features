@@ -22,6 +22,7 @@ import { GenericToast } from "@element-hq/web-shared-components";
 import SdkConfig from "../../SdkConfig.ts";
 import type { ActionPayload } from "../../dispatcher/payloads.ts";
 import * as SessionLock from "../../utils/SessionLock.ts";
+import { ANDROID_SSO_RETURN, isInAndroidApp } from "../../utils/androidSsoReturn";
 
 const POKE_RATE_MS = 10 * 60 * 1000; // 10 min
 
@@ -161,6 +162,14 @@ export default class WebPlatform extends BasePlatform {
 
     public getAppVersion(): Promise<string> {
         return Promise.resolve(getNormalizedAppVersion(WebPlatform.VERSION));
+    }
+
+    // Element Fork: in the Android app, single sign-on returns through an address Android hands back to the app
+    public getSSOCallbackUrl(fragmentAfterLogin = ""): URL {
+        if (!isInAndroidApp()) return super.getSSOCallbackUrl(fragmentAfterLogin);
+        const url = new URL(ANDROID_SSO_RETURN);
+        url.hash = fragmentAfterLogin;
+        return url;
     }
 
     public startUpdater(): void {

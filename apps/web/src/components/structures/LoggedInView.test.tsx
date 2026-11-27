@@ -50,6 +50,7 @@ import Modal from "../../Modal";
 import { SETTINGS } from "../../settings/Settings";
 import ToastStore from "../../stores/ToastStore";
 import { ModuleApi } from "../../modules/Api";
+import type { CapacitorAppPlugin } from "../../utils/androidBackButton";
 
 describe("<LoggedInView />", () => {
     const userId = "@alice:domain.org";
@@ -451,8 +452,9 @@ describe("<LoggedInView />", () => {
                             press = listener;
                             return Promise.resolve({ remove: vi.fn().mockResolvedValue(undefined) });
                         },
+                        getLaunchUrl: vi.fn().mockResolvedValue(undefined),
                         minimizeApp,
-                    },
+                    } as unknown as CapacitorAppPlugin,
                 },
             };
             vi.spyOn(defaultDispatcher, "dispatch").mockImplementation(() => {});

@@ -35,6 +35,7 @@ import Login from "../Login.ts";
 import { startOAuthLogin } from "../utils/oauth/authorize.ts";
 import { ReleaseAnnouncementStore } from "../stores/ReleaseAnnouncementStore";
 import { registerBytemTab } from "../components/views/bytem/BytemTab";
+import { isInAndroidApp, listenForAndroidSsoReturn } from "../utils/androidSsoReturn";
 
 // oxlint-disable-next-line node/no-process-env
 logger.log(`Application is running in ${process.env.NODE_ENV} mode`);
@@ -109,7 +110,12 @@ export async function loadApp(urlParams: URLParams, matrixChatRef: React.Ref<Mat
     const urlWithoutQuery = window.location.protocol + "//" + window.location.host + window.location.pathname;
     logger.log("Vector starting at " + urlWithoutQuery);
 
-    platform?.startUpdater();
+    // Element Fork: the Android app ships its web files inside the APK and is updated by installing a new APK.
+    // Its local server answers the `version` request with index.html, which looked like a new version and
+    // reloaded the app with the whole page in the URL.
+    if (!isInAndroidApp()) platform?.startUpdater();
+    // Element Fork: single sign-on in the Android app returns through the phone's browser
+    listenForAndroidSsoReturn();
 
     // Don't bother loading the app until the config is verified
     const config = await verifyServerConfig();

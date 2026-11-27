@@ -6,8 +6,10 @@ Please see LICENSE in the repository root for full details.
 */
 
 /** The part of Capacitor's App plugin used here; the Android app (mobile/) provides it. */
-interface CapacitorAppPlugin {
+export interface CapacitorAppPlugin {
     addListener(event: "backButton", listener: () => void): Promise<{ remove(): Promise<void> }>;
+    addListener(event: "appUrlOpen", listener: (data: { url: string }) => void): Promise<{ remove(): Promise<void> }>;
+    getLaunchUrl(): Promise<{ url: string } | undefined>;
     minimizeApp(): Promise<void>;
 }
 
