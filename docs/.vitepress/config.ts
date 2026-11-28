@@ -5,12 +5,18 @@ SPDX-License-Identifier: AGPL-3.0-only OR LicenseRef-Element-Commercial
 Please see LICENSE in the repository root for full details.
 */
 
+import { fileURLToPath } from "node:url";
 import { withMermaid } from "vitepress-plugin-mermaid";
+
+// Element Fork: the fork's repository, for README links to files that are not pages of this site
+const FORK_REPO = "https://github.com/ahmadalsharef2/element-web-slack-features/blob/main/";
 
 function customPathResolver(href: string, currentPath: string): string {
     const [link, fragment] = href.split("#", 2);
     if (currentPath === "index.md") {
-        if (link.startsWith("./docs/")) {
+        if (link.replace(/^\.\//, "").startsWith("docs/fork/")) {
+            return FORK_REPO + link.replace(/^\.\//, "") + (fragment ? `#${fragment}` : "");
+        } else if (link.startsWith("./docs/")) {
             return `../docs/${href.slice(7)}`;
         } else if (link.startsWith("docs/")) {
             return `../${href}`;
@@ -36,6 +42,12 @@ export default withMermaid({
     description: "Documentation",
     // Notes for this fork, which link to source files rather than to pages of the site
     srcExclude: ["fork/**"],
+    vite: {
+        resolve: {
+            // Element Fork: the README is the home page, and its logo path is relative to the repository root
+            alias: { apps: fileURLToPath(new URL("../../apps", import.meta.url)) },
+        },
+    },
     markdown: {
         config: (md) => {
             // Custom rule to fix links
@@ -54,6 +66,9 @@ export default withMermaid({
 
                     if (!href.includes("://") && href.split("#", 2)[0].endsWith(".md")) {
                         token.attrs![hrefIndex][1] = customPathResolver(href, env.relativePath);
+                    } else if (env.relativePath === "index.md" && /^[\w.][\w./-]*$/.test(href)) {
+                        // Element Fork: files the README links to that are not pages, such as the licences
+                        token.attrs![hrefIndex][1] = FORK_REPO + href.replace(/^\.\//, "");
                     }
                 }
                 return defaultRender(tokens, idx, options, env, self);
