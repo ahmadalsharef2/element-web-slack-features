@@ -84,54 +84,38 @@ export default withMermaid({
                 items: [{ text: "Labs", link: "/labs" }],
             },
             {
+                text: "Usage",
+                items: [{ text: "Labs", link: "/labs" }],
+            },
+            {
                 text: "Setup",
                 items: [
                     { text: "Install", link: "/install" },
                     { text: "Config", link: "/config" },
-                    { text: "Custom home page", link: "/custom-home" },
                     { text: "Encryption", link: "/e2ee" },
+                    { text: "Desktop app", link: "/desktop" },
                 ],
-            },
-            {
-                text: "Build",
-                items: [
-                    {
-                        text: "Desktop",
-                        items: [
-                            { text: "Native Node modules", link: "/native-node-modules" },
-                            { text: "Debugging", link: "/debugging" },
-                        ],
-                    },
-                ],
-            },
-            {
-                text: "Distribution",
-                items: [{ text: "Updates", link: "/updates" }],
             },
             {
                 text: "Development",
                 items: [
-                    { text: "App load order", link: "/app-load.md" },
-                    { text: "Theming", link: "/theming.md" },
-                    { text: "Playwright end to end tests", link: "/playwright.md" },
-                    { text: "Memory profiling", link: "/memory-profiles-and-leaks.md" },
-                    { text: "Feature flags", link: "/feature-flags.md" },
-                    { text: "OAuth and delegated authentication", link: "/oauth.md" },
-                    { text: "MVVM", link: "/MVVM.md" },
-                    { text: "Settings", link: "/settings.md" },
+                    { text: "Monorepo", link: "/monorepo" },
+                    { text: "App load order", link: "/app-load" },
+                    { text: "MVVM", link: "/MVVM" },
+                    { text: "Theming", link: "/theming" },
+                    { text: "Settings", link: "/settings" },
+                    { text: "Feature flags", link: "/feature-flags" },
+                    { text: "OAuth and delegated authentication", link: "/oauth" },
+                    { text: "Playwright end to end tests", link: "/playwright" },
                 ],
             },
             {
                 text: "Deep dive",
                 items: [
+                    { text: "Composer and keyboard shortcuts", link: "/composer" },
                     { text: "Cider editor", link: "/ciderEditor" },
-                    { text: "Iconography", link: "/icons" },
-                    { text: "Local echo", link: "/local-echo-dev" },
-                    { text: "Media", link: "/media-handling" },
                     { text: "Room List", link: "/room-list" },
-                    { text: "Scrolling", link: "/scrolling" },
                     { text: "Usercontent", link: "/usercontent" },
-                    { text: "Widget layouts", link: "/widget-layouts" },
                 ],
             },
         ],

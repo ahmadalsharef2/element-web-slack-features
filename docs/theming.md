@@ -3,21 +3,17 @@
 Themes are a very basic way of providing simple alternative look & feels to the
 Element app via CSS & custom imagery.
 
-To define a theme for Element:
+Each built-in theme lives in `apps/web/res/themes/<name>/css/`. The built-in themes are `light`, `light-high-contrast`,
+`light-sand` and `dark`; `light-sand` is the smallest example to copy. To add one, for example `teal`:
 
-1.  Pick a name, e.g. `teal`. at time of writing we have `light` and `dark`.
-2.  Fork `res/themes/dark/css/dark.pcss` to be `teal.pcss`
-3.  Fork `res/themes/dark/css/_base.pcss` to be `_teal.pcss`
-4.  Override variables in `_teal.pcss` as desired. You may wish to delete ones
-    which don't differ from `_base.pcss`, to make it clear which are being
-    overridden. If every single colour is being changed (as per `_dark.pcss`)
-    then you might as well keep them all.
-5.  Add the theme to the list of entrypoints in webpack.config.js
-6.  Add the theme to the list of themes in theme.ts
-7.  Sit back and admire your handywork.
-
-In future, the assets for a theme will probably be gathered together into a
-single directory tree.
+1.  Copy `res/themes/light-sand/css/light-sand.pcss` to `res/themes/teal/css/teal.pcss`. It imports the light theme's
+    variables (`light/css/_light.pcss`), then the file with this theme's own values. A dark theme starts from
+    `dark/css/dark.pcss` instead, which also imports `_dark.pcss`.
+2.  Create `res/themes/teal/css/_teal.pcss` with only the variables that differ, and import it in `teal.pcss` in place
+    of `_light-sand.pcss`.
+3.  Add `"theme-teal": "./res/themes/teal/css/teal.pcss"` to the theme entry points in `apps/web/webpack.config.ts`.
+4.  Add the theme and its translated name to `BUILTIN_THEMES` in `enumerateThemes()` in `apps/web/src/theme.ts`, and
+    run `pnpm i18n`.
 
 # Custom Themes
 
@@ -98,4 +94,4 @@ e.g. in config.json:
 
 `compound` may contain overrides for any [semantic design token](https://compound.element.io/?path=/docs/tokens-semantic-colors--docs) belonging to our design system. The above example shows how you might change the accent color to blue by setting the relevant semantic tokens to refer to blue [base tokens](https://compound.element.io/?path=/docs/tokens-color-palettes--docs).
 
-All properties in `fonts` are optional, and will default to the standard Riot fonts.
+All properties in `fonts` are optional, and fall back to the app's standard fonts.

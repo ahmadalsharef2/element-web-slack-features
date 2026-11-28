@@ -234,7 +234,7 @@ Starting with `branding`, the following subproperties are available:
    When not specified, a default internal component will be used instead.
 2. `home_url`: A URL to an HTML page to show within the app as the "home" page. When the app doesn't have a room/screen to
    show the user, it will use the home page instead. The home page is additionally accessible from the user menu. By default,
-   no home page is set and therefore a hardcoded landing screen is used. More documentation and examples are [here](./custom-home.md).
+   no home page is set and therefore a hardcoded landing screen is used. See [Custom home page](#custom-home-page) for an example.
 3. `login_for_welcome`: When `true` (default `false`), the app will use the login form as a welcome page instead of the welcome
    page itself. This disables use of `welcome_url` and all welcome page functionality.
 
@@ -617,9 +617,60 @@ The following are undocumented or intended for developer use only.
 3. `dangerously_allow_unsafe_and_insecure_passwords`
 4. `latex_maths_delims`: An optional setting to override the default delimiters used for maths parsing. See https://github.com/matrix-org/matrix-react-sdk/pull/5939 for details. Only used when `feature_latex_maths` is enabled.
 
+## Custom home page
+
+The home page is shown whenever the user is logged in but no room is selected. A custom `home.html` can replace the
+default one, for example to share helpful information and the server's rules.
+
+For all users of a homeserver, set it in `.well-known/matrix/client`:
+
+```json
+{
+    "io.element.embedded_pages": {
+        "home_url": "https://example.org/home.html"
+    }
+}
+```
+
+For all users of one web app installation, set `embedded_pages.home_url` in `config.json`, as described under
+[`branding` and `embedded_pages`](#branding-and-embedded-pages). It overrides the `.well-known` one.
+
+A simple `home.html`:
+
+```html
+<style type="text/css">
+    .tos {
+        width: auto;
+        color: black;
+        background: #ffcccb;
+        font-weight: bold;
+    }
+</style>
+
+<h1>The example.org Matrix Server</h1>
+
+<div class="tos">
+    <p>Behave appropriately.</p>
+</div>
+
+<h2>Start Chatting</h2>
+<ul>
+    <li><a href="#/dm">Send a Direct Message</a></li>
+    <li><a href="#/directory">Explore Public Rooms</a></li>
+    <li><a href="#/new">Create a Group Chat</a></li>
+</ul>
+```
+
+The home page may be shown in a light or a dark theme, so choose colours that work in both. The desktop app may need
+CORS headers to fetch `home.html`, for example with nginx:
+
+```
+add_header Access-Control-Allow-Origin *;
+```
+
 ## Additional config options for Element Desktop
 
-1. `update_base_url`: Specifies the URL of the update server, see [document](https://github.com/element-hq/element-web/blob/develop/apps/desktop/docs/updates.md).
+1. `update_base_url`: Specifies the URL of the update server, see [Updates](./desktop.md#updates).
 2. `web_base_url`: Specifies the Element Web URL when performing actions such as popout widget. Defaults to `https://app.element.io/`.
 
 ---

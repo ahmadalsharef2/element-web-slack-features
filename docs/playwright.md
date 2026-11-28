@@ -52,7 +52,7 @@ pnpm run test:playwright
 **Run a specific test file:**
 
 ```sh
-pnpm run test:playwright playwright/e2e/register/register.spec.ts
+pnpm run test:playwright playwright/e2e/composer/schedule-send.spec.ts
 ```
 
 **Run tests interactively with Playwright UI:**
