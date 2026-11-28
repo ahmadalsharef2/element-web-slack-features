@@ -275,6 +275,14 @@ export default defineConfig({
 
         // Rules within `suspicious` we do not yet comply with but probably should
         "typescript/no-unsafe-type-assertion": "off",
+        // Element Fork: added or extended by oxlint 1.95; upstream code does not comply yet, and fixing it here would
+        // conflict with upstream's own fixes
+        "typescript/no-unsafe-enum-assignment": "off",
+        "typescript/no-unsafe-class-instance-assignment": "off",
+        "typescript/no-generated-empty-object-type": "off",
+        "typescript/no-meaningless-void-operator": "off",
+        "typescript/no-unnecessary-type-assertion": "off",
+        "react/purity": "off",
         "no-shadow": "off",
         "unicorn/consistent-function-scoping": "off",
         "typescript/consistent-return": "off",

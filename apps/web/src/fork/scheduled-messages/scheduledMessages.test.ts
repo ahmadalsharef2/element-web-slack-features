@@ -239,7 +239,9 @@ describe("ScheduledMessages", () => {
             queue.start(client);
         });
 
-        const flush = async (): Promise<void> => void (await vi.advanceTimersByTimeAsync(0));
+        const flush = async (): Promise<void> => {
+            await vi.advanceTimersByTimeAsync(0);
+        };
 
         it("hands the message to the server and does not send it from here", async () => {
             const message = queue.schedule("!r:x", "$thread", content, now + 60_000);
