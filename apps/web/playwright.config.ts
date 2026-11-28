@@ -91,7 +91,7 @@ export default defineConfig<{}, WorkerOptions>({
         trace: "on-first-retry",
     },
     webServer: {
-        command: process.env.CI ? "pnpm exec serve -p 8080 -L ./webapp" : "nx --outputStyle stream start",
+        command: process.env.CI ? "pnpm exec serve -p 8080 -L ./webapp" : "pnpm start", // Element Fork: nx is not used
         url: `${baseURL}/config.json`,
         reuseExistingServer: true,
         timeout: (process.env.CI ? 30 : 120) * 1000,

@@ -13,30 +13,27 @@
         "i18n": "pnpm -r i18n",
         "i18n:sort": "pnpm -r i18n:sort",
         "i18n:lint": "pnpm -r i18n:lint",
-        "lint": "pnpm -r --workspace-concurrency=1 lint:types && pnpm lint:fmt && pnpm lint:js && pnpm -r lint:style && pnpm lint:knip",
+        "build:packages": "pnpm --filter \"./packages/*\" build",
+        "lint": "pnpm build:packages && pnpm -r --workspace-concurrency=1 lint:types && pnpm lint:fmt && oxlint && pnpm -r lint:style",
         "lint:fmt": "oxfmt --check",
         "lint:fmt:fix": "oxfmt",
-        "lint:js": "nx run-many -t lint:prepare -p && oxlint",
+        "lint:js": "pnpm build:packages && oxlint",
         "lint:js:fix": "oxlint --fix",
-        "lint:knip": "knip --no-tag-hints && knip --strict --exclude unlisted,dependencies,binaries",
         "lint:unused-settings": "node scripts/find-unused-settings.ts",
         "postinstall": "node scripts/pnpm-link.ts && pnpm run -r sane-postinstall",
         "docs:dev": "vitepress dev docs",
         "docs:build": "vitepress build docs",
         "docs:preview": "vitepress preview docs",
-        "test:unit": "nx run-many -t test:unit:prepare -p && vitest run"
+        "test:unit": "pnpm build:packages && vitest run"
     },
     "devDependencies": {
-        "@nx-tools/nx-container": "^7.3.0",
         "@playwright/test": "catalog:",
         "@types/node": "26.6.11",
         "@vitest/coverage-v8": "catalog:",
         "@vitest/ui": "catalog:",
         "eslint-plugin-element-call": "github:element-hq/element-call#main&path:/eslint",
         "eslint-plugin-storybook": "^10.6.9",
-        "knip": "6.38.0",
         "mermaid": "^12.3.0",
-        "nx": "catalog:",
         "oxfmt": "0.80.0",
         "oxlint": "1.95.0",
         "oxlint-tsgolint": "^7.0.2009",
@@ -55,6 +52,5 @@
             "onFail": "download"
         }
     },
-    "private": true,
-    "nx": {}
+    "private": true
 }

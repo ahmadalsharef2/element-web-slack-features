@@ -28,25 +28,29 @@
         "mkdirs": "mkdirp packages deploys",
         "fetch": "pnpm run mkdirs && node scripts/fetch-package.ts",
         "asar-webapp": "asar p webapp webapp.asar",
-        "start": "nx start",
+        "start": "pnpm build:ts && pnpm build:res && electron .",
         "lint": "pnpm lint:types",
         "lint:types": "pnpm lint:types:src && pnpm lint:types:node && pnpm lint:types:test && pnpm lint:types:scripts",
         "lint:types:src": "tsc --noEmit",
         "lint:types:node": "tsc --noEmit -p tsconfig.node.json",
         "lint:types:test": "tsc --noEmit -p playwright/tsconfig.json",
         "lint:types:scripts": "tsc --noEmit -p scripts/tsconfig.json",
-        "build:32": "nx build --ia32",
-        "build:64": "nx build --x64",
-        "build:universal": "nx build --universal",
-        "build": "nx build --",
+        "build:32": "pnpm build --ia32",
+        "build:64": "pnpm build --x64",
+        "build:universal": "pnpm build --universal",
+        "build:ts": "tsc",
+        "build:res": "node scripts/copy-res.ts",
+        "build": "pnpm build:ts && pnpm build:res && electron-builder",
         "docker:setup": "docker build --platform linux/amd64 -t element-desktop-dockerbuild -f dockerbuild/Dockerfile .",
         "docker:build": "scripts/in-docker.sh pnpm run build",
         "docker:install": "scripts/in-docker.sh pnpm install --filter=element-desktop --frozen-lockfile",
         "clean": "rimraf webapp.asar dist packages deploys lib",
         "test:unit": "vitest",
-        "test:playwright": "nx test:playwright --",
-        "test:playwright:open": "nx test:playwright -- --ui",
-        "test:playwright:screenshots": "nx test:playwright:screenshots --",
+        "test:playwright": "playwright test",
+        "test:playwright:open": "playwright test --ui",
+        "test:playwright:screenshots:build-app": "pnpm build -l --x64 --dir --publish=never && electron-fuses write --app ./dist/linux-unpacked/element-desktop EnableNodeCliInspectArguments=on",
+        "test:playwright:screenshots:build-docker": "docker build -f playwright/Dockerfile -t element-desktop-playwright --platform linux/amd64 ../..",
+        "test:playwright:screenshots": "pnpm test:playwright:screenshots:build-app && pnpm test:playwright:screenshots:build-docker && docker run --rm --network host -v $(pwd)/../../:/work/ --platform linux/amd64 -it element-desktop-playwright",
         "coverage": "pnpm test:unit --coverage",
         "sane-postinstall": "electron-builder install-app-deps"
     },
@@ -91,10 +95,5 @@
         "tar": "^7.5.24",
         "typescript": "catalog:ts6",
         "vitest": "catalog:"
-    },
-    "nx": {
-        "includedScripts": [
-            "lint:types"
-        ]
     }
 }

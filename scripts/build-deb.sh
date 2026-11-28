@@ -16,8 +16,6 @@ if [[ $EUID -eq 0 ]]; then
 fi
 
 root="$(cd "$(dirname "$0")/.." && pwd)"
-# The NX TUI waits for a key press when it finishes, so print plain output instead
-export NX_TUI=false
 
 cd "$root/apps/web"
 # Start from an empty folder: webpack never deletes old bundles, and the dev server writes its own into it too,
@@ -29,7 +27,8 @@ cp ../desktop/element.io/release/config.json webapp/config.json
 cd "$root/apps/desktop"
 rm -f webapp.asar
 pnpm exec asar p ../web/webapp webapp.asar
-pnpm exec nx run-many -p element-desktop -t build:ts build:res
+pnpm build:ts
+pnpm build:res
 # Only the .deb is installed, so skip upstream's tar.gz. zstd packs it in seconds where the default xz takes
 # minutes on one core, and apt on Ubuntu 22.04+ and Debian 12+ reads it.
 pnpm exec electron-builder --linux deb -c.deb.compression=zst

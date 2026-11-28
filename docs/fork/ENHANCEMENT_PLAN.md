@@ -2,11 +2,11 @@
 
 ## 1. Repo orientation
 
-1. **Layout**: pnpm/nx monorepo. App code in `apps/web/src` (legacy class components + MVVM view models in `apps/web/src/viewmodels`); dumb views/CSS modules in `packages/shared-components`; sanitizer/HTML policy in `packages/shared-utils/src/html`; runtime Module API in `packages/module-api`. Example runtime modules in `modules/banner`. Rules in `AGENTS.md`, architecture in `docs/MVVM.md`.
-2. **Run**: already a git clone of element-hq/element-web (HEAD b2dd6d5) — branch, don't re-clone. `pnpm install` at root; copy `apps/web/config.sample.json` → `apps/web/config.json`, set `"show_labs_settings": true` (+ optional `"features": {...}`); `cd apps/web && pnpm start` (webpack-dev-server, :8080; nx target in `apps/web/project.json`).
+1. **Layout**: pnpm monorepo. App code in `apps/web/src` (legacy class components + MVVM view models in `apps/web/src/viewmodels`); dumb views/CSS modules in `packages/shared-components`; sanitizer/HTML policy in `packages/shared-utils/src/html`; runtime Module API in `packages/module-api`. Example runtime modules in `modules/banner`. Rules in `AGENTS.md`, architecture in `docs/MVVM.md`.
+2. **Run**: already a git clone of element-hq/element-web (HEAD b2dd6d5) — branch, don't re-clone. `pnpm install` at root; copy `apps/web/config.sample.json` → `apps/web/config.json`, set `"show_labs_settings": true` (+ optional `"features": {...}`); `cd apps/web && pnpm start` (webpack-dev-server, :8080).
 3. **Add a setting/labs flag**: declare the key in the `Settings` interface and `SETTINGS` object in `apps/web/src/settings/Settings.tsx` (labs: `IFeature` with `isFeature: true`, `labsGroup`, `LEVELS_DEVICE_ONLY_SETTINGS_WITH_CONFIG_PRIORITISED`, `default: false`; user pref: `LEVELS_ACCOUNT_SETTINGS`). Surface via `<SettingsFlag>` in `apps/web/src/components/views/settings/tabs/user/PreferencesUserSettingsTab.tsx` or automatically in `LabsUserSettingsTab.tsx`. Read with `SettingsStore.getValue()` / `useSettingValue()` (`apps/web/src/hooks/useSettings.ts`). Document labs flags in `docs/labs.md` (process: `docs/feature-flags.md`). Server-gated flags use `apps/web/src/settings/controllers/ServerSupportUnstableFeatureController.ts`.
 4. **i18n**: add `_t`/`_td` strings, then `pnpm i18n` regenerates `apps/web/src/i18n/strings/en_EN.json` (shared-components has its own strings dir).
-5. **Quality**: `pnpm lint` (oxlint/oxfmt — not eslint/prettier), `pnpm vitest run <path>` with co-located `*.test.ts(x)`, copyright header on every new file, `pnpm lint:knip` fails on unused exports.
+5. **Quality**: `pnpm lint` (oxlint/oxfmt — not eslint/prettier), `pnpm vitest run <path>` with co-located `*.test.ts(x)`, copyright header on every new file.
 
 ---
 

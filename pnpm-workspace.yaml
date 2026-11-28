@@ -44,8 +44,6 @@ catalog:
     "@vitest/ui": 5.1.2
     "@vitejs/plugin-react": 6.3.0
     unplugin-dts: 1.1.2
-    # nx
-    nx: 24.0.7
 
 catalogs:
     ts6:
@@ -78,8 +76,6 @@ allowBuilds:
     "@element-hq/element-call-component@git+https://github.com/element-hq/element-call.git": true
     # Installs the CLI, which we do not need
     "@sentry/cli": false
-    # Installs nx cloud client, which we do not need
-    nx: false
     # Runs `vp config` to set up git hooks, which we do not need
     unrs-resolver: false
     # Prints funding banner
@@ -113,8 +109,6 @@ patchedDependencies:
     "@types/auto-launch": patches/@types__auto-launch.patch
     # Workaround for missing return types
     postcss-mixins: patches/postcss-mixins.patch
-    # Workaround for some babel rules being false positively flagged
-    knip: patches/knip.patch
     # Workaround for being stuck on an old version of plist due to electron-builder not supporting ESM yet
     plist: patches/plist.patch
     # Workaround for scroll anchoring landing on transient placeholder rows (pending upstream)
@@ -145,7 +139,6 @@ overrides:
     plist: 3.1.0
     "@tanstack/virtual-core": 3.17.11
     "@types/auto-launch": 5.0.5
-    knip: 6.38.0
     linkify-html: 4.3.3
     postcss-mixins: 12.1.2
     react-blurhash: 0.3.0
@@ -208,8 +201,6 @@ overrides:
     dompurify@3 <=3.4.11: ^3.4.12
     # https://github.com/advisories/GHSA-v422-hmwv-36x6
     body-parser@2 <2.3.0: ^2.3.0
-    # https://github.com/advisories/GHSA-g2r8-wvmj-jf5w
-    nx: "catalog:"
     # https://github.com/advisories/GHSA-r292-9mhp-454m
     tar@7 <=7.5.20: ^7.5.21
     # https://github.com/advisories/GHSA-2p49-hgcm-8545

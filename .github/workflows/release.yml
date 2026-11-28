@@ -45,8 +45,6 @@ jobs:
 
             - name: Build the web app
               working-directory: apps/web
-              env:
-                  NX_TUI: "false"
               run: |
                   pnpm build
                   cp ../desktop/element.io/release/config.json webapp/config.json
@@ -62,11 +60,9 @@ jobs:
             # The release job publishes the installers, so stop electron-builder from publishing on a tag push
             - name: Build the desktop app
               working-directory: apps/desktop
-              env:
-                  NX_TUI: "false"
               run: |
                   pnpm exec asar p ../web/webapp webapp.asar
-                  pnpm exec nx build --skip-nx-cache -- --publish=never
+                  pnpm build --publish=never
 
             - name: Collect installers
               run: |

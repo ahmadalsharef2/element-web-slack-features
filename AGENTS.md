@@ -33,7 +33,8 @@ folder there, and an upstream file gets only the few lines that call into it. Vi
 
 ## Repository layout
 
-A pnpm + nx monorepo (`element-web-monorepo`). Workspaces are `apps/*` and `packages/*`.
+A pnpm monorepo (`element-web-monorepo`). Workspaces are `apps/*` and `packages/*`. There is no nx: every task is a
+plain script in a `package.json`.
 
 | Path                                                                                                  | Contents                                                                                                      |
 | ----------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
@@ -49,19 +50,24 @@ There is **no** top-level `playwright/` directory; `docs/playwright.md` uses pat
 
 Run from the repo root unless stated otherwise.
 
-| Task                                        | Command                                           |
-| ------------------------------------------- | ------------------------------------------------- |
-| Full lint (types, format, js, styles, knip) | `pnpm lint`                                       |
-| Format                                      | `pnpm lint:fmt:fix`                               |
-| Lint JS/TS                                  | `pnpm lint:js:fix`                                |
-| Typecheck                                   | `pnpm -r --workspace-concurrency=1 lint:types`    |
-| All unit tests                              | `pnpm test:unit`                                  |
-| Regenerate i18n strings                     | `pnpm i18n`                                       |
-| Start the app                               | `cd apps/web && pnpm start`                       |
-| Storybook                                   | `cd packages/shared-components && pnpm storybook` |
+| Task                                  | Command                                           |
+| ------------------------------------- | ------------------------------------------------- |
+| Full lint (types, format, js, styles) | `pnpm lint`                                       |
+| Build the shared packages             | `pnpm build:packages`                             |
+| Format                                | `pnpm lint:fmt:fix`                               |
+| Lint JS/TS                            | `pnpm lint:js:fix`                                |
+| Typecheck                             | `pnpm -r --workspace-concurrency=1 lint:types`    |
+| All unit tests                        | `pnpm test:unit`                                  |
+| Regenerate i18n strings               | `pnpm i18n`                                       |
+| Start the app                         | `cd apps/web && pnpm start`                       |
+| Storybook                             | `cd packages/shared-components && pnpm storybook` |
 
 Formatting is **oxfmt** and linting is **oxlint**. This repo does not use prettier or eslint — running prettier here
 reformats files against the project style and reports failures that do not exist.
+
+The apps import the built output of `packages/*`. `pnpm lint`, `pnpm test:unit` and the web app's `pnpm build` and
+`pnpm start` build the packages first (about 15 seconds). The typecheck and a single `pnpm vitest run <path>` do not:
+run `pnpm build:packages` after a fresh clone or after changing a package.
 
 Run `pnpm i18n` after adding or changing any translated string.
 
@@ -69,12 +75,12 @@ Run `pnpm i18n` after adding or changing any translated string.
 
 Both jest and vitest are in use; a migration to vitest is in progress. **The file path decides the runner.**
 
-| Test file                                      | Runner           | Command                                                     |
-| ---------------------------------------------- | ---------------- | ----------------------------------------------------------- |
-| `apps/web/test/**/*-test.[tj]s?(x)`            | jest             | `cd apps/web && pnpm jest <path>`                           |
-| `apps/web/src/**/*.test.{ts,tsx}`              | vitest           | `pnpm vitest run <path>`                                    |
-| `apps/web/src/**/*.test.browser.{ts,tsx}`      | vitest (browser) | `pnpm vitest run --project web-browser <path>`              |
-| `packages/shared-components/src/**/*.test.tsx` | vitest           | `cd packages/shared-components && pnpm test:unit -- <path>` |
+| Test file                                      | Runner           | Command                                                        |
+| ---------------------------------------------- | ---------------- | -------------------------------------------------------------- |
+| `apps/web/test/**/*-test.[tj]s?(x)`            | jest             | `cd apps/web && pnpm jest <path>`                              |
+| `apps/web/src/**/*.test.{ts,tsx}`              | vitest           | `pnpm vitest run <path>`                                       |
+| `apps/web/src/**/*.test.browser.{ts,tsx}`      | vitest (browser) | `pnpm vitest run --project web-browser <path>`                 |
+| `packages/shared-components/src/**/*.test.tsx` | vitest           | `cd packages/shared-components && pnpm test:unit --run <path>` |
 
 Notes:
 
@@ -90,9 +96,11 @@ Notes:
 Specs live in `apps/web/playwright/e2e`. See [docs/playwright.md](./docs/playwright.md) for the full guide.
 
 ```sh
-cd apps/web && pnpm test:playwright -- playwright/e2e/<spec>.spec.ts --project=Chrome
+cd apps/web && pnpm test:playwright playwright/e2e/<spec>.spec.ts --project=Chrome
 ```
 
+- Pass arguments straight after the script name, without `--`. pnpm hands a `--` on to the tool, and Playwright and
+  vitest then stop reading options: the filter is ignored and the whole suite runs.
 - Requires a container runtime (Docker/Podman/Colima) for the homeserver testcontainers.
 - On macOS, add `--ignore-snapshots`. Screenshot baselines are only committed for Linux, so comparisons fail locally.
 - Never run `pnpm test:playwright:screenshots` locally to "fix" a screenshot diff — it writes host-rendered baselines.

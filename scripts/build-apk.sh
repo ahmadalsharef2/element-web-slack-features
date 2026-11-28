@@ -13,7 +13,6 @@ set -euo pipefail
 
 root="$(cd "$(dirname "$0")/.." && pwd)"
 export ANDROID_HOME="${ANDROID_HOME:-$HOME/Android/Sdk}"
-export NX_TUI=false
 
 if [[ "${1:-}" != "--skip-web" ]]; then
     cd "$root/apps/web"

@@ -56,7 +56,7 @@ Run it as your normal user. It asks for your password only when it installs the 
 
 ## Development
 
-This is a pnpm + nx monorepo (`apps/web`, `apps/desktop`, `packages/*`).
+This is a pnpm monorepo (`apps/web`, `apps/desktop`, `packages/*`).
 
 | Task            | Command                                        |
 | --------------- | ---------------------------------------------- |

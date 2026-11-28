@@ -18,8 +18,9 @@
         "playwright-screenshots": "playwright-screenshots.sh"
     },
     "scripts": {
-        "prepack": "nx build:playwright",
-        "lint:types": "nx lint:types"
+        "build": "tsc",
+        "prepack": "pnpm build",
+        "lint:types": "tsc --noEmit"
     },
     "publishConfig": {
         "executableFiles": [

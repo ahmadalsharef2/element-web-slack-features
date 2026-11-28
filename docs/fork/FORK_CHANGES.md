@@ -89,3 +89,6 @@ Also removed, as they only ran in upstream's CI or were never loaded:
 - All screenshot baselines (`apps/web/playwright/snapshots/`, `packages/shared-components/__vis__/`).
 - The optional runtime modules in `modules/` (none was configured), with their workspace, knip and patch entries.
 - The desktop `CHANGELOG.md` and the `jsqr` and root `@typescript/native` dev dependencies.
+- nx (`nx.json` and the `project.json` files). Build, lint and test are plain pnpm scripts in each `package.json`;
+  `pnpm build:packages` builds the shared packages.
+- knip (`knip.ts`, `lint:knip` and its patch), `docker-bake.hcl` and `playwright-merge.config.ts`.

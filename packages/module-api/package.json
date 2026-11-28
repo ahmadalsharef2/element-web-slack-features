@@ -30,8 +30,10 @@
         "vite.base.ts"
     ],
     "scripts": {
-        "prepack": "nx build",
-        "lint:types": "nx lint:types",
+        "build": "vite build",
+        "start": "vite build --watch",
+        "prepack": "pnpm build",
+        "lint:types": "tsc --noEmit",
         "test:unit": "vitest",
         "coverage": "pnpm test:unit --coverage"
     },
