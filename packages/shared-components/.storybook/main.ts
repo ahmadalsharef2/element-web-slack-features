@@ -30,14 +30,6 @@ for (const lang of languageFiles) {
     }
 }
 
-/**
- * This function is used to resolve the absolute path of a package.
- * It is needed in projects that use Yarn PnP or are set up within a monorepo.
- */
-function getAbsolutePath(value: string): any {
-    return path.dirname(fileURLToPath(import.meta.resolve(`${value}/package.json`)));
-}
-
 function layerSharedComponentCssModules(): Plugin {
     return {
         name: "element-web-shared-components-storybook-css-layer",
@@ -58,13 +50,7 @@ function layerSharedComponentCssModules(): Plugin {
 
 const config: StorybookConfig = {
     stories: ["../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
-    addons: [
-        "@storybook/addon-docs",
-        "@storybook/addon-designs",
-        "@storybook/addon-a11y",
-        "@storybook/addon-vitest",
-        getAbsolutePath("storybook-addon-vis"),
-    ],
+    addons: ["@storybook/addon-docs", "@storybook/addon-designs", "@storybook/addon-a11y", "@storybook/addon-vitest"],
     framework: "@storybook/react-vite",
     core: {
         disableTelemetry: true,

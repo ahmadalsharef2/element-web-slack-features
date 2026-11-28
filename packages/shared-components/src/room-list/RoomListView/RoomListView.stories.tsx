@@ -6,7 +6,7 @@
  */
 
 import React, { type JSX } from "react";
-import { expect, fn, waitFor } from "storybook/test";
+import { fn, waitFor } from "storybook/test";
 
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import type { FilterId } from "../RoomListPrimaryFilters";
@@ -292,7 +292,5 @@ export const ToastOverStickySection: Story = {
                 throw new Error(`Header is not parked over the toast yet (gap: ${gap}px)`);
             }
         });
-
-        await expect(canvasElement).toMatchImageSnapshot();
     },
 };

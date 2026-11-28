@@ -12,40 +12,47 @@ import { getConfig } from "./config.js";
 
 export type AutoLaunchState = "enabled" | "minimised" | "disabled";
 
-// Wrapper around auto-launch to get/set the `isHidden` option
-export class AutoLaunch extends BaseAutoLaunch {
+// Element Fork: auto-launch takes `isHidden` only when it is created, so make a new one for each change rather than
+// patching its types to reach the private option.
+function makeAutoLaunch(isHidden: boolean): BaseAutoLaunch {
+    return new BaseAutoLaunch({
+        name: getConfig().brand,
+        isHidden,
+        mac: {
+            useLaunchAgent: true,
+        },
+    });
+}
+
+// Wrapper around auto-launch that remembers whether to start minimised
+export class AutoLaunch {
     private static internalInstance?: AutoLaunch;
 
     public static get instance(): AutoLaunch {
         if (!AutoLaunch.internalInstance) {
             if (!Store.instance) throw new Error("Store not initialized");
-            AutoLaunch.internalInstance = new AutoLaunch({
-                name: getConfig().brand,
-                isHidden: Store.instance.get("openAtLoginMinimised"),
-                mac: {
-                    useLaunchAgent: true,
-                },
-            });
+            AutoLaunch.internalInstance = new AutoLaunch();
         }
         return AutoLaunch.internalInstance;
     }
 
     public async getState(): Promise<AutoLaunchState> {
-        if (!(await this.isEnabled())) {
+        const minimised = Store.instance?.get("openAtLoginMinimised") ?? false;
+        if (!(await makeAutoLaunch(minimised).isEnabled())) {
             return "disabled";
         }
-        return this.opts.isHiddenOnLaunch ? "minimised" : "enabled";
+        return minimised ? "minimised" : "enabled";
     }
 
     public async setState(state: AutoLaunchState): Promise<void> {
         const openAtLoginMinimised = state === "minimised";
         Store.instance?.set("openAtLoginMinimised", openAtLoginMinimised);
-        this.opts.isHiddenOnLaunch = openAtLoginMinimised;
 
+        const autoLaunch = makeAutoLaunch(openAtLoginMinimised);
         if (state !== "disabled") {
-            return this.enable();
+            return autoLaunch.enable();
         } else {
-            return this.disable();
+            return autoLaunch.disable();
         }
     }
 }

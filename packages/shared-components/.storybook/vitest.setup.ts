@@ -8,14 +8,13 @@ Please see LICENSE files in the repository root for full details.
 import { beforeEach } from "vitest";
 import * as a11yAddonAnnotations from "@storybook/addon-a11y/preview";
 import { setProjectAnnotations } from "@storybook/react-vite";
-import { vis, visAnnotations } from "storybook-addon-vis/vitest-setup";
 import { cdp } from "vitest/browser";
 
 import * as projectAnnotations from "./preview.tsx";
 
 // This is an important step to apply the right configuration when testing your stories.
 // More info at: https://storybook.js.org/docs/api/portable-stories/portable-stories-vitest#setprojectannotations
-setProjectAnnotations([a11yAddonAnnotations, projectAnnotations, visAnnotations]);
+setProjectAnnotations([a11yAddonAnnotations, projectAnnotations]);
 
 // Playwright 1.62's bundled Chromium (151) stopped clearing :hover/:focus-visible state when the DOM under
 // the pointer/active element is swapped out between story renders, so a previous story's real hover or
@@ -46,42 +45,4 @@ beforeEach(async () => {
         x: window.innerWidth - 1,
         y: window.innerHeight - 1,
     });
-});
-
-vis.setup({
-    async auto() {
-        const style = document.createElement("style");
-        style.setAttribute("type", "text/css");
-        style.appendChild(
-            document.createTextNode(`
-                /* Inhibit all animations for the screenshot to be more stable */
-                *, *::before, *::after {
-                    animation: none !important;
-                }
-                /*
-                 * Mask spinner for video overlay during screenshot generation on playwright tests.
-                 */
-                [data-video-body-mask-target] {
-                    position: relative;
-                }
-                [data-video-body-mask-target]::after {
-                    content: "";
-                    position: absolute;
-                    inset-inline-start: 50%;
-                    inset-block-start: 50%;
-                    width: 112px;
-                    height: 112px;
-                    transform: translate(-50%, -50%);
-                    border-radius: 999px;
-                    background: #ff4fcf;
-                    pointer-events: none;
-                }
-                /* Hide all storybook elements */
-                .sb-wrapper {
-                    visibility: hidden !important;
-                }
-            `),
-        );
-        document.head.appendChild(style);
-    },
 });

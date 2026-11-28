@@ -7,7 +7,6 @@ Please see LICENSE files in the repository root for full details.
 */
 
 import React, { type JSX, type ComponentProps, createRef, type ReactNode } from "react";
-import { Blurhash } from "react-blurhash";
 import classNames from "classnames";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
 import { logger } from "matrix-js-sdk/src/logger";
@@ -15,7 +14,7 @@ import { ClientEvent } from "matrix-js-sdk/src/matrix";
 import { type ImageContent } from "matrix-js-sdk/src/types";
 import { Tooltip } from "@vector-im/compound-web";
 import { ImageErrorIcon } from "@vector-im/compound-design-tokens/assets/web/icons";
-import { HiddenMediaPlaceholder } from "@element-hq/web-shared-components";
+import { Blurhash, HiddenMediaPlaceholder } from "@element-hq/web-shared-components";
 
 import Modal from "../../../Modal";
 import { _t } from "../../../languageHandler";

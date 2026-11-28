@@ -92,3 +92,7 @@ Also removed, as they only ran in upstream's CI or were never loaded:
 - nx (`nx.json` and the `project.json` files). Build, lint and test are plain pnpm scripts in each `package.json`;
   `pnpm build:packages` builds the shared packages.
 - knip (`knip.ts`, `lint:knip` and its patch), `docker-bake.hcl` and `playwright-merge.config.ts`.
+- `react-blurhash` and its patch, replaced by our `Blurhash` component in `packages/shared-components/src/core/Blurhash/`.
+- The patch to `@types/auto-launch`: `apps/desktop/src/auto-launch.ts` makes a new `auto-launch` for each change instead.
+- The Storybook screenshot plugin (`storybook-addon-vis`, `vitest-plugin-vis`) and their patches. `pnpm test:storybook`
+  still renders every story and checks it for errors and accessibility.

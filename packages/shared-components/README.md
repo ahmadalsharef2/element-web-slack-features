@@ -350,20 +350,14 @@ and React Testing Library.
 pnpm test:unit
 ```
 
-### Visual Regression Tests
+### Story Tests
 
-These tests ensure the UI components render correctly.
-Built with Storybook and run under vitest using playwright.
+These tests render every story in a real browser, under vitest using playwright. A story fails if it throws, if its
+`play` function fails, or if it has an AXE accessibility violation.
 
 ```bash
-pnpm test:storybook:update
+pnpm test:storybook
 ```
-
-Each story will be rendered and a screenshot will be taken and compared to the
-existing baseline. If there are visual changes or AXE violation, the test will
-fail.
-
-Screenshots are located in `packages/shared-components/__vis__/`.
 
 > [!IMPORTANT]
 > In case of docker issues with Playwright, see [playwright EW documentation](https://github.com/element-hq/element-web/blob/develop/docs/playwright.md#supported-container-runtimes).

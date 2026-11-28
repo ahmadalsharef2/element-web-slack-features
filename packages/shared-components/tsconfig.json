@@ -14,7 +14,7 @@
         "declaration": true,
         "jsx": "react",
         "lib": ["es2022", "es2024.promise", "dom", "dom.iterable"],
-        "types": ["vite/client", "storybook-addon-vis/matcher"],
+        "types": ["vite/client"],
         "strict": true,
         // Element Fork: Storybook 10.6 ships type files that do not pass this check themselves
         "skipLibCheck": true,

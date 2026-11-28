@@ -8,7 +8,6 @@ Please see LICENSE files in the repository root for full details.
 import { defineConfig } from "vitest/config";
 import { fileURLToPath } from "node:url";
 import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
-import { storybookVis } from "storybook-addon-vis/vitest-plugin";
 import { playwright, type PlaywrightProviderOptions } from "@vitest/browser-playwright";
 import { nodePolyfills } from "vite-plugin-node-polyfills";
 import react from "@vitejs/plugin-react";
@@ -63,12 +62,6 @@ export default defineConfig({
                         tags: {
                             exclude: ["skip-test"],
                         },
-                    }),
-                    storybookVis({
-                        // 3px of difference allowed before marking as failed
-                        failureThreshold: 3,
-                        // When running in CI=1 mode, set the platform to `linux` as that is the platform where the browser-in-docker is running
-                        snapshotRootDir: ({ ci, platform }) => `__vis__/${ci ? "linux" : platform}`,
                     }),
                 ],
                 test: {

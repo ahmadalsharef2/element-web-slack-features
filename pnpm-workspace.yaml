@@ -101,21 +101,14 @@ allowBuilds:
 patchedDependencies:
     # Workaround for missing types export
     "@vector-im/matrix-wysiwyg": patches/@vector-im__matrix-wysiwyg.patch
-    # Workaround for lack of React 19 support
-    react-blurhash: patches/react-blurhash.patch
     # Workaround for https://github.com/nfrasser/linkifyjs/issues/429
     linkify-html: patches/linkify-html.patch
-    # Workaround to access a private API
-    "@types/auto-launch": patches/@types__auto-launch.patch
     # Workaround for missing return types
     postcss-mixins: patches/postcss-mixins.patch
     # Workaround for being stuck on an old version of plist due to electron-builder not supporting ESM yet
     plist: patches/plist.patch
     # Workaround for scroll anchoring landing on transient placeholder rows (pending upstream)
     "@tanstack/virtual-core@3": patches/@tanstack__virtual-core@3.patch
-    # Tweaks to record screenshot diffs as vitest artifacts
-    vitest-plugin-vis@5.1.1: patches/vitest-plugin-vis@5.1.1.patch
-    storybook-addon-vis@4.2.3: patches/storybook-addon-vis@4.2.3.patch
 
 peerDependencyRules:
     allowedVersions:
@@ -138,10 +131,8 @@ overrides:
     # Element Fork: these libraries are patched (see patchedDependencies), and each patch only applies to this version
     plist: 3.1.0
     "@tanstack/virtual-core": 3.17.11
-    "@types/auto-launch": 5.0.5
     linkify-html: 4.3.3
     postcss-mixins: 12.1.2
-    react-blurhash: 0.3.0
     # Element Fork: newer rolldown bundles React's CJS jsx-runtime into shared-components, which webpack rejects
     "vite>rolldown": 1.2.9
 

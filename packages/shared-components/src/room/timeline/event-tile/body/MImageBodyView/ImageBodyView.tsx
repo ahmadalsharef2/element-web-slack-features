@@ -16,7 +16,7 @@ import React, {
     useState,
 } from "react";
 import classNames from "classnames";
-import { Blurhash } from "react-blurhash";
+import { Blurhash } from "../../../../../core/Blurhash";
 import { ImageErrorIcon, VisibilityOnIcon } from "@vector-im/compound-design-tokens/assets/web/icons";
 import { InlineSpinner, Tooltip } from "@vector-im/compound-web";
 

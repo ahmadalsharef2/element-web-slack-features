@@ -6,7 +6,7 @@
  */
 
 import React, { type JSX } from "react";
-import { expect, fn } from "storybook/test";
+import { fn } from "storybook/test";
 
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ResizableGroup, Panel, type ResizerViewSnapshot, SeparatorView, type SeparatorViewActions } from "..";
@@ -116,12 +116,11 @@ export const KeyboardFocused: Story = {
     args: {
         isCollapsed: false,
     },
-    play: async ({ canvas, canvasElement }) => {
+    play: async ({ canvas }) => {
         const separator = canvas.getByRole("separator");
         separator.focus();
         // Wait for animations to finish
         await new Promise((r) => setTimeout(r, 500));
-        await expect(canvasElement).toMatchImageSnapshot();
     },
 };
 
@@ -151,10 +150,9 @@ export const HoverWhenCollapsed: Story = {
             </div>
         ),
     ],
-    play: async ({ canvas, canvasElement }) => {
+    play: async ({ canvas }) => {
         const separator = canvas.getByRole("separator");
         separator.dataset.separator = "hover";
-        await expect(canvasElement).toMatchImageSnapshot();
     },
 };
 
@@ -193,11 +191,10 @@ export const HoverWhenExpanded: Story = {
             </div>
         ),
     ],
-    play: async ({ canvas, canvasElement }) => {
+    play: async ({ canvas }) => {
         const separator = canvas.getByRole("separator");
         separator.dataset.separator = "hover";
         // Wait for animations to finish
         await new Promise((r) => setTimeout(r, 500));
-        await expect(canvasElement).toMatchImageSnapshot();
     },
 };

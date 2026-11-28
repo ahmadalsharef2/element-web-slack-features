@@ -7,7 +7,7 @@
 
 import classNames from "classnames";
 import React, { type CSSProperties, type JSX, type ReactEventHandler, type Ref, useState } from "react";
-import { Blurhash } from "react-blurhash";
+import { Blurhash } from "../../../../../core/Blurhash";
 import { InlineSpinner } from "@vector-im/compound-web";
 
 import { useI18n } from "../../../../../core/i18n/i18nContext";
