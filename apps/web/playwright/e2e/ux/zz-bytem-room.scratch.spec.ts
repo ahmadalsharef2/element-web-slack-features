@@ -32,7 +32,8 @@ test("demand room widget", async ({ page, app, user, bot }) => {
         type: "text/csv",
     });
     const send = async (body: object): Promise<string> =>
-        (await bot.sendEvent(roomId, null, "m.room.message", { msgtype: "m.text", body: JSON.stringify(body) })).event_id;
+        (await bot.sendEvent(roomId, null, "m.room.message", { msgtype: "m.text", body: JSON.stringify(body) }))
+            .event_id;
     const dataset = await send({
         ...SUPPLY,
         "@type": "supply-type-dataset",
@@ -97,29 +98,62 @@ test("demand room widget", async ({ page, app, user, bot }) => {
         },
         "bytem",
     );
-    await bot.sendStateEvent(roomId, "io.element.widgets.layout", { widgets: { bytem: { container: "top", height: 100 } } }, "");
+    await bot.sendStateEvent(
+        roomId,
+        "io.element.widgets.layout",
+        { widgets: { bytem: { container: "top", height: 100 } } },
+        "",
+    );
 
     await page.setViewportSize({ width: 1400, height: 1500 });
     await page.goto(`/#/room/${roomId}`);
     await shot("room-opened");
-    await page.getByRole("button", { name: "Later" }).click({ timeout: 8000 }).catch(() => {});
-    await page.getByRole("button", { name: "Dismiss" }).click({ timeout: 3000 }).catch(() => {});
+    await page
+        .getByRole("button", { name: "Later" })
+        .click({ timeout: 8000 })
+        .catch(() => {});
+    await page
+        .getByRole("button", { name: "Dismiss" })
+        .click({ timeout: 3000 })
+        .catch(() => {});
     for (let i = 0; i < 4; i++) {
         const button = page
             .locator('[class*="AppPermission"], [class*="AppTile"], [role=dialog]')
             .getByRole("button", { name: /^(Continue|Approve|Allow)$/ })
             .first();
-        if (!(await button.waitFor({ timeout: 25_000 }).then(() => true).catch(() => false))) break;
+        if (
+            !(await button
+                .waitFor({ timeout: 25_000 })
+                .then(() => true)
+                .catch(() => false))
+        )
+            break;
         await shot("asks");
         await button.click();
     }
     await page.waitForTimeout(12_000);
     await shot("widget-data");
     const frame = page.frameLocator('iframe[src*="/widget/"]').first();
-    console.log("WIDGET TEXT", (await frame.locator("body").innerText({ timeout: 15_000 }).catch((e) => `none: ${e.message}`)).slice(0, 1500));
+    console.log(
+        "WIDGET TEXT",
+        (
+            await frame
+                .locator("body")
+                .innerText({ timeout: 15_000 })
+                .catch((e) => `none: ${e.message}`)
+        ).slice(0, 1500),
+    );
     // Make the widget tall to see all of it
-    await frame.getByText("Datasets").first().scrollIntoViewIfNeeded().catch(() => {});
+    await frame
+        .getByText("Datasets")
+        .first()
+        .scrollIntoViewIfNeeded()
+        .catch(() => {});
     await shot("data-sections");
-    await frame.getByText("Source & citation").first().scrollIntoViewIfNeeded().catch(() => {});
+    await frame
+        .getByText("Source & citation")
+        .first()
+        .scrollIntoViewIfNeeded()
+        .catch(() => {});
     await shot("data-lower");
 });
