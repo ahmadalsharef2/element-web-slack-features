@@ -8,7 +8,7 @@ Please see LICENSE in the repository root for full details.
 /**
  * The address single sign-on returns to in the Android app. The sign-in page opens in the phone's browser, which
  * cannot reach the app's own `https://localhost` pages, so the homeserver sends the browser here instead and Android
- * hands the address to the app (see the intent filter in `mobile/android/app/src/main/AndroidManifest.xml`).
+ * hands the address to the app (see the intent filter in `apps/mobile/android/app/src/main/AndroidManifest.xml`).
  */
 export const ANDROID_SSO_RETURN = "org.elementfork.app://sso/";
 

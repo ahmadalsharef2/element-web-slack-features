@@ -56,7 +56,7 @@ Please see LICENSE files in the repository root for full details.
 }
 
 /* Keep the app clear of the status bar, notch and gesture bar. The page asks to draw edge to edge
-   (viewport-fit=cover), so phone browsers report env(safe-area-inset-*) and the Android app (mobile/) sets the
+   (viewport-fit=cover), so phone browsers report env(safe-area-inset-*) and the Android app (apps/mobile/) sets the
    --safe-area-inset-* variables instead; both are 0 on a desktop. */
 :root {
     --fork-safe-top: max(env(safe-area-inset-top, 0px), var(--safe-area-inset-top, 0px));
