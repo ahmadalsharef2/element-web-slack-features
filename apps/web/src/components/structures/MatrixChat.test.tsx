@@ -80,6 +80,7 @@ import UserSettingsDialog from "../../components/views/dialogs/UserSettingsDialo
 import { SDKContextClass } from "../../contexts/SDKContextClass";
 import { type QrLoginCredentials } from "../../components/views/auth/LoginWithQR.tsx";
 import { storeAuthContext } from "../../utils/oauth/persistOAuthSettings.ts";
+import { getOrderedThemes } from "../../theme";
 
 // Stub out ThemeWatcher as the necessary bits for themes are done in element-web's index.html and thus are lacking here,
 // plus JSDOM's implementation of CSSStyleDeclaration has a bunch of differences to real browsers which cause issues.
@@ -261,6 +262,8 @@ describe("<MatrixChat />", () => {
     }
 
     beforeEach(async () => {
+        // Element Fork: the user menu lists the themes when it is built
+        vi.mocked(getOrderedThemes).mockReturnValue([]);
         vi.spyOn(MediaDeviceHandler, "loadDevices").mockResolvedValue(undefined);
         vi.doMock("../../utils/SessionLock.ts", () => ({
             getSessionLock: vi.fn().mockResolvedValue(true),
