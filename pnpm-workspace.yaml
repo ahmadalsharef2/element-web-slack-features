@@ -197,6 +197,9 @@ overrides:
     # https://github.com/advisories/GHSA-v6wh-96g9-6wx3
     # vitepress is the only consumer of vite <8; pin it to a patched vite 6 (it does not support vite 8).
     vitepress>vite: ^6.4.3
+    # Element Fork: one copy of vite 8. Without this the root and the apps resolve vitest against a newer vite than
+    # the packages do, and the two copies of vitest have types that do not match.
+    vite@8: "catalog:"
     # https://github.com/advisories/GHSA-c2j3-45gr-mqc4
     dompurify@3 <=3.4.11: ^3.4.12
     # https://github.com/advisories/GHSA-v422-hmwv-36x6
